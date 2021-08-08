@@ -1,0 +1,21 @@
+[package]
+name = "numeric_vector"
+version = "0.1.0"
+authors = ["Erik Buer"]
+edition = "2018"
+description = "No-STD numeric vector type for Rust."
+readme = "README.md"
+repository = "https://github.com/ErikBuer/Numeric-Vector.git"
+license = "MIT"
+license-file = "LICENSE"
+keywords = ["dsp", "radio", "audio"]
+
+[lib]
+name = "numeric_vector"
+bench = false
+test = true
+
+[dependencies]
+num = ""
+rustfft = ""
+impl_ops = ""
