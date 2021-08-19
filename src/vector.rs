@@ -94,6 +94,7 @@ macro_rules! declare_type_real{
         }
         
         impl StatisticTraits for $name {
+            /// Return the higherst value in the vector.
             fn max( &self ) -> i32 {
                 let mut max_val = i32::MAX;
                 for index in 0..$N {
@@ -104,6 +105,7 @@ macro_rules! declare_type_real{
                 } 
                 return max_val;
             }
+            /// Return the lowest value in the vector.
             fn min( &self ) -> i32 {
                 let mut min_val = i32::MIN;
                 for index in 0..$N {
