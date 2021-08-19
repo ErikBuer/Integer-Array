@@ -11,10 +11,19 @@ macro_rules! declare_type_real{
             pub data: [i32; $N],
         }
 
-    };
+        impl<'a, 'b> std::ops::Add<&'b $Name> for &'a $Name {
+                type Output = $Name;
+            
+                fn add(self, other: &'b $Name) -> $Name {
+                //TODO
+                }
+            }
+        };
 }
 
 declare_type_real!( scalar, 1);
+
+
 
 #[cfg(test)]
 mod tests {
