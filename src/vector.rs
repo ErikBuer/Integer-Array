@@ -56,22 +56,35 @@ macro_rules! declare_type_real{
                 return $N;
             }
         }
-        /*
+        
         pub trait ArithmeticTraits {
-            fn add( value:i32 ) -> Self;
-            fn sub( value:i32 ) -> Self;
-            fn scale( value:i32 ) -> Self;
+            fn bias( &self, value:i32 ) -> Self;
+            fn scale( &self, value:i32 ) -> Self;
         }
 
-        impl VectorTraits for $name {
-            fn new( value:i32 ) -> $name {
+        impl ArithmeticTraits for $name {
+            fn bias( &self, value:i32 ) -> $name {
+                let mut temp = self.data.clone();
+                for index in 0..$N {
+                    temp[index] = self.data[index]+value;
+                } 
                 $name {
-                    data: [value;$N]
+                    data: temp
                 }
-
+            }
+            fn scale( &self, value:i32 ) -> $name {
+                let mut temp = self.data.clone();
+                for index in 0..$N {
+                    temp[index] = self.data[index]*value;
+                } 
+                $name {
+                    data: temp
+                }
             }
         }
-        */
+
+
+        
     }
 }
 
@@ -104,5 +117,18 @@ mod tests {
         let x = Scalar::new(200);
         assert_eq!{x.front(), 200};
     }
+    #[test]
+    fn test_scalar_bias() {
+        let x = Scalar::new(200);
+        let y = x.bias(5);
+        assert_eq!{y.front(), 205};
+    }
+    #[test]
+    fn test_scalar_scale() {
+        let x = Scalar::new(100);
+        let y = x.scale(5);
+        assert_eq!{y.front(), 500};
+    }
+
 }
 
