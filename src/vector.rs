@@ -14,10 +14,10 @@ macro_rules! declare_type_real{
             fn new( value:i32 ) -> Self;
             fn ones()   -> Self;
             fn zeros()  -> Self;
-            fn at( &self, index:usize)  -> i32;
-            fn front( &self )   -> i32;
-            fn back( &self )    -> i32;
-            fn len( &self )     -> usize;
+            fn at( &self, index:usize) -> i32;
+            fn front( &self ) -> i32;
+            fn back( &self )-> i32;
+            fn len( &self ) -> usize;
         }
 
         impl VectorTraits for $name {
