@@ -21,17 +21,20 @@ macro_rules! declare_type_real{
         }
 
         impl VectorTraits for $name {
+            /// Generate a vector of a value.
             fn new( value:i32 ) -> $name {
                 $name {
                     data: [value;$N]
                 }
 
             }
+            /// Generate a vector of ones.
             fn ones() -> $name {
                 $name {
                     data: [1;$N]
                 }
             }
+            /// Generate a vector of zeroes.
             fn zeros() -> $name {
                 $name {
                     data: [0;$N]
@@ -82,9 +85,37 @@ macro_rules! declare_type_real{
                 }
             }
         }
-
-
         
+        pub trait StatisticTraits {
+            fn max( &self ) -> i32;
+            fn min( &self ) -> i32;
+            //fn argtmax( &self ) -> Self;
+            //fn argmin(  &self ) -> Self;
+        }
+        
+        impl StatisticTraits for $name {
+            fn max( &self ) -> i32 {
+                let mut max_val = i32::MAX;
+                for index in 0..$N {
+                    if max_val < self.data[index]
+                    {
+                        max_val = self.data[index];
+                    }
+                } 
+                return max_val;
+            }
+            fn min( &self ) -> i32 {
+                let mut min_val = i32::MIN;
+                for index in 0..$N {
+                    if min_val < self.data[index]
+                    {
+                        min_val = self.data[index];
+                    }
+                } 
+                return min_val;
+            }
+
+        }        
     }
 }
 
@@ -129,6 +160,8 @@ mod tests {
         let y = x.scale(5);
         assert_eq!{y.front(), 500};
     }
+
+    //TODO test max and min
 
 }
 
