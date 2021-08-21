@@ -1,11 +1,13 @@
 #![crate_name = "numeric_vector"]
-#![cfg_attr(not(test), no_std)]
+#![no_std]
 
+// Use std for test.
+#[cfg(any(feature = "std", test))]
+extern crate std;
 
-#[macro_use]
-extern crate impl_ops;
-//extern crate typenum;
-//extern crate spectrum-analyzer
+// Pull in core as std.
+#[cfg(all(not(feature = "std"), not(test)))]
+extern crate core as std;
 
-#[macro_use]
+// Include the file vector.rs
 pub mod vector;

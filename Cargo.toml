@@ -16,6 +16,3 @@ bench = false
 test = true
 
 [dependencies]
-num = ""
-rustfft = ""
-impl_ops = ""

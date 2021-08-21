@@ -1,47 +1,88 @@
-//use super::*;
+use super::*;
+
+pub trait VectorTraits {
+    fn new( value:i32 ) -> Self;
+    fn ones()   -> Self;
+    fn zeros()  -> Self;
+    fn ramp( start:i32, step:i32  )  -> Self;
+    fn at( &self, index:usize) -> i32;
+    fn front( &self ) -> i32;
+    fn back( &self )-> i32;
+    fn len( &self ) -> usize;
+}
+
+pub trait ArithmeticTraits {
+    fn bias( &self, value:i32 ) -> Self;
+    fn scale( &self, value:i32 ) -> Self;
+}
+
+pub trait StatisticTraits {
+    fn max( &self ) -> i32;
+    fn min( &self ) -> i32;
+    //fn argtmax( &self ) -> Self;
+    //fn argmin(  &self ) -> Self;
+}
+
+/*
+pub trait StdUtilities {
+    fn todo( &self ) -> Self;
+}
+*/
+
+
+#[cfg(feature = "std")]
+mod std_support {
+    use crate::{
+        std::{
+            string::String,
+            fmt,
+        },
+        write,
+    };
+}
 
 /// Create vector type of size N and type T.
 macro_rules! declare_type_real{
     ( $name:ident, $N:expr) => {
-        
+
         #[derive(Clone, Debug, PartialEq)]
         /// Real numeric vector of type int32.
         pub struct $name{
             pub data: [i32; $N],
         }
-        
-        pub trait VectorTraits {
-            fn new( value:i32 ) -> Self;
-            fn ones()   -> Self;
-            fn zeros()  -> Self;
-            fn at( &self, index:usize) -> i32;
-            fn front( &self ) -> i32;
-            fn back( &self )-> i32;
-            fn len( &self ) -> usize;
-        }
 
         impl VectorTraits for $name {
             /// Generate a vector of a value.
-            fn new( value:i32 ) -> $name {
+            fn new( value:i32 ) -> Self {
                 $name {
                     data: [value;$N]
                 }
 
             }
             /// Generate a vector of ones.
-            fn ones() -> $name {
+            fn ones() -> Self {
                 $name {
                     data: [1;$N]
                 }
             }
             /// Generate a vector of zeroes.
-            fn zeros() -> $name {
+            fn zeros() -> Self {
                 $name {
                     data: [0;$N]
                 }
             }
-            /// A safe way of indexing the vector.
-            /// Clips at N-1.
+            /// Generate a linear ramp of values with increment step.
+            fn ramp( start:i32, step:i32  ) -> Self {
+                let mut temp: [i32; $N] = [start; $N];
+                for n in 0..$N {
+                    temp[n] = start+(n as i32)*step;
+                }
+                $name {
+                    data: temp
+                }
+            }
+            /// Returns indexed item of the vector.
+            /// Index Clips at N-1.
             fn at( &self, index:usize) -> i32 {
                 if( $N <= index)
                 {
@@ -49,24 +90,23 @@ macro_rules! declare_type_real{
                 }
                 return self.data[index];
             }
+            /// Returns the first item of the vector.
             fn front( &self ) -> i32 {
                 return self.data[0];
             }
+            /// Returns the last item of the vector.
             fn back( &self ) -> i32 {
                 return self.data[$N-1];
             }
+            /// Returns the length of the vector.
             fn len( &self ) -> usize {
                 return $N;
             }
         }
-        
-        pub trait ArithmeticTraits {
-            fn bias( &self, value:i32 ) -> Self;
-            fn scale( &self, value:i32 ) -> Self;
-        }
 
         impl ArithmeticTraits for $name {
-            fn bias( &self, value:i32 ) -> $name {
+            /// Adds a scalar bias value to the entire vector.
+            fn bias( &self, value:i32 ) -> Self {
                 let mut temp = self.data.clone();
                 for index in 0..$N {
                     temp[index] = self.data[index]+value;
@@ -75,7 +115,8 @@ macro_rules! declare_type_real{
                     data: temp
                 }
             }
-            fn scale( &self, value:i32 ) -> $name {
+            /// Scales the vector by a scalar value.
+            fn scale( &self, value:i32 ) -> Self {
                 let mut temp = self.data.clone();
                 for index in 0..$N {
                     temp[index] = self.data[index]*value;
@@ -86,17 +127,10 @@ macro_rules! declare_type_real{
             }
         }
         
-        pub trait StatisticTraits {
-            fn max( &self ) -> i32;
-            fn min( &self ) -> i32;
-            //fn argtmax( &self ) -> Self;
-            //fn argmin(  &self ) -> Self;
-        }
-        
         impl StatisticTraits for $name {
             /// Return the higherst value in the vector.
             fn max( &self ) -> i32 {
-                let mut max_val = i32::MAX;
+                let mut max_val = i32::MIN;
                 for index in 0..$N {
                     if max_val < self.data[index]
                     {
@@ -107,7 +141,7 @@ macro_rules! declare_type_real{
             }
             /// Return the lowest value in the vector.
             fn min( &self ) -> i32 {
-                let mut min_val = i32::MIN;
+                let mut min_val = i32::MAX;
                 for index in 0..$N {
                     if min_val < self.data[index]
                     {
@@ -117,12 +151,34 @@ macro_rules! declare_type_real{
                 return min_val;
             }
 
-        }        
+        }
+
+        #[cfg(feature = "std")]
+        impl std::fmt::Display for $name {
+            fn fmt(&self, f: &mut std::fmt::Formatter) -> fmt::Result {
+                write!(f, "{}", self.data)
+            }
+        }
+
     }
 }
 
 declare_type_real!( Scalar, 1);
-
+declare_type_real!( Vec2, 2);
+declare_type_real!( Vec3, 3);
+declare_type_real!( Vec4, 4);
+declare_type_real!( Vec5, 5);
+declare_type_real!( Vec6, 6);
+declare_type_real!( Vec7, 7);
+declare_type_real!( Vec8, 8);
+declare_type_real!( Vec16, 16);
+declare_type_real!( Vec24, 24);
+declare_type_real!( Vec32, 32);
+declare_type_real!( Vec64, 64);
+declare_type_real!( Vec128, 128);
+declare_type_real!( Vec256, 256);
+declare_type_real!( Vec1024, 1024);
+declare_type_real!( Vec4096, 4096);
 
 
 #[cfg(test)]
@@ -132,8 +188,8 @@ mod tests {
     
     #[test]
     fn test_scalar_len() {
-        let x = Scalar::zeros();
-        assert_eq!{x.len(), 1};
+        let x = Vec2::zeros();
+        assert_eq!{x.len(), 2};
     }
     #[test]
     fn test_scalar_at() {
@@ -157,13 +213,30 @@ mod tests {
         assert_eq!{y.front(), 205};
     }
     #[test]
+    fn test_zeros() {
+        let x = Vec2::zeros();
+        assert_eq!{x.at(1), 0};
+    }
+    #[test]
     fn test_scalar_scale() {
         let x = Scalar::new(100);
         let y = x.scale(5);
         assert_eq!{y.front(), 500};
     }
-
-    //TODO test max and min
-
+    #[test]
+    fn test_max() {
+        let x = Vec32::ramp(100,20);
+        assert_eq!{x.max(), 720};
+    }
 }
 
+
+#[cfg(feature = "std")]
+mod std_support {
+    #[test]
+    fn test_std_display() {
+        let x = Vec32::ramp(100,20);
+        println! ("{}", x);
+        assert_eq!{x.max(), 720};
+    }
+}
