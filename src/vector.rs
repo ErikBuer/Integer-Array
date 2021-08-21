@@ -15,7 +15,6 @@ pub trait ArithmeticTraits {
     fn bias( &self, value:i32 ) -> Self;
     fn scale( &self, value:i32 ) -> Self;
     //TODO numerical square root.
-
 }
 
 pub trait StatisticTraits {
