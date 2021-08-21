@@ -14,6 +14,8 @@ pub trait VectorTraits {
 pub trait ArithmeticTraits {
     fn bias( &self, value:i32 ) -> Self;
     fn scale( &self, value:i32 ) -> Self;
+    //TODO numerical square root.
+
 }
 
 pub trait StatisticTraits {
@@ -204,7 +206,6 @@ macro_rules! declare_type_real{
                 } 
                 return arg_min;
             }
-
         }
 
         #[cfg(feature = "std")]
