@@ -6,9 +6,9 @@ pub trait VectorTraits {
     fn zeros()  -> Self;
     fn ramp( start:i32, step:i32  )  -> Self;
     fn at( &self, index:usize) -> i32;
-    fn front( &self ) -> i32;
-    fn back( &self )-> i32;
-    fn len( &self ) -> usize;
+    fn front( &self )   -> i32;
+    fn back( &self )    -> i32;
+    fn len( &self )     -> usize;
 }
 
 pub trait ArithmeticTraits {
@@ -17,8 +17,11 @@ pub trait ArithmeticTraits {
 }
 
 pub trait StatisticTraits {
-    fn max( &self ) -> i32;
-    fn min( &self ) -> i32;
+    fn sum( &self ) -> i32;
+    fn mean( &self ) -> i32;
+    fn var( &self )  -> i32;
+    fn max( &self )  -> i32;
+    fn min( &self )  -> i32;
     fn argmax( &self ) -> usize;
     fn argmin( &self ) -> usize;
 }
@@ -128,6 +131,31 @@ macro_rules! declare_type_real{
         }
         
         impl StatisticTraits for $name {
+            /// Return the sum of the vector.
+            fn sum( &self ) -> i32 {
+                let mut sum:i32 = 0;
+                for index in 0..$N {
+                    sum = sum+ self.data[index];
+                }
+                return sum;
+            }
+            /// Return the mean of the vector.
+            fn mean( &self ) -> i32 {
+                let mut sum:i32 = 0;
+                for index in 0..$N {
+                    sum = sum+ self.data[index];
+                }
+                return sum/$N;
+            }
+            /// Return the variance of the vector.
+            fn var( &self ) -> i32 {
+                let mean = self.mean();
+                let mut temp: i32 = 0;
+                for idx in 0..$N {
+                    temp = temp + (self.data[idx]-mean)^2;
+                }
+                return temp/$N;
+            }
             /// Return the higherst value in the vector.
             fn max( &self ) -> i32 {
                 let mut max_val = i32::MIN;
