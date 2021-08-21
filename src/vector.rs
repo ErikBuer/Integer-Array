@@ -19,8 +19,8 @@ pub trait ArithmeticTraits {
 pub trait StatisticTraits {
     fn max( &self ) -> i32;
     fn min( &self ) -> i32;
-    //fn argtmax( &self ) -> Self;
-    //fn argmin(  &self ) -> Self;
+    fn argmax( &self ) -> usize;
+    fn argmin( &self ) -> usize;
 }
 
 /*
@@ -143,12 +143,38 @@ macro_rules! declare_type_real{
             fn min( &self ) -> i32 {
                 let mut min_val = i32::MAX;
                 for index in 0..$N {
-                    if min_val < self.data[index]
+                    if self.data[index] < min_val
                     {
                         min_val = self.data[index];
                     }
                 } 
                 return min_val;
+            }
+            /// Return the index of the greatest value in the vector.
+            fn argmax( &self ) -> usize {
+                let mut max_val = i32::MIN;
+                let mut arg_max = 0;
+                for index in 0..$N {
+                    if max_val < self.data[index]
+                    {
+                        max_val = self.data[index];
+                        arg_max = index;
+                    }
+                } 
+                return arg_max;
+            }
+            /// Return the index of the lowest value in the vector.
+            fn argmin( &self ) -> usize {
+                let mut min_val = i32::MAX;
+                let mut arg_min = 0;
+                for index in 0..$N {
+                    if self.data[index] < min_val
+                    {
+                        min_val = self.data[index];
+                        arg_min = index;
+                    }
+                } 
+                return arg_min;
             }
 
         }
@@ -183,7 +209,6 @@ declare_type_real!( Vec4096, 4096);
 
 #[cfg(test)]
 mod tests {
-    //use crate::*;
     use super::*;
     
     #[test]
@@ -207,6 +232,11 @@ mod tests {
         assert_eq!{x.front(), 200};
     }
     #[test]
+    fn test_scalar_back() {
+        let x = Vec32::ramp(100,20);
+        assert_eq!{x.back(), 720};
+    }
+    #[test]
     fn test_scalar_bias() {
         let x = Scalar::new(200);
         let y = x.bias(5);
@@ -228,11 +258,28 @@ mod tests {
         let x = Vec32::ramp(100,20);
         assert_eq!{x.max(), 720};
     }
+    #[test]
+    fn test_min() {
+        let x = Vec32::ramp(100,20);
+        assert_eq!{x.min(), 100};
+    }
+    #[test]
+    fn test_argmax() {
+        let x = Vec32::ramp(100,20);
+        assert_eq!{x.argmax(), 31};
+    }
+    #[test]
+    fn test_argmin() {
+        let x = Vec32::ramp(100,20);
+        assert_eq!{x.argmin(), 0};
+    }
 }
 
 
 #[cfg(feature = "std")]
 mod std_support {
+    use super::*;
+
     #[test]
     fn test_std_display() {
         let x = Vec32::ramp(100,20);
