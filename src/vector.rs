@@ -17,8 +17,12 @@ pub trait ArithmeticTraits {
     fn sqrt( &self )             -> Self;
 }
 
+pub trait TrigonometryTraits {
+    fn sin( &self, pi:i32, norm:i32 )  -> Self;
+}
+
 pub trait StatisticTraits {
-    fn sum( &self ) -> i32;
+    fn sum( &self )  -> i32;
     fn mean( &self ) -> i32;
     fn var( &self )  -> i32;
     fn max( &self )  -> i32;
@@ -43,6 +47,26 @@ mod std_support {
         },
         write,
     };
+}
+
+/// Rase integer to an integer-valued power.
+/// base^power.
+fn powi( base:i32, power:u32 ) -> i32 {
+    let mut temp:i32 = base;
+    for i in 0..power {
+        temp = temp*base;
+    }
+    return temp;
+}
+
+/// Rase float number to an integer-valued power.
+/// base^power.
+fn fpowi( base:f32, power:u32 ) -> f32 {
+    let mut temp:f32 = base;
+    for i in 0..power {
+        temp = temp*base;
+    }
+    return temp;
 }
 
 /// Create vector type of size N and type T.
@@ -238,6 +262,23 @@ macro_rules! declare_type_real{
                 return arg_min;
             }
         }
+        impl TrigonometryTraits for $name {
+            /// Take the itemwise sine using a fifth order Taylor expansion of sine x.
+            /// * 'pi' The integer level which represents pi in the input data and 1 in the output.
+            /// * 'norm' The integer level which represents 1 in the output data.
+            fn sin( &self, pi:i32, norm:i32 ) -> Self { //TODO ensure that input is within valid range. 
+                let mut temp = self.data.clone();
+                for idx in 0..$N {
+                    let x:f32 = (temp[idx] as f32)/(pi as f32 );
+                    // Calculate sine by using 
+                    let sinx:f32 = x-(fpowi(x,3)/6.0 )+( fpowi(x,5)/120.0 )-( fpowi(x,7)/5040.0 )+( fpowi(x,9)/362880.0 );
+                    temp[idx] = ( sinx*(norm as f32) ) as i32;
+                } 
+                Self {
+                    data: temp
+                }
+            }
+        }
 
         #[cfg(feature = "std")]
         impl std::fmt::Display for $name {
@@ -336,7 +377,12 @@ mod tests {
     #[test]
     fn test_sqrt() {
         let x = Vec4::ramp(10000,1000);
-        assert_eq!{x.sqrt(), Vec4::ramp(100,20) };
+        assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
+    }
+    #[test]
+    fn test_sin() {
+        let x = Vec8::ramp(0,20);
+        assert_eq!{x.sin( 180, 100).data, [1,2,3,4,5,6,7,8] };
     }
 
     //TODO implement macro.
