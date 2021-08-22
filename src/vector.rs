@@ -18,7 +18,7 @@ pub trait ArithmeticTraits {
 }
 
 pub trait TrigonometryTraits {
-    fn sin( &self, pi:i32, norm:i32 )  -> Self;
+    fn sin( &self, norm_pi:i32, norm:i32 )  -> Self;
 }
 
 pub trait StatisticTraits {
@@ -265,13 +265,27 @@ macro_rules! declare_type_real{
             }
         }
         impl TrigonometryTraits for $name {
-            /// Take the itemwise sine using a fifth order Taylor expansion of sine x.
+            /// Take the itemwise sine using a Taylor approximation of sine x.
             /// * 'pi' The integer level which represents pi in the input data and 1 in the output.
             /// * 'norm' The integer level which represents 1 in the output data.
-            fn sin( &self, pi:i32, norm:i32 ) -> Self { //TODO ensure that input is within valid range. 
+            fn sin( &self, norm_pi:i32, norm:i32 ) -> Self { 
+                //TODO ensure that input is within valid range.
+                // TODO might only be valid for 0+-p/2.
+                const PI_half:f32 = PI/2.0;
+
                 let mut temp = self.data.clone();
                 for idx in 0..$N {
-                    let x:f32 = (temp[idx] as f32)*PI/(pi as f32 );
+                    let mut x:f32 = (temp[idx] as f32)*PI/(norm_pi as f32 );
+                    // Ensure that the angle is within the accurate range of the tailor series. 
+                    if x < -PI_half
+                    {
+                        x = &x+(2.0*(&x+PI_half));
+                    }
+                    else if PI_half < x
+                    {
+                        x = &x-(2.0*(&x-PI_half));
+                    }
+
                     // Calculate sine by using 
                     let sinx:f32 = x-(fpowi(x,3)/6.0 )+( fpowi(x,5)/120.0 )-( fpowi(x,7)/5040.0 )+( fpowi(x,9)/362880.0 );
                     temp[idx] = ( sinx*(norm as f32) ) as i32;
