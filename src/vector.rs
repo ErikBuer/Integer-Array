@@ -249,7 +249,7 @@ macro_rules! declare_type_real{
     }
 }
 
-//declare_type_real!( Scalar, 1);
+declare_type_real!( Scalar, 1);
 declare_type_real!( Vec2, 2);
 declare_type_real!( Vec3, 3);
 declare_type_real!( Vec4, 4);
