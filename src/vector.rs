@@ -12,9 +12,9 @@ pub trait VectorTraits {
 }
 
 pub trait ArithmeticTraits {
-    fn bias( &self, value:i32 ) -> Self;
+    fn bias( &self, value:i32 )  -> Self;
     fn scale( &self, value:i32 ) -> Self;
-    //TODO numerical square root.
+    fn sqrt( &self )             -> Self;
 }
 
 pub trait StatisticTraits {
@@ -48,12 +48,23 @@ mod std_support {
 /// Create vector type of size N and type T.
 macro_rules! declare_type_real{
     ( $name:ident, $N:expr) => {
-
         #[derive(Clone, Debug, PartialEq)]
         /// Real numeric vector of type int32.
         pub struct $name{
             pub data: [i32; $N],
         }
+
+        //TODO implement macro for creating vector.
+        /*
+        macro_rules! $name{
+            ( $( $x:expr ),+ ) => {
+                let temp:[i32;$N] = [ $($x),+ ];
+                    $name {
+                        data: temp,
+                    }
+            };
+        }
+        */
 
         impl VectorTraits for $name {
             /// Generate a vector of a value.
@@ -61,7 +72,6 @@ macro_rules! declare_type_real{
                 $name {
                     data: [value;$N]
                 }
-
             }
             /// Generate a vector of ones.
             fn ones() -> Self {
@@ -125,7 +135,29 @@ macro_rules! declare_type_real{
                 for index in 0..$N {
                     temp[index] = self.data[index]*value;
                 } 
-                $name {
+                Self {
+                    data: temp
+                }
+            }
+            /// Return the itemwise square root using the 
+            /// Babylonian square root implementation.
+            fn sqrt( &self ) -> Self {
+                let mut temp = self.data.clone();
+                for index in 0..$N {
+                    let item = self.data[index];
+                    // Initial approximation
+                    let mut root:i32 = item/2;
+                    let mut y:i32 = 1;
+                    // Accuracy level
+                    let error:i32 = 1;
+                    while ( error <= root - y)
+                    {
+                        root = (root + y) / 2;
+                        y = item / root;
+                    }
+                    temp[index] = root;
+                } 
+                Self {
                     data: temp
                 }
             }
@@ -217,7 +249,7 @@ macro_rules! declare_type_real{
     }
 }
 
-declare_type_real!( Scalar, 1);
+//declare_type_real!( Scalar, 1);
 declare_type_real!( Vec2, 2);
 declare_type_real!( Vec3, 3);
 declare_type_real!( Vec4, 4);
@@ -246,17 +278,17 @@ mod tests {
     }
     #[test]
     fn test_scalar_at() {
-        let x = Scalar::ones();
+        let x = Vec2::ones();
         assert_eq!{x.at(0), 1};
     }
     #[test]
     fn test_scalar_new() {
-        let x = Scalar::new(200);
+        let x = Vec2::new(200);
         assert_eq!{x.at(0), 200};
     }
     #[test]
     fn test_scalar_front() {
-        let x = Scalar::new(200);
+        let x = Vec2::new(200);
         assert_eq!{x.front(), 200};
     }
     #[test]
@@ -266,7 +298,7 @@ mod tests {
     }
     #[test]
     fn test_scalar_bias() {
-        let x = Scalar::new(200);
+        let x = Vec2::new(200);
         let y = x.bias(5);
         assert_eq!{y.front(), 205};
     }
@@ -277,7 +309,7 @@ mod tests {
     }
     #[test]
     fn test_scalar_scale() {
-        let x = Scalar::new(100);
+        let x = Vec2::new(100);
         let y = x.scale(5);
         assert_eq!{y.front(), 500};
     }
@@ -301,6 +333,20 @@ mod tests {
         let x = Vec32::ramp(100,20);
         assert_eq!{x.argmin(), 0};
     }
+    #[test]
+    fn test_sqrt() {
+        let x = Vec4::ramp(10000,1000);
+        assert_eq!{x.sqrt(), Vec4::ramp(100,20) };
+    }
+
+    //TODO implement macro.
+    /*
+    #[test]
+    fn test_macro_generation() {
+        let x = Vec2![1,2];
+        assert_eq!{x, Vec2::ramp(1,1) };
+    }
+    */
 }
 
 
