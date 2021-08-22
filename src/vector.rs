@@ -49,6 +49,8 @@ mod std_support {
     };
 }
 
+pub const PI: f32 = 3.14159265358979323846264338327950288f32;
+
 /// Rase integer to an integer-valued power.
 /// base^power.
 fn powi( base:i32, power:u32 ) -> i32 {
@@ -269,7 +271,7 @@ macro_rules! declare_type_real{
             fn sin( &self, pi:i32, norm:i32 ) -> Self { //TODO ensure that input is within valid range. 
                 let mut temp = self.data.clone();
                 for idx in 0..$N {
-                    let x:f32 = (temp[idx] as f32)/(pi as f32 );
+                    let x:f32 = (temp[idx] as f32)*PI/(pi as f32 );
                     // Calculate sine by using 
                     let sinx:f32 = x-(fpowi(x,3)/6.0 )+( fpowi(x,5)/120.0 )-( fpowi(x,7)/5040.0 )+( fpowi(x,9)/362880.0 );
                     temp[idx] = ( sinx*(norm as f32) ) as i32;
