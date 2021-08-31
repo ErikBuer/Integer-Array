@@ -305,7 +305,7 @@ macro_rules! declare_type_real{
                 let mut temp = self.data.clone();
 
                 for idx in 0..$N {
-                    let mut x:f32 = (temp[idx] as f32)*PI/(norm_pi as f32 );
+                    let x:f32 = (temp[idx] as f32)*PI/(norm_pi as f32 );
                     // Calculate tan by using a polynomial 
                     let tanx:f32 = x+(fpowi(x,3)/3.0 )+( fpowi(x,5)*2.0/15.0 )-( fpowi(x,7)*17.0/315.0 )+( fpowi(x,9)*62.0/2835.0 );
                     temp[idx] = ( tanx*(norm as f32) ) as i32;
@@ -439,12 +439,12 @@ mod tests {
     }
     #[test]
     fn test_sin() {
-        let mut x = Vec8::ramp(0,20);
+        let x = Vec8::ramp(0,20);
         assert_eq!{x.sin( 180, 100).data, [1,2,3,4,5,6,7,8] };
     }
     #[test]
     fn test_tan() {//TODO
-        let mut x = Vec8::ramp(0,20);
+        let x = Vec8::ramp(0,20);
         assert_eq!{x.tan( 180, 100).data, [1,2,3,4,5,6,7,8] };
     }
     #[test]
