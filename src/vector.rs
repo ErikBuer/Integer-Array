@@ -19,6 +19,8 @@ pub trait ArithmeticTraits {
 
 pub trait TrigonometryTraits {
     fn sin( &self, norm_pi:i32, norm:i32 )  -> Self;
+    fn tan( &self, norm_pi:i32, norm:i32 )  -> Self;
+    fn wrap_phase( &self, norm_pi:i32)      -> Self;
 }
 
 pub trait StatisticTraits {
@@ -55,7 +57,7 @@ pub const PI: f32 = 3.14159265358979323846264338327950288f32;
 /// base^power.
 fn powi( base:i32, power:u32 ) -> i32 {
     let mut temp:i32 = base;
-    for i in 0..power {
+    for _i in 0..power {
         temp = temp*base;
     }
     return temp;
@@ -65,7 +67,7 @@ fn powi( base:i32, power:u32 ) -> i32 {
 /// base^power.
 fn fpowi( base:f32, power:u32 ) -> f32 {
     let mut temp:f32 = base;
-    for i in 0..power {
+    for _i in 0..power {
         temp = temp*base;
     }
     return temp;
@@ -264,26 +266,27 @@ macro_rules! declare_type_real{
                 return arg_min;
             }
         }
+
         impl TrigonometryTraits for $name {
-            /// Take the itemwise sine using a Taylor approximation of sine x.
-            /// * 'pi' The integer level which represents pi in the input data and 1 in the output.
+            /// Take the item-wise sine using a Taylor approximation of sine x.
+            /// Self must be wrapped to the -pi=<x<=pi range.
+            /// * 'pi' The integer level which represents pi in the input data.
             /// * 'norm' The integer level which represents 1 in the output data.
-            fn sin( &self, norm_pi:i32, norm:i32 ) -> Self { 
-                //TODO ensure that input is within valid range.
-                // TODO might only be valid for 0+-p/2.
-                const PI_half:f32 = PI/2.0;
+            fn sin( &self, norm_pi:i32, norm:i32 ) -> Self {
+                const PI_HALF:f32 = PI/2.0;
 
                 let mut temp = self.data.clone();
+
                 for idx in 0..$N {
                     let mut x:f32 = (temp[idx] as f32)*PI/(norm_pi as f32 );
                     // Ensure that the angle is within the accurate range of the tailor series. 
-                    if x < -PI_half
+                    if x < -PI_HALF
                     {
-                        x = &x+(2.0*(&x+PI_half));
+                        x = &x+(2.0*(&x+PI_HALF));
                     }
-                    else if PI_half < x
+                    else if PI_HALF < x
                     {
-                        x = &x-(2.0*(&x-PI_half));
+                        x = &x-(2.0*(&x-PI_HALF));
                     }
 
                     // Calculate sine by using 
@@ -292,6 +295,45 @@ macro_rules! declare_type_real{
                 } 
                 Self {
                     data: temp
+                }
+            }
+            /// Take the item-wise tan using a Taylor approximation of tan x.
+            /// Self must be wrapped to the -pi=<x<=pi range.
+            /// * 'pi' The integer level which represents pi in the input data.
+            /// * 'norm' The integer level which represents 1 in the output data.
+            fn tan( &self, norm_pi:i32, norm:i32 ) -> Self {
+                let mut temp = self.data.clone();
+
+                for idx in 0..$N {
+                    let mut x:f32 = (temp[idx] as f32)*PI/(norm_pi as f32 );
+                    // Calculate tan by using a polynomial 
+                    let tanx:f32 = x+(fpowi(x,3)/3.0 )+( fpowi(x,5)*2.0/15.0 )-( fpowi(x,7)*17.0/315.0 )+( fpowi(x,9)*62.0/2835.0 );
+                    temp[idx] = ( tanx*(norm as f32) ) as i32;
+                } 
+                Self {
+                    data: temp
+                }
+            }
+            /// Wrapps Self to the -pi=<x<pi range.
+            /// * 'pi' The integer level which represents pi in the input data.
+            fn wrap_phase( &self, norm_pi:i32 ) -> Self {
+
+                let mut temp_vec = self.data.clone();
+                for idx in 0..$N {
+                    let mut temp_scalar = temp_vec[idx];
+                    
+                    while temp_scalar < -norm_pi 
+                    {
+                        temp_scalar = &temp_scalar+2*norm_pi;
+                    }
+                    while norm_pi <= temp_scalar
+                    {
+                        temp_scalar = &temp_scalar-2*norm_pi;
+                    }
+                    temp_vec[idx] = temp_scalar;
+                } 
+                Self {
+                    data: temp_vec
                 }
             }
         }
@@ -397,8 +439,18 @@ mod tests {
     }
     #[test]
     fn test_sin() {
-        let x = Vec8::ramp(0,20);
+        let mut x = Vec8::ramp(0,20);
         assert_eq!{x.sin( 180, 100).data, [1,2,3,4,5,6,7,8] };
+    }
+    #[test]
+    fn test_tan() {//TODO
+        let mut x = Vec8::ramp(0,20);
+        assert_eq!{x.tan( 180, 100).data, [1,2,3,4,5,6,7,8] };
+    }
+    #[test]
+    fn test_wrap_phase() {
+        let x = Vec8::ramp(0,22);
+        assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
     }
 
     //TODO implement macro.
