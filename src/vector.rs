@@ -1,44 +1,5 @@
-use super::*;
-
-pub trait VectorTraits {
-    fn new( value:i32 ) -> Self;
-    fn ones()   -> Self;
-    fn zeros()  -> Self;
-    fn ramp( start:i32, step:i32  )  -> Self;
-    fn at( &self, index:usize) -> i32;
-    fn front( &self )   -> i32;
-    fn back( &self )    -> i32;
-    fn len( &self )     -> usize;
-}
-
-pub trait ArithmeticTraits {
-    fn bias( &self, value:i32 )  -> Self;
-    fn scale( &self, value:i32 ) -> Self;
-    fn sqrt( &self )             -> Self;
-}
-
-pub trait TrigonometryTraits {
-    fn sin( &self, norm_pi:i32, norm:i32 )  -> Self;
-    fn tan( &self, norm_pi:i32, norm:i32 )  -> Self;
-    fn wrap_phase( &self, norm_pi:i32)      -> Self;
-}
-
-pub trait StatisticTraits {
-    fn sum( &self )  -> i32;
-    fn mean( &self ) -> i32;
-    fn var( &self )  -> i32;
-    fn max( &self )  -> i32;
-    fn min( &self )  -> i32;
-    fn argmax( &self ) -> usize;
-    fn argmin( &self ) -> usize;
-}
-
-/*
-pub trait StdUtilities {
-    fn todo( &self ) -> Self;
-}
-*/
-
+//use super::*;
+//use super::trait_definitions::*;
 
 #[cfg(feature = "std")]
 mod std_support {
@@ -51,31 +12,13 @@ mod std_support {
     };
 }
 
-pub const PI: f32 = 3.14159265358979323846264338327950288f32;
 
-/// Rase integer to an integer-valued power.
-/// base^power.
-fn powi( base:i32, power:u32 ) -> i32 {
-    let mut temp:i32 = base;
-    for _i in 0..power {
-        temp = temp*base;
-    }
-    return temp;
-}
-
-/// Rase float number to an integer-valued power.
-/// base^power.
-fn fpowi( base:f32, power:u32 ) -> f32 {
-    let mut temp:f32 = base;
-    for _i in 0..power {
-        temp = temp*base;
-    }
-    return temp;
-}
 
 /// Create vector type of size N and type T.
+#[macro_export]
 macro_rules! declare_type_real{
     ( $name:ident, $N:expr) => {
+
         #[derive(Clone, Debug, PartialEq)]
         /// Real numeric vector of type int32.
         pub struct $name{
@@ -94,7 +37,7 @@ macro_rules! declare_type_real{
         }
         */
 
-        impl VectorTraits for $name {
+        impl numeric_vector::trait_definitions::VectorTraits for $name {
             /// Generate a vector of a value.
             fn new( value:i32 ) -> Self {
                 $name {
@@ -146,7 +89,7 @@ macro_rules! declare_type_real{
             }
         }
 
-        impl ArithmeticTraits for $name {
+        impl numeric_vector::trait_definitions::ArithmeticTraits for $name {
             /// Adds a scalar bias value to the entire vector.
             fn bias( &self, value:i32 ) -> Self {
                 let mut temp = self.data.clone();
@@ -191,7 +134,7 @@ macro_rules! declare_type_real{
             }
         }
         
-        impl StatisticTraits for $name {
+        impl numeric_vector::trait_definitions::StatisticTraits for $name {
             /// Return the sum of the vector.
             fn sum( &self ) -> i32 {
                 let mut sum:i32 = 0;
@@ -267,18 +210,22 @@ macro_rules! declare_type_real{
             }
         }
 
-        impl TrigonometryTraits for $name {
+        impl numeric_vector::trait_definitions::TrigonometryTraits for $name {
             /// Take the item-wise sine using a Taylor approximation of sine x.
             /// Self must be wrapped to the -pi=<x<=pi range.
             /// * 'pi' The integer level which represents pi in the input data.
             /// * 'norm' The integer level which represents 1 in the output data.
+
             fn sin( &self, norm_pi:i32, norm:i32 ) -> Self {
-                const PI_HALF:f32 = PI/2.0;
+                use numeric_vector::utility_functions as util;
+                use numeric_vector::constants as cnst;
+
+                const PI_HALF:f32 = cnst::PI/2.0;
 
                 let mut temp = self.data.clone();
 
                 for idx in 0..$N {
-                    let mut x:f32 = (temp[idx] as f32)*PI/(norm_pi as f32 );
+                    let mut x:f32 = (temp[idx] as f32)*cnst::PI/(norm_pi as f32 );
                     // Ensure that the angle is within the accurate range of the tailor series. 
                     if x < -PI_HALF
                     {
@@ -290,7 +237,7 @@ macro_rules! declare_type_real{
                     }
 
                     // Calculate sine by using 
-                    let sinx:f32 = x-(fpowi(x,3)/6.0 )+( fpowi(x,5)/120.0 )-( fpowi(x,7)/5040.0 )+( fpowi(x,9)/362880.0 );
+                    let sinx:f32 = x-(util::fpowi(x,3)/6.0 )+( util::fpowi(x,5)/120.0 )-( util::fpowi(x,7)/5040.0 )+( util::fpowi(x,9)/362880.0 );
                     temp[idx] = ( sinx*(norm as f32) ) as i32;
                 } 
                 Self {
@@ -303,11 +250,15 @@ macro_rules! declare_type_real{
             /// * 'norm' The integer level which represents 1 in the output data.
             fn tan( &self, norm_pi:i32, norm:i32 ) -> Self {
                 let mut temp = self.data.clone();
+                
+                use numeric_vector::utility_functions as util;
+                use numeric_vector::constants as cnst;
+
 
                 for idx in 0..$N {
-                    let x:f32 = (temp[idx] as f32)*PI/(norm_pi as f32 );
+                    let x:f32 = (temp[idx] as f32)*cnst::PI/(norm_pi as f32 );
                     // Calculate tan by using a polynomial 
-                    let tanx:f32 = x+(fpowi(x,3)/3.0 )+( fpowi(x,5)*2.0/15.0 )-( fpowi(x,7)*17.0/315.0 )+( fpowi(x,9)*62.0/2835.0 );
+                    let tanx:f32 = x+(util::fpowi(x,3)/3.0 )+( util::fpowi(x,5)*2.0/15.0 )-( util::fpowi(x,7)*17.0/315.0 )+( util::fpowi(x,9)*62.0/2835.0 );
                     temp[idx] = ( tanx*(norm as f32) ) as i32;
                 } 
                 Self {
@@ -348,6 +299,7 @@ macro_rules! declare_type_real{
     }
 }
 
+/*
 declare_type_real!( Scalar, 1);
 declare_type_real!( Vec2, 2);
 declare_type_real!( Vec3, 3);
@@ -364,91 +316,137 @@ declare_type_real!( Vec128, 128);
 declare_type_real!( Vec256, 256);
 declare_type_real!( Vec1024, 1024);
 declare_type_real!( Vec4096, 4096);
+*/
 
 
 #[cfg(test)]
 mod tests {
-    use super::*;
     
     #[test]
     fn test_scalar_len() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec2, 2);
         let x = Vec2::zeros();
         assert_eq!{x.len(), 2};
     }
     #[test]
     fn test_scalar_at() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec2, 2);
         let x = Vec2::ones();
         assert_eq!{x.at(0), 1};
     }
     #[test]
     fn test_scalar_new() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec2, 2);
         let x = Vec2::new(200);
         assert_eq!{x.at(0), 200};
     }
     #[test]
     fn test_scalar_front() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
         let x = Vec2::new(200);
+        declare_type_real!( Vec2, 2);
         assert_eq!{x.front(), 200};
     }
     #[test]
     fn test_scalar_back() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec32, 32);
         let x = Vec32::ramp(100,20);
         assert_eq!{x.back(), 720};
     }
     #[test]
     fn test_scalar_bias() {
+        declare_type_real!( Vec2, 2);
         let x = Vec2::new(200);
         let y = x.bias(5);
         assert_eq!{y.front(), 205};
     }
     #[test]
     fn test_zeros() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec2, 2);
         let x = Vec2::zeros();
         assert_eq!{x.at(1), 0};
     }
     #[test]
     fn test_scalar_scale() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec2, 2);
         let x = Vec2::new(100);
         let y = x.scale(5);
         assert_eq!{y.front(), 500};
     }
     #[test]
     fn test_max() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec32, 32);
         let x = Vec32::ramp(100,20);
         assert_eq!{x.max(), 720};
     }
     #[test]
     fn test_min() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec32, 32);
         let x = Vec32::ramp(100,20);
         assert_eq!{x.min(), 100};
     }
     #[test]
     fn test_argmax() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec32, 32);
         let x = Vec32::ramp(100,20);
         assert_eq!{x.argmax(), 31};
     }
     #[test]
     fn test_argmin() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec32, 32);
         let x = Vec32::ramp(100,20);
         assert_eq!{x.argmin(), 0};
     }
     #[test]
     fn test_sqrt() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec4, 4);
         let x = Vec4::ramp(10000,1000);
         assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
     }
     #[test]
     fn test_sin() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec8, 8);
         let x = Vec8::ramp(0,20);
         assert_eq!{x.sin( 180, 100).data, [1,2,3,4,5,6,7,8] };
     }
     #[test]
     fn test_tan() {//TODO
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec8, 8);
         let x = Vec8::ramp(0,20);
         assert_eq!{x.tan( 180, 100).data, [1,2,3,4,5,6,7,8] };
     }
     #[test]
     fn test_wrap_phase() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec8, 8);
         let x = Vec8::ramp(0,22);
         assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
     }

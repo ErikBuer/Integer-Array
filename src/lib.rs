@@ -10,4 +10,9 @@ extern crate std;
 extern crate core as std;
 
 // Include the file vector.rs
+
+pub mod utility_functions;
+pub mod constants;
+pub mod trait_definitions;
+
 pub mod vector;
