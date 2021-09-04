@@ -297,26 +297,6 @@ macro_rules! declare_type_real{
     }
 }
 
-/*
-declare_type_real!( Scalar, 1);
-declare_type_real!( Vec2, 2);
-declare_type_real!( Vec3, 3);
-declare_type_real!( Vec4, 4);
-declare_type_real!( Vec5, 5);
-declare_type_real!( Vec6, 6);
-declare_type_real!( Vec7, 7);
-declare_type_real!( Vec8, 8);
-declare_type_real!( Vec16, 16);
-declare_type_real!( Vec24, 24);
-declare_type_real!( Vec32, 32);
-declare_type_real!( Vec64, 64);
-declare_type_real!( Vec128, 128);
-declare_type_real!( Vec256, 256);
-declare_type_real!( Vec1024, 1024);
-declare_type_real!( Vec4096, 4096);
-*/
-
-
 #[cfg(test)]
 mod tests {
     //use super::*;
