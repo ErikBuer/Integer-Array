@@ -1,4 +1,4 @@
-use numeric_vector::*;
+use numeric_vector;
 use numeric_vector::trait_definitions::*;
 
 

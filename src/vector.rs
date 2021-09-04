@@ -1,5 +1,5 @@
 //use super::*;
-//use super::trait_definitions::*;
+use super::trait_definitions::*;
 
 #[cfg(feature = "std")]
 mod std_support {
@@ -11,8 +11,6 @@ mod std_support {
         write,
     };
 }
-
-
 
 /// Create vector type of size N and type T.
 #[macro_export]
@@ -321,7 +319,8 @@ declare_type_real!( Vec4096, 4096);
 
 #[cfg(test)]
 mod tests {
-    
+    //use super::*;
+
     #[test]
     fn test_scalar_len() {
         use crate as numeric_vector;
@@ -364,6 +363,8 @@ mod tests {
     }
     #[test]
     fn test_scalar_bias() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
         declare_type_real!( Vec2, 2);
         let x = Vec2::new(200);
         let y = x.bias(5);
