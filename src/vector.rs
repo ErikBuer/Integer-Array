@@ -287,6 +287,23 @@ macro_rules! declare_type_real{
             }
         }
 
+        ///
+        impl std::ops::Index<usize> for $name {
+            type Output = i32;
+            
+            #[inline]
+            fn index(&self, index: usize) -> &i32 {
+                return &self.data[index];
+            }
+        }
+        
+        ///
+        impl std::ops::IndexMut<usize> for $name {
+            fn index_mut(&mut self, index: usize) -> &mut i32 {
+                return &mut self.data[index];
+            }
+        }
+
         #[cfg(feature = "std")]
         impl std::fmt::Display for $name {
             fn fmt(&self, f: &mut std::fmt::Formatter) -> fmt::Result {
@@ -430,6 +447,23 @@ mod tests {
         declare_type_real!( Vec8, 8);
         let x = Vec8::ramp(0,22);
         assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
+    }
+    #[test]
+    fn test_index() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec8, 8);
+        let x = Vec8::ramp(0,22);
+        assert_eq!{x[2], 44i32 };
+    }
+    #[test]
+    fn test_mut_index() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec8, 8);
+        let mut x = Vec8::ramp(0,22);
+        x[2] = 56;
+        assert_eq!{x[2], 56i32 };
     }
 
     //TODO implement macro.
