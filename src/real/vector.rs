@@ -32,13 +32,29 @@ macro_rules! declare_type_real{
         }
         */
 
-        impl numeric_vector::trait_definitions::VectorTraits for $name {
+        impl numeric_vector::trait_definitions::New for $name {
             /// Generate a vector of a value.
             fn new( value:i32 ) -> Self {
                 $name {
                     data: [value;$N]
                 }
             }
+        }
+
+        impl numeric_vector::trait_definitions::Ramp for $name {
+            /// Generate a linear ramp of values with increment step.
+            fn ramp( start:i32, step:i32  ) -> Self {
+                let mut temp: [i32; $N] = [start; $N];
+                for n in 0..$N {
+                    temp[n] = start+(n as i32)*step;
+                }
+                $name {
+                    data: temp
+                }
+            }
+        }
+
+        impl numeric_vector::trait_definitions::VectorTraits for $name {
             /// Generate a vector of ones.
             fn ones() -> Self {
                 $name {
@@ -51,16 +67,13 @@ macro_rules! declare_type_real{
                     data: [0;$N]
                 }
             }
-            /// Generate a linear ramp of values with increment step.
-            fn ramp( start:i32, step:i32  ) -> Self {
-                let mut temp: [i32; $N] = [start; $N];
-                for n in 0..$N {
-                    temp[n] = start+(n as i32)*step;
-                }
-                $name {
-                    data: temp
-                }
+            /// Returns the length of the vector.
+            fn len( &self ) -> usize {
+                return $N;
             }
+        }
+
+        impl numeric_vector::trait_definitions::VectorIndexing for $name {
             /// Returns indexed item of the vector.
             /// Index Clips at N-1.
             fn at( &self, index:usize) -> i32 {
@@ -77,10 +90,6 @@ macro_rules! declare_type_real{
             /// Returns the last item of the vector.
             fn back( &self ) -> i32 {
                 return self.data[$N-1];
-            }
-            /// Returns the length of the vector.
-            fn len( &self ) -> usize {
-                return $N;
             }
         }   
 
@@ -587,7 +596,7 @@ mod tests {
         use numeric_vector::trait_definitions::*;
         declare_type_real!( Vec4, 4);
         let mut x = Vec4::ramp(0,22);
-        let mut y = Vec4::new(10);
+        let  y = Vec4::new(10);
         x = x*y;
         assert_eq!{x.data, [0,220,440,660] };
     }
@@ -597,7 +606,7 @@ mod tests {
         use numeric_vector::trait_definitions::*;
         declare_type_real!( Vec4, 4);
         let mut x = Vec4::ramp(0,22);
-        let mut y = Vec4::new(10);
+        let y = Vec4::new(10);
         x = x/y;
         assert_eq!{x.data, [0,2,4,6] };
     }
@@ -607,7 +616,7 @@ mod tests {
         use numeric_vector::trait_definitions::*;
         declare_type_real!( Vec4, 4);
         let mut x = Vec4::ramp(0,22);
-        let mut y = Vec4::new(1000);
+        let y = Vec4::new(1000);
         x = y/x;
         assert_eq!{x.data, [i32::MAX,45,22,15] };
     }
@@ -626,7 +635,7 @@ mod tests {
         use numeric_vector::trait_definitions::*;
         declare_type_real!( Vec4, 4);
         let mut x = Vec4::ramp(0,22);
-        let mut y = Vec4::new(10);
+        let y = Vec4::new(10);
         x = x+y;
         assert_eq!{x.data, [10,32,54,76] };
     }

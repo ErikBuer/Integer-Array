@@ -1,8 +1,29 @@
-pub trait VectorTraits {
+pub trait New {
     fn new( value:i32 ) -> Self;
+}
+
+pub trait NewComplex {
+    fn new( real:i32, imag:i32 ) -> Self;
+}
+
+pub trait Ramp {
+    fn ramp( start:i32, step:i32  )  -> Self;
+}
+
+pub trait VectorTraits {
     fn ones()   -> Self;
     fn zeros()  -> Self;
-    fn ramp( start:i32, step:i32  )  -> Self;
+    fn len( &self )     -> usize;
+}
+
+pub trait VectorIndexing {
+    fn at( &self, index:usize) -> i32;
+    fn front( &self )   -> i32;
+    fn back( &self )    -> i32;
+}
+
+
+pub trait VectorIndexingComplex {
     fn at( &self, index:usize) -> i32;
     fn front( &self )   -> i32;
     fn back( &self )    -> i32;
