@@ -8,7 +8,6 @@ mod std_support {
         write,
     };
 }
-
 /// Create vector type of size N and type T.
 #[macro_export]
 macro_rules! declare_type_real{

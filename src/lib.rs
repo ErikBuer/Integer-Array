@@ -17,5 +17,5 @@ extern crate core as std;
 pub mod utility_functions;
 pub mod constants;
 pub mod trait_definitions;
-
+pub mod functions;
 pub mod vector;
