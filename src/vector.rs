@@ -1,6 +1,3 @@
-//use super::*;
-//use super::trait_definitions::*;
-
 #[cfg(feature = "std")]
 mod std_support {
     use crate::{
@@ -85,7 +82,7 @@ macro_rules! declare_type_real{
             fn len( &self ) -> usize {
                 return $N;
             }
-        }
+        }   
 
         impl numeric_vector::trait_definitions::ArithmeticTraits for $name {
             /// Adds a scalar bias value to the entire vector.
@@ -98,12 +95,22 @@ macro_rules! declare_type_real{
                     data: temp
                 }
             }
-            /// Scales the vector by a scalar value.
+            /// Scales the vector by a scalar integer value.
             fn scale( &self, value:i32 ) -> Self {
                 let mut temp = self.data.clone();
                 for index in 0..$N {
                     temp[index] = self.data[index]*value;
                 } 
+                Self {
+                    data: temp
+                }
+            }
+            /// Scales the vector by a scalar float value.
+            fn scale_float( &self, value:f32 ) -> Self {
+                let mut temp = self.data.clone();
+                for index in 0..$N {
+                    temp[index] = (self.data[index]as f32*value) as i32;
+                }
                 Self {
                     data: temp
                 }
@@ -129,6 +136,34 @@ macro_rules! declare_type_real{
                 Self {
                     data: temp
                 }
+            }
+        }
+
+        impl core::ops::Mul<i32> for $name {
+            type Output = Self;
+            fn mul( self, rhs:i32 ) -> $name {
+                return self.scale( rhs ); 
+            }
+        }
+
+        impl core::ops::Mul<f32> for $name {
+            type Output = Self;
+            fn mul( self, rhs:f32 ) -> $name {
+                return self.scale_float( rhs ); 
+            }
+        }
+
+        impl core::ops::Add<i32> for $name {
+            type Output = Self;
+            fn add( self, rhs:i32 ) -> $name {
+                return self.bias( rhs ); 
+            }
+        }
+        
+        impl core::ops::Add<i16> for $name {
+            type Output = Self;
+            fn add( self, rhs:i16 ) -> $name {
+                return self.bias( rhs as i32 ); 
             }
         }
         
@@ -287,18 +322,26 @@ macro_rules! declare_type_real{
             }
         }
 
-        ///
-        impl std::ops::Index<usize> for $name {
+        impl core::ops::Index<usize> for $name {
             type Output = i32;
-            
+            /// Trait for returning an indexed value of the vector.
             #[inline]
             fn index(&self, index: usize) -> &i32 {
                 return &self.data[index];
             }
         }
         
-        ///
-        impl std::ops::IndexMut<usize> for $name {
+        impl core::ops::IndexMut<usize> for $name {
+            /// Trait for returning a mutable reference to indexed item.
+            /// ´´´
+            /// use crate as numeric_vector;
+            /// use numeric_vector::trait_definitions::*;
+            /// declare_type_real!( Vec8, 8);
+            /// let mut x = Vec8::ramp(0,22);
+            /// x[2] = 56;
+            /// assert_eq!{x[2], 56i32 };
+            /// ´´´
+            #[inline]
             fn index_mut(&mut self, index: usize) -> &mut i32 {
                 return &mut self.data[index];
             }
@@ -464,6 +507,24 @@ mod tests {
         let mut x = Vec8::ramp(0,22);
         x[2] = 56;
         assert_eq!{x[2], 56i32 };
+    }
+    #[test]
+    fn test_mul() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec8, 8);
+        let mut x = Vec8::ramp(0,22);
+        x = x*3;
+        assert_eq!{x[1], 66i32 };
+    }
+    #[test]
+    fn test_add() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec4, 8);
+        let mut x = Vec4::ramp(0,22);
+        x = x+3;
+        assert_eq!{x[1], 25i32 };
     }
 
     //TODO implement macro.

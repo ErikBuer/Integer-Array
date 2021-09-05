@@ -12,7 +12,8 @@ pub trait VectorTraits {
 pub trait ArithmeticTraits {
     fn bias( &self, value:i32 )  -> Self;
     fn scale( &self, value:i32 ) -> Self;
-    fn sqrt( &self )             -> Self;
+    fn scale_float( &self, value:f32 ) -> Self;
+    fn sqrt( &self )                   -> Self;
 }
 
 pub trait TrigonometryTraits {
