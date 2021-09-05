@@ -8,7 +8,8 @@ mod std_support {
         write,
     };
 }
-/// Create vector type of size N and type T.
+
+/// Create vector type of size N.
 #[macro_export]
 macro_rules! declare_type_real{
     ( $name:ident, $N:expr) => {
@@ -141,7 +142,7 @@ macro_rules! declare_type_real{
         impl core::ops::Mul<i32> for $name {
             type Output = Self;
             fn mul( self, rhs:i32 ) -> $name {
-                return self.scale( rhs ); 
+                return self.scale( rhs );
             }
         }
 
@@ -163,6 +164,26 @@ macro_rules! declare_type_real{
             type Output = Self;
             fn add( self, rhs:i16 ) -> $name {
                 return self.bias( rhs as i32 ); 
+            }
+        }
+
+        impl core::ops::Add<i8> for $name {
+            type Output = Self;
+            fn add( self, rhs:i8 ) -> $name {
+                return self.bias( rhs as i32 ); 
+            }
+        }
+
+        impl core::ops::Neg for $name {
+            type Output = Self;
+            fn neg( self ) -> $name {
+                let mut temp = self.data.clone();
+                for index in 0..$N {
+                    temp[index] = -self.data[index];
+                } 
+                Self {
+                    data: temp
+                }
             }
         }
         
@@ -524,6 +545,15 @@ mod tests {
         let mut x = Vec4::ramp(0,22);
         x = x+3;
         assert_eq!{x[1], 25i32 };
+    }
+    #[test]
+    fn test_neg() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec4, 8);
+        let mut x = Vec4::ramp(0,22);
+        x = -x;
+        assert_eq!{x[1], -22i32 };
     }
 
     //TODO implement macro.

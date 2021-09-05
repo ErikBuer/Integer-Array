@@ -1,6 +1,8 @@
 use crate::trait_definitions as td;
 use core::ops as ops;
 
+/*
+
 /// Element-wise addition of two vectors of equal or unequal size.
 /// The returned vector is of the same size as the first argument.
 pub fn add< V1: td::VectorTraits + ops::Index<usize> + ops::IndexMut<usize>, 
@@ -35,3 +37,4 @@ mod tests {
         assert_eq!{z.data, [11,11,11,8,8,8] };
     }
 }
+*/
