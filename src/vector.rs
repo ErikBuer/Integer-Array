@@ -139,6 +139,19 @@ macro_rules! declare_type_real{
             }
         }
 
+        impl core::ops::Mul<$name> for $name {
+            type Output = Self;
+            fn mul( self, other:$name ) -> $name {
+                let mut temp = self.data.clone();
+                for index in 0..$N {
+                    temp[index] = self[index]*other[index];
+                } 
+                Self {
+                    data: temp
+                }
+            }
+        }
+
         impl core::ops::Mul<i32> for $name {
             type Output = Self;
             fn mul( self, rhs:i32 ) -> $name {
@@ -150,6 +163,37 @@ macro_rules! declare_type_real{
             type Output = Self;
             fn mul( self, rhs:f32 ) -> $name {
                 return self.scale_float( rhs ); 
+            }
+        }
+
+        impl core::ops::Div<$name> for $name {
+            type Output = Self;
+            fn div( self, other:$name ) -> $name {
+                let mut r_vec = self.clone();
+                for index in 0..$N {
+                    if(other[index] == 0)
+                    {
+                        r_vec[index] = i32::MAX;
+                    }
+                    else
+                    {
+                        r_vec[index] = self[index]/other[index];
+                    }
+                } 
+                return r_vec;
+            }
+        }
+
+        impl core::ops::Add<$name> for $name {
+            type Output = Self;
+            fn add( self, other:$name ) -> $name {
+                let mut temp = self.data.clone();
+                for index in 0..$N {
+                    temp[index] = self[index]+other[index];
+                } 
+                Self {
+                    data: temp
+                }
             }
         }
 
@@ -529,7 +573,7 @@ mod tests {
         assert_eq!{x[2], 56i32 };
     }
     #[test]
-    fn test_mul() {
+    fn test_mul_scalar() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
         declare_type_real!( Vec8, 8);
@@ -538,13 +582,53 @@ mod tests {
         assert_eq!{x[1], 66i32 };
     }
     #[test]
-    fn test_add() {
+    fn test_mul_vec() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec4, 4);
+        let mut x = Vec4::ramp(0,22);
+        let mut y = Vec4::new(10);
+        x = x*y;
+        assert_eq!{x.data, [0,220,440,660] };
+    }
+    #[test]
+    fn test_div_vec() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec4, 4);
+        let mut x = Vec4::ramp(0,22);
+        let mut y = Vec4::new(10);
+        x = x/y;
+        assert_eq!{x.data, [0,2,4,6] };
+    }
+    #[test]
+    fn test_div_vec_div_by_zero() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec4, 4);
+        let mut x = Vec4::ramp(0,22);
+        let mut y = Vec4::new(1000);
+        x = y/x;
+        assert_eq!{x.data, [i32::MAX,45,22,15] };
+    }
+    #[test]
+    fn test_add_scalar() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
         declare_type_real!( Vec4, 8);
         let mut x = Vec4::ramp(0,22);
         x = x+3;
         assert_eq!{x[1], 25i32 };
+    }
+    #[test]
+    fn test_add_vec() {
+        use crate as numeric_vector;
+        use numeric_vector::trait_definitions::*;
+        declare_type_real!( Vec4, 4);
+        let mut x = Vec4::ramp(0,22);
+        let mut y = Vec4::new(10);
+        x = x+y;
+        assert_eq!{x.data, [10,32,54,76] };
     }
     #[test]
     fn test_neg() {

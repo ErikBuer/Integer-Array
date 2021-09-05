@@ -1,12 +1,13 @@
 use crate::trait_definitions as td;
 use core::ops as ops;
 
-/*
 
+/*
 /// Element-wise addition of two vectors of equal or unequal size.
 /// The returned vector is of the same size as the first argument.
-pub fn add< V1: td::VectorTraits + ops::Index<usize> + ops::IndexMut<usize>, 
-            V2: td::VectorTraits + ops::Index<usize>, >( vec1:V1, vec2:V2 ) -> V1
+pub fn add< V1, V2 >( vec1:V1, vec2:V2 ) -> V1
+            where V1: td::VectorTraits + ops::Index<usize> + ops::IndexMut<usize>, 
+                  V2: td::VectorTraits + ops::Index<usize>
 {
     let mut min_len = vec1.len();
     // Determine length of output
