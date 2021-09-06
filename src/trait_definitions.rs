@@ -57,10 +57,3 @@ pub trait StatisticTraits {
 pub trait StdUtilities {
     fn todo( &self ) -> Self;
 }
-
-/*
-// Complex type traits
-pub trait ComplexTraits {
-    fn at( &self, index:usize) -> i32;
-}
-*/
