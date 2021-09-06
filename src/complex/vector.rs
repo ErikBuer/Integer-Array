@@ -8,35 +8,20 @@ macro_rules! declare_vector_complex{
         #[derive(Clone, Debug, PartialEq)]
         /// Real numeric vector of type int32.
         pub struct $name{
-            pub re: [i32; $N],
-            pub im: [i32; $N],
+            pub data: [numeric_vector::complex::Complex; $N],
         }
 
         impl numeric_vector::trait_definitions::NewComplex for $name {
             /// Generate a vector of a value.
             fn new( real:i32, imag:i32 ) -> Self {
+                let item =  numeric_vector::complex::Complex::new(real, imag);
                 $name {
-                    re: [real;$N],
-                    im: [imag;$N],
+                    data: [item;$N],
                 }
             }
         }
 
-        impl numeric_vector::trait_definitions::VectorTraits for $name {
-            /// Generate a vector of ones.
-            fn ones() -> Self {
-                $name {
-                    re: [1;$N],
-                    im: [0;$N],
-                }
-            }
-            /// Generate a vector of zeroes.
-            fn zeros() -> Self {
-                $name {
-                    re: [0;$N],
-                    im: [0;$N],
-                }
-            }
+        impl numeric_vector::trait_definitions::Len for $name {
             /// Returns the length of the vector.
             fn len( &self ) -> usize {
                 return $N;
@@ -46,32 +31,20 @@ macro_rules! declare_vector_complex{
         impl numeric_vector::trait_definitions::VectorIndexingComplex for $name {
             /// Returns indexed item of the vector.
             /// Index Clips at N-1.
-            use numeric_vector::complex::Complex as Complex;
-            fn at( &self, index:usize) -> Complex {
+            fn at( &self, index:usize) -> numeric_vector::complex::Complex {
                 if( $N <= index)
                 {
-                    return Complex{ re: self.re[$N-1], im: self.im[$N-1] };
+                    return self.data[$N - 1];
                 }
-                return Complex{ re: self.re[index], im: self.im[index] };
-
+                return self.data[index];
             }
             /// Returns the first item of the vector.
-            fn front( &self ) -> Complex {
-                {
-                    Complex{
-                        re: self.re[0],
-                        im: self.im[0],
-                    };
-                }
+            fn front( &self ) -> numeric_vector::complex::Complex {
+                return self.data[0];
             }
             /// Returns the last item of the vector.
-            fn back( &self ) -> Complex {
-                {
-                    Complex{
-                        re: self.re[$N-1],
-                        im: self.im[$N-1],
-                    }
-                }
+            fn back( &self ) -> numeric_vector::complex::Complex {
+                return self.data[$N-1];
             }
         }
 
@@ -80,9 +53,7 @@ macro_rules! declare_vector_complex{
             /// Trait for returning an indexed value of the vector.
             #[inline]
             fn index(&self, index: usize) -> &numeric_vector::complex::Complex {
-                {
-                    Complex
-                }
+                return &self.data[index];
             }
         }
         

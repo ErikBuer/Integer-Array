@@ -54,7 +54,7 @@ macro_rules! declare_vector_real{
             }
         }
 
-        impl numeric_vector::trait_definitions::VectorTraits for $name {
+        impl numeric_vector::trait_definitions::Initializers for $name {
             /// Generate a vector of ones.
             fn ones() -> Self {
                 $name {
@@ -67,6 +67,9 @@ macro_rules! declare_vector_real{
                     data: [0;$N]
                 }
             }
+        }
+
+        impl numeric_vector::trait_definitions::Len for $name {
             /// Returns the length of the vector.
             fn len( &self ) -> usize {
                 return $N;
