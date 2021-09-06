@@ -23,7 +23,7 @@ let y     = Vec11::new(2);
 x = x/y;
 assert_eq!(x.front(), 33);
 ```
-### Vector-Scalar operations
+### Vector-scalar operations
 There is also some support for vector-scalar operations.
 ```rust
 declare_vector_real!( Vec4, 8);
