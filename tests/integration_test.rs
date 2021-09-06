@@ -5,8 +5,10 @@ use numeric_vector::trait_definitions::*;
 #[test]
 fn create_type_real() {
     numeric_vector::declare_vector_real!( Vec11, 11);
-    let test_vec = Vec11::new(77);
-    assert_eq!(test_vec.front(), 77);
+    let mut x = Vec11::new(66);
+    let y     = Vec11::new(2);
+    x = x/y;
+    assert_eq!(x.front(), 33);
 }
 
 #[test]
