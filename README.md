@@ -5,6 +5,8 @@ This is an experimental library for no-std DSP.
 The library only supports fixed-sized vectors of i32.
 This is because the intention of the code is to experiment with ways of expressing DSP in Rust.
 
+Note that this project is not hosted on crates.io.
+
 ## Use example
 Vectors types of fixed size is defined with traits through a macro as follows:
 ```rust
@@ -22,7 +24,7 @@ x = x/y;
 assert_eq!(x.front(), 33);
 ```
 ### Vector-Scalar operationz
-Math can then be performed on the vector types.
+There is also some support for vector-scalar operations.
 ```rust
 declare_vector_real!( Vec4, 8);
 let mut x = Vec4::ramp(0,22);
