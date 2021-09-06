@@ -1,4 +1,3 @@
-/*
 use numeric_vector;
 use numeric_vector::trait_definitions::*;
 
@@ -16,4 +15,3 @@ fn create_type_complex() {
     let test_vec = CVec11::new(77);
     //assert_eq!(test_vec.front(), 77);
 }
-*/
