@@ -1,4 +1,3 @@
-//#[macro_export]
 pub mod vector;
 
 /// Complex scalar.
@@ -17,3 +16,9 @@ impl crate::trait_definitions::NewComplex for Complex {
         }
     }
 }
+
+/* // TODO
+impl crate::trait_definitions::ComplexExponential for Complex {
+
+}
+*/

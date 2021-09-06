@@ -544,7 +544,7 @@ mod tests {
         assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
     }
     #[test]
-    fn test_sin() {
+    fn test_sin() {//TODO
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
         declare_vector_real!( Vec8, 8);
