@@ -7,6 +7,8 @@ This is because the intention of the code is to experiment with ways of expressi
 
 Note that this project is not hosted on crates.io.
 
+See the main workings in /src/real/vector.rs.
+
 ## Use example
 Vectors types of fixed size is defined with traits through a macro as follows:
 ```rust
