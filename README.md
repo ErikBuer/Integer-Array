@@ -7,25 +7,25 @@ This is because the intention of the code is to experiment with ways of expressi
 
 ## Use example
 Vectors types of fixed size is defined with traits through a macro as follows:
-´´´rust
+```rust
 use numeric_vector;
 use numeric_vector::trait_definitions::*;
 
 numeric_vector::declare_vector_real!( Vec11, 11);
-´´´
+```
 ### Element-wise arithmetic
 Math can then be performed on the vector types.
-´´´rust
+```rust
 let mut x = Vec11::new(66);
 let y     = Vec11::new(2);
 x = x/y;
 assert_eq!(x.front(), 33);
-´´´
+```
 ### Vector-Scalar operationz
 Math can then be performed on the vector types.
-´´´rust
+```rust
 declare_vector_real!( Vec4, 8);
 let mut x = Vec4::ramp(0,22);
 x = x+3;
 assert_eq!{x[1], 25i32 };
-´´´
+```

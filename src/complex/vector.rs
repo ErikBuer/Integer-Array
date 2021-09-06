@@ -59,14 +59,14 @@ macro_rules! declare_vector_complex{
         
         impl core::ops::IndexMut<usize> for $name {
             /// Trait for returning a mutable reference to indexed item.
-            /// ´´´
+            /// ```
             /// use crate as numeric_vector;
             /// use numeric_vector::trait_definitions::*;
             /// declare_vector_real!( Vec8, 8);
             /// let mut x = Vec8::ramp(0,22);
             /// x[2] = 56;
             /// assert_eq!{x[2], 56i32 };
-            /// ´´´
+            /// ```
             #[inline]
             fn index_mut(&mut self, index: usize) -> &mut numeric_vector::complex::Complex {
                 return &mut self.data[index];
