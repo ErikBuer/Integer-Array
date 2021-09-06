@@ -34,7 +34,7 @@ macro_rules! declare_vector_real{
             fn ramp( start:i32, step:i32  ) -> Self {
                 let mut temp: [i32; $N] = [start; $N];
                 for n in 0..$N {
-                    temp[n] = start+(n as i32)*step;
+                    temp[n] = start+((n as i32)*step);
                 }
                 $name {
                     data: temp
@@ -512,7 +512,7 @@ mod tests {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
         declare_vector_real!( Vec32, 32);
-        let x = Vec32::ramp(100,20);
+        let x = Vec32::ramp(0,1);
         assert_eq!{x.argmax(), 31};
     }
     #[test]
@@ -586,10 +586,10 @@ mod tests {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
         declare_vector_real!( Vec4, 4);
-        let mut x = Vec4::ramp(0,22);
+        let mut x = Vec4::ramp(10,22);
         let  y = Vec4::new(10);
         x = x*y;
-        assert_eq!{x.data, [0,220,440,660] };
+        assert_eq!{x.data, [100,320,540,760] };
     }
     #[test]
     fn test_div_vec() {
