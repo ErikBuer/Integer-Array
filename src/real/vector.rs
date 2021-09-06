@@ -11,7 +11,7 @@ mod std_support {
 
 /// Create vector type of size N.
 #[macro_export]
-macro_rules! declare_type_real{
+macro_rules! declare_vector_real{
     ( $name:ident, $N:expr) => {
 
         #[derive(Clone, Debug, PartialEq)]
@@ -409,7 +409,7 @@ macro_rules! declare_type_real{
             /// ´´´
             /// use crate as numeric_vector;
             /// use numeric_vector::trait_definitions::*;
-            /// declare_type_real!( Vec8, 8);
+            /// declare_vector_real!( Vec8, 8);
             /// let mut x = Vec8::ramp(0,22);
             /// x[2] = 56;
             /// assert_eq!{x[2], 56i32 };
@@ -438,7 +438,7 @@ mod tests {
     fn test_scalar_len() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec2, 2);
+        declare_vector_real!( Vec2, 2);
         let x = Vec2::zeros();
         assert_eq!{x.len(), 2};
     }
@@ -446,7 +446,7 @@ mod tests {
     fn test_scalar_at() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec2, 2);
+        declare_vector_real!( Vec2, 2);
         let x = Vec2::ones();
         assert_eq!{x.at(0), 1};
     }
@@ -454,7 +454,7 @@ mod tests {
     fn test_scalar_new() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec2, 2);
+        declare_vector_real!( Vec2, 2);
         let x = Vec2::new(200);
         assert_eq!{x.at(0), 200};
     }
@@ -462,15 +462,15 @@ mod tests {
     fn test_scalar_front() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
+        declare_vector_real!( Vec2, 2);
         let x = Vec2::new(200);
-        declare_type_real!( Vec2, 2);
         assert_eq!{x.front(), 200};
     }
     #[test]
     fn test_scalar_back() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec32, 32);
+        declare_vector_real!( Vec32, 32);
         let x = Vec32::ramp(100,20);
         assert_eq!{x.back(), 720};
     }
@@ -478,7 +478,7 @@ mod tests {
     fn test_scalar_bias() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec2, 2);
+        declare_vector_real!( Vec2, 2);
         let x = Vec2::new(200);
         let y = x.bias(5);
         assert_eq!{y.front(), 205};
@@ -487,7 +487,7 @@ mod tests {
     fn test_zeros() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec2, 2);
+        declare_vector_real!( Vec2, 2);
         let x = Vec2::zeros();
         assert_eq!{x.at(1), 0};
     }
@@ -495,7 +495,7 @@ mod tests {
     fn test_scalar_scale() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec2, 2);
+        declare_vector_real!( Vec2, 2);
         let x = Vec2::new(100);
         let y = x.scale(5);
         assert_eq!{y.front(), 500};
@@ -504,7 +504,7 @@ mod tests {
     fn test_max() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec32, 32);
+        declare_vector_real!( Vec32, 32);
         let x = Vec32::ramp(100,20);
         assert_eq!{x.max(), 720};
     }
@@ -512,7 +512,7 @@ mod tests {
     fn test_min() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec32, 32);
+        declare_vector_real!( Vec32, 32);
         let x = Vec32::ramp(100,20);
         assert_eq!{x.min(), 100};
     }
@@ -520,7 +520,7 @@ mod tests {
     fn test_argmax() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec32, 32);
+        declare_vector_real!( Vec32, 32);
         let x = Vec32::ramp(100,20);
         assert_eq!{x.argmax(), 31};
     }
@@ -528,7 +528,7 @@ mod tests {
     fn test_argmin() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec32, 32);
+        declare_vector_real!( Vec32, 32);
         let x = Vec32::ramp(100,20);
         assert_eq!{x.argmin(), 0};
     }
@@ -536,7 +536,7 @@ mod tests {
     fn test_sqrt() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec4, 4);
+        declare_vector_real!( Vec4, 4);
         let x = Vec4::ramp(10000,1000);
         assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
     }
@@ -544,7 +544,7 @@ mod tests {
     fn test_sin() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec8, 8);
+        declare_vector_real!( Vec8, 8);
         let x = Vec8::ramp(0,20);
         assert_eq!{x.sin( 180, 100).data, [1,2,3,4,5,6,7,8] };
     }
@@ -552,7 +552,7 @@ mod tests {
     fn test_tan() {//TODO
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec8, 8);
+        declare_vector_real!( Vec8, 8);
         let x = Vec8::ramp(0,20);
         assert_eq!{x.tan( 180, 100).data, [1,2,3,4,5,6,7,8] };
     }
@@ -560,7 +560,7 @@ mod tests {
     fn test_wrap_phase() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec8, 8);
+        declare_vector_real!( Vec8, 8);
         let x = Vec8::ramp(0,22);
         assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
     }
@@ -568,7 +568,7 @@ mod tests {
     fn test_index() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec8, 8);
+        declare_vector_real!( Vec8, 8);
         let x = Vec8::ramp(0,22);
         assert_eq!{x[2], 44i32 };
     }
@@ -576,7 +576,7 @@ mod tests {
     fn test_mut_index() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec8, 8);
+        declare_vector_real!( Vec8, 8);
         let mut x = Vec8::ramp(0,22);
         x[2] = 56;
         assert_eq!{x[2], 56i32 };
@@ -585,7 +585,7 @@ mod tests {
     fn test_mul_scalar() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec8, 8);
+        declare_vector_real!( Vec8, 8);
         let mut x = Vec8::ramp(0,22);
         x = x*3;
         assert_eq!{x[1], 66i32 };
@@ -594,7 +594,7 @@ mod tests {
     fn test_mul_vec() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec4, 4);
+        declare_vector_real!( Vec4, 4);
         let mut x = Vec4::ramp(0,22);
         let  y = Vec4::new(10);
         x = x*y;
@@ -604,7 +604,7 @@ mod tests {
     fn test_div_vec() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec4, 4);
+        declare_vector_real!( Vec4, 4);
         let mut x = Vec4::ramp(0,22);
         let y = Vec4::new(10);
         x = x/y;
@@ -614,7 +614,7 @@ mod tests {
     fn test_div_vec_div_by_zero() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec4, 4);
+        declare_vector_real!( Vec4, 4);
         let mut x = Vec4::ramp(0,22);
         let y = Vec4::new(1000);
         x = y/x;
@@ -624,7 +624,7 @@ mod tests {
     fn test_add_scalar() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec4, 8);
+        declare_vector_real!( Vec4, 8);
         let mut x = Vec4::ramp(0,22);
         x = x+3;
         assert_eq!{x[1], 25i32 };
@@ -633,7 +633,7 @@ mod tests {
     fn test_add_vec() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec4, 4);
+        declare_vector_real!( Vec4, 4);
         let mut x = Vec4::ramp(0,22);
         let y = Vec4::new(10);
         x = x+y;
@@ -643,7 +643,7 @@ mod tests {
     fn test_neg() {
         use crate as numeric_vector;
         use numeric_vector::trait_definitions::*;
-        declare_type_real!( Vec4, 8);
+        declare_vector_real!( Vec4, 4);
         let mut x = Vec4::ramp(0,22);
         x = -x;
         assert_eq!{x[1], -22i32 };

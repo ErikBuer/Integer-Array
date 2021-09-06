@@ -29,8 +29,8 @@ mod tests {
     fn func_add() {
         use crate as nv;
         use nv::trait_definitions::*;
-        nv::declare_type_real!( Vec6, 6);
-        nv::declare_type_real!( Vec4, 4);
+        nv::declare_type!( Vec6, 6);
+        nv::declare_type!( Vec4, 4);
         let x = Vec6::new(5);
         let y = Vec4::new(3);
         let z = nv::functions::add(x, y);

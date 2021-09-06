@@ -12,10 +12,12 @@ extern crate std;
 #[cfg(all(not(feature = "std"), not(test)))]
 extern crate core as std;
 
-// Include the file vector.rs
-
+// Modules (files in the top hierarchy)
 pub mod utility_functions;
 pub mod constants;
 pub mod trait_definitions;
 pub mod functions;
-pub mod vector;
+//#[macro_export]
+pub mod real;
+//#[macro_export]
+pub mod complex;

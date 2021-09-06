@@ -7,13 +7,13 @@ pub trait NewComplex {
 }
 
 pub trait Ramp {
-    fn ramp( start:i32, step:i32  )  -> Self;
+    fn ramp( start:i32, step:i32 ) -> Self;
 }
 
 pub trait VectorTraits {
-    fn ones()   -> Self;
-    fn zeros()  -> Self;
-    fn len( &self )     -> usize;
+    fn ones()       -> Self;
+    fn zeros()      -> Self;
+    fn len( &self ) -> usize;
 }
 
 pub trait VectorIndexing {
@@ -22,17 +22,15 @@ pub trait VectorIndexing {
     fn back( &self )    -> i32;
 }
 
-
 pub trait VectorIndexingComplex {
     fn at( &self, index:usize) -> i32;
     fn front( &self )   -> i32;
     fn back( &self )    -> i32;
-    fn len( &self )     -> usize;
 }
 
 pub trait ArithmeticTraits {
-    fn bias( &self, value:i32 )  -> Self;
-    fn scale( &self, value:i32 ) -> Self;
+    fn bias( &self, value:i32 )        -> Self;
+    fn scale( &self, value:i32 )       -> Self;
     fn scale_float( &self, value:f32 ) -> Self;
     fn sqrt( &self )                   -> Self;
 }
@@ -56,3 +54,10 @@ pub trait StatisticTraits {
 pub trait StdUtilities {
     fn todo( &self ) -> Self;
 }
+
+/*
+// Complex type traits
+pub trait ComplexTraits {
+    fn at( &self, index:usize) -> i32;
+}
+*/
