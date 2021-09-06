@@ -1,5 +1,5 @@
 # Numeric-Vector
-No-STD numeric (array) vector for Rust.
+No-STD numeric fixed-size vector for Rust.
 
 This is an experimental library for no-std DSP.
 The library only supports fixed-sized vectors of i32.
@@ -30,4 +30,10 @@ declare_vector_real!( Vec4, 8);
 let mut x = Vec4::ramp(0,22);
 x = x+3;
 assert_eq!{x[1], 25i32 };
+```
+### Esimator utilities
+```rust
+declare_vector_real!( Vec32, 32);
+let x = Vec32::ramp(100,20);
+assert_eq!{x.argmax(), 31};
 ```
