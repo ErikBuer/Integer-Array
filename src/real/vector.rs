@@ -20,18 +20,6 @@ macro_rules! declare_vector_real{
             pub data: [i32; $N],
         }
 
-        //TODO implement macro for creating vector.
-        /*
-        macro_rules! $name{
-            ( $( $x:expr ),+ ) => {
-                let temp:[i32;$N] = [ $($x),+ ];
-                    $name {
-                        data: temp,
-                    }
-            };
-        }
-        */
-
         impl numeric_vector::trait_definitions::New for $name {
             /// Generate a vector of a value.
             fn new( value:i32 ) -> Self {
