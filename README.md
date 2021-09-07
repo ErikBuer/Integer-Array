@@ -17,8 +17,13 @@ use numeric_array::trait_definitions::*;
 
 numeric_array::declare_array_real!( Vec11, 11);
 ```
+The name of the type for the above array is `Vec11`{:.rust}. The size of the error is 11 elements.
+
+### Indexing
+The elements of the array can be indexed using square brackets as normal arrays, as well as utilities such as 
+
 ### Element-wise arithmetic
-Math can then be performed on the array types.
+Math can then be performed on the array types, like one would expect from a modern language.
 ```rust
 let mut x = Vec11::new(66);
 let y     = Vec11::new(2);
@@ -34,6 +39,7 @@ x = x+3;
 assert_eq!{x[1], 25i32 };
 ```
 ### Esimator utilities
+The arrays are equipped with traits for estimators, such as var, mean, max min and argmax.
 ```rust
 declare_array_real!( Vec32, 32);
 let x = Vec32::ramp(100,20);
@@ -49,7 +55,7 @@ sin(x) = x-( x^3/6.0 )+( x^5/120.0 )-( x^7/5040.0 )+( x^9/362880.0 )
 ```
 
 Below is the taylor approwimation compared to the native sine function, generated in Julia:
-The error of the Taylor aproximation is magnified by 100 and showed as well. 
+The error of the Taylor aproximation is magnified by 100 and showed as well. In the figure it is apparent that there is greater error in the Taylor approximation further from origo.
 ![Image](numerical_verificatons/figures/time_domain_sinx.png?raw=true)
 
 The error allthough small, introduces strong harmonic components, which can be seen below. These limits the practicality of the resulting signal.
