@@ -11,8 +11,12 @@ keywords = ["dsp", "radio", "audio","no_std"]
 exclude = ["numerical_verificatons/"]
 
 [lib]
-name = "numeric_array"
+name  = "numeric_array"
+path  = "src/lib.rs"
 bench = false
-test = true
+doc   = true
+test  = true
+edition    = "2018"
+crate-type = ["lib"]
 
 [dependencies]
