@@ -73,12 +73,13 @@ The resulting spectrum is shown below. Note that these plots are generated using
 ![Image](numerical_verificatons/figures/taylor_sine_comparison.png?raw=true)
 
 This is a vast improvement showing close to no reduction in Singal to Noise and Distortion (SiNaD) compared to the native sine function in the Julia language.
-The comparison can be found in numerical_verificatons/numerical_verificaton.jl.
 
-The sine(x) function is used as follows:
+The sin(x) function is used as follows:
 ```rust
 declare_array_real!( Vec8, 8);
 let mut x = Vec8::ramp(0,60);
 x = x.wrap_phase( 180 );
 assert_eq!{x.sin( 180, 100 ).data, [0, 86, 86, 0, -86, -86, 0, 86] };
 ```
+
+The numerical comparison can be found in numerical_verificatons/numerical_verificaton.jl.
