@@ -25,8 +25,6 @@ pub fn abs( sample:i32 ) -> i32 {
 
 #[cfg(test)]
 mod tests {
-    use super::*;
-
     #[test]
     fn powi() {
         assert_eq!{super::powi(3,2), 9};
