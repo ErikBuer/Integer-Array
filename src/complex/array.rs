@@ -5,7 +5,7 @@
 macro_rules! declare_array_complex{
     ( $name:ident, $N:expr) => {
 
-        #[derive(Clone, Debug, PartialEq)]
+        #[derive(Copy, Clone, Default, Debug, PartialEq)]
         /// Real numeric array of type int32.
         pub struct $name{
             pub data: [numeric_array::complex::Complex; $N],

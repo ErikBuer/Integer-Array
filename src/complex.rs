@@ -1,7 +1,7 @@
 pub mod array;
 
 /// Complex scalar.
-#[derive(Clone, Copy, Debug, PartialEq)]
+#[derive(Copy, Clone, Default, Debug, PartialEq)]
 pub struct Complex{
     pub re: i32,
     pub im: i32,
