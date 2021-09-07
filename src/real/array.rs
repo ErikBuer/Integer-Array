@@ -765,15 +765,6 @@ mod tests {
         x = -x;
         assert_eq!{x[1], -22i32 };
     }
-
-    //TODO implement macro.
-    /*
-    #[test]
-    fn macro_generation() {
-        let x = Vec2![1,2];
-        assert_eq!{x, Vec2::ramp(1,1) };
-    }
-    */
 }
 
 
