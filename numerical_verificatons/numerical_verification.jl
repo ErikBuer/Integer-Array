@@ -1,7 +1,6 @@
 using Plots
 using FFTW
 
-
 """
 Calculate sine(x) with a five-term Taylor series, using only the quarter-waves closest to the origin for increased accuracy.
 """

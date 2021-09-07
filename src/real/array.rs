@@ -115,7 +115,7 @@ macro_rules! declare_array_real{
                     data: temp
                 }
             }
-            /// Return the item-wise square root using the 
+            /// Return the elemtent-wise square root using the 
             /// Babylonian square root implementation.
             fn sqrt( &self ) -> Self {
                 let mut temp = self.data.clone();
@@ -370,7 +370,7 @@ macro_rules! declare_array_real{
         }
 
         impl numeric_array::trait_definitions::TrigonometryTraits for $name {
-            /// Take the item-wise sine using a Taylor approximation of sine x.
+            /// Take the elemtent-wise sine using a Taylor approximation of sine x.
             /// Self must be wrapped to the -pi=<x<=pi range.
             /// * 'pi' The integer level which represents pi in the input data.
             /// * 'norm' The integer level which represents 1 in the output data.
@@ -384,26 +384,31 @@ macro_rules! declare_array_real{
                 let mut temp = self.data.clone();
 
                 for idx in 0..$N {
-                    let mut x:f32 = (temp[idx] as f32)*cnst::PI/(norm_pi as f32 );
+                    let mut x:f32 = (temp[idx] as f32)/(norm_pi as f32 ) *cnst::PI;
                     // Ensure that the angle is within the accurate range of the tailor series. 
+                    
+                    assert!( x.abs()<cnst::PI, "x = {}", x);
+
                     if x < -PI_HALF
-                    {
-                        x = &x+(2.0*(&x+PI_HALF));
+                    {   
+                        let delta = x+PI_HALF;
+                        x = -PI_HALF+delta.abs();
                     }
                     else if PI_HALF < x
                     {
-                        x = &x-(2.0*(&x-PI_HALF));
+                        let delta = x-PI_HALF;
+                        x = PI_HALF-delta.abs();
                     }
 
                     // Calculate sine by using 
-                    let sinx:f32 = x-(util::fpowi(x,3)/6.0 )+( util::fpowi(x,5)/120.0 )-( util::fpowi(x,7)/5040.0 )+( util::fpowi(x,9)/362880.0 );
+                    let sinx:f32 = x-( util::fpowi(x,3)/6.0 )+( util::fpowi(x,5)/120.0 )-( util::fpowi(x,7)/5040.0 )+( util::fpowi(x,9)/362880.0 );
                     temp[idx] = ( sinx*(norm as f32) ) as i32;
                 } 
                 Self {
                     data: temp
                 }
             }
-            /// Take the item-wise tan using a Taylor approximation of tan x.
+            /// Take the element-wise tan using a Taylor approximation of tan x.
             /// Self must be wrapped to the -pi=<x<=pi range.
             /// * 'pi' The integer level which represents pi in the input data.
             /// * 'norm' The integer level which represents 1 in the output data.
@@ -598,8 +603,9 @@ mod tests {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec8, 8);
-        let x = Vec8::ramp(0,125);
-        assert_eq!{x.sin( 1125, 100).data, [1,2,3,4,5,6,7,8] };
+        let mut x = Vec8::ramp(0,60);
+        x = x.wrap_phase( 180 );
+        assert_eq!{x.sin( 180, 100).data, [1,2,3,4,5,6,7,8] };
     }
     #[test]
     fn tan() {//TODO
