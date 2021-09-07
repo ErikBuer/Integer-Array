@@ -89,7 +89,7 @@ The error of the Taylor aproximation is magnified by 100 and showed as well. In 
 The error allthough small, introduces strong harmonic components, which can be seen below. These limits the practicality of the resulting signal.
 ![Image](numerical_verificatons/figures/frequency_domain_sinx.png?raw=true)
 
-To counter these, the fact that all cuarters of the sine(x) function are mirrored versions of each other. Therefore the first quarters, having the least error, which can be seen in the time domain plot above, can be used for all values of x, with the below correction:
+To counter these, the fact that all quarters of the sine(x) function are mirrored versions of each other. Therefore the first quarters, having the least error, which can be seen in the time domain plot above, can be used for all values of x, with the below correction:
 
 The function below is written in Julia, see /src/real/array.rs for the Rust implementation.
 ```julia
