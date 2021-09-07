@@ -22,7 +22,8 @@ delta = sinx_native-sinx_taylor
 
 # Time domain comparison.
 plot( 	x, sinx_native,
-	 	label = "Julia native sine",)
+	 	label = "Julia native sine",
+        size = (1024, 720),)
 plot!( 	x, sinx_taylor,
 	 	label = "5-term Taylor",)
 plot!( 	x, delta*100,
@@ -35,8 +36,9 @@ taylor_sine2 = fast_sine.(x);
 delta2 = sinx_native-taylor_sine2
 
 # Taylor vs first quarter taylor.
-plot!( 	x, delta*100,
-	 	label = "Difference",)
+plot( 	x, delta*100,
+	 	label = "Difference",
+        size = (1024, 720),)
 plot!( 	x, delta2*100,
 	 	label = "Difference (first quarter)",)
 
@@ -78,7 +80,8 @@ omega = LinRange(0, 1, Int(size(x)[1]/2));
 # Frequency domain.
 plot( 	omega, frequecny_domain_analysis(sinx_native),
 	 	label = "Julia native sine",
-        ylims = [-120, 0],)
+        ylims = [-100, 0],
+        size = (1024, 720),)
 xlabel!("Frequency relative to Fs")
 ylabel!("Normalized power [dBC]")
 
@@ -91,12 +94,10 @@ savefig("figures/frequency_domain_sinx")
 # Frequency domain first quarter.
 plot( 	omega, frequecny_domain_analysis(sinx_native),
 	 	label = "Julia native sine",
-        ylims = [-120, -50],)
+        ylims = [-100, 0],
+        size = (1024, 720),)
 xlabel!("Frequency relative to Fs")
 ylabel!("Normalized power [dBC]")
-
-plot!( 	omega, frequecny_domain_analysis(sinx_taylor),
-	 	label = "5-term Taylor",)
 
 plot!( 	omega, frequecny_domain_analysis(fast_sine.(x)),
 	 	label = "5-term Taylor, first quarter",)
