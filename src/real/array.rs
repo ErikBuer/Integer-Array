@@ -381,13 +381,11 @@ macro_rules! declare_array_real{
 
                 const PI_HALF:f32 = cnst::PI/2.0;
 
-                let mut temp = self.data.clone();
+                let mut r_array = $name::zeros();
 
                 for idx in 0..$N {
-                    let mut x:f32 = (temp[idx] as f32)/(norm_pi as f32 ) *cnst::PI;
+                    let mut x:f32 = (self[idx] as f32)/(norm_pi as f32 ) *cnst::PI;
                     // Ensure that the angle is within the accurate range of the tailor series. 
-                    
-                    assert!( x.abs()<cnst::PI, "x = {}", x);
 
                     if x < -PI_HALF
                     {   
@@ -402,11 +400,11 @@ macro_rules! declare_array_real{
 
                     // Calculate sine by using 
                     let sinx:f32 = x-( util::fpowi(x,3)/6.0 )+( util::fpowi(x,5)/120.0 )-( util::fpowi(x,7)/5040.0 )+( util::fpowi(x,9)/362880.0 );
-                    temp[idx] = ( sinx*(norm as f32) ) as i32;
+                    assert!( sinx.abs()<1.0, "sinx = {}, x = {}", sinx, x);
+
+                    r_array[idx] = ( sinx*(norm as f32) ) as i32;
                 } 
-                Self {
-                    data: temp
-                }
+                return r_array;
             }
             /// Take the element-wise tan using a Taylor approximation of tan x.
             /// Self must be wrapped to the -pi=<x<=pi range.
@@ -599,16 +597,16 @@ mod tests {
         assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
     }
     #[test]
-    fn sin() {//TODO
+    fn sin() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec8, 8);
         let mut x = Vec8::ramp(0,60);
         x = x.wrap_phase( 180 );
-        assert_eq!{x.sin( 180, 100).data, [1,2,3,4,5,6,7,8] };
+        assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
     }
     #[test]
-    fn tan() {//TODO
+    fn tan() {//TODO Verify
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec8, 8);

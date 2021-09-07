@@ -24,7 +24,7 @@ plot( 	x, sinx_native,
 	 	label = "Julia native sine",
         size = (1024, 720),)
 plot!( 	x, sinx_taylor,
-	 	label = "5-term Taylor",)
+	 	label = "5-term Taylor series",)
 plot!( 	x, delta*100,
 	 	label = "Difference*100",)
 
@@ -85,7 +85,7 @@ xlabel!("Frequency relative to Fs")
 ylabel!("Normalized power [dBC]")
 
 plot!( 	omega, frequecny_domain_analysis(sinx_taylor),
-	 	label = "5-term Taylor",)
+	 	label = "5-term Taylor series",)
 
 savefig("figures/frequency_domain_sinx")
 
