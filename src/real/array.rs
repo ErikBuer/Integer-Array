@@ -28,23 +28,6 @@ macro_rules! declare_array_real{
                 }
             }
         }
-        /* //TODO
-        impl IntoIterator for $name {
-            type Item = i32;
-            type IntoIter = core::array::IntoIter<i32, $N>;
-        
-            /// Creates a consuming iterator, that is, one that moves each value out of
-            /// the array (from start to end).
-            fn into_iter(self) -> Self::IntoIter {
-                core::array::IntoIter::new(self.data);
-            }
-        }
-        impl Iterator for $name {
-            type Item = i32;
-            fn next(&mut self) -> core::option::Option<Self::Item> {
-
-            }
-        }*/
 
         impl numeric_array::trait_definitions::Ramp for $name {
             /// Generate a linear ramp of values with increment step.
@@ -645,6 +628,7 @@ mod tests {
         assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
     }
     #[test]
+    #[ignore]
     fn tan() {//TODO Verify 
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
