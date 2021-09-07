@@ -19,13 +19,13 @@ pub trait Len {
     fn len( &self ) -> usize;
 }
 
-pub trait VectorIndexing {
+pub trait arrayIndexing {
     fn at( &self, index:usize) -> i32;
     fn front( &self )   -> i32;
     fn back( &self )    -> i32;
 }
 
-pub trait VectorIndexingComplex {
+pub trait arrayIndexingComplex {
     fn at( &self, index:usize) -> crate::complex::Complex;
     fn front( &self )          -> crate::complex::Complex;
     fn back( &self )           -> crate::complex::Complex;

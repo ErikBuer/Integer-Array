@@ -1,4 +1,4 @@
-#![crate_name = "numeric_vector"]
+#![crate_name = "numeric_array"]
 #![no_std]
 
 /*

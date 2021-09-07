@@ -1,4 +1,4 @@
-pub mod vector;
+pub mod array;
 
 /// Complex scalar.
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -8,7 +8,7 @@ pub struct Complex{
 }
 
 impl crate::trait_definitions::NewComplex for Complex {
-    /// Generate a vector of a value.
+    /// Generate an array of a value.
     fn new( real:i32, imag:i32 ) -> Self {
         Self{
             re: real,

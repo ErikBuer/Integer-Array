@@ -9,19 +9,19 @@ mod std_support {
     };
 }
 
-/// Create vector type of size N.
+/// Create array type of size N.
 #[macro_export]
-macro_rules! declare_vector_real{
+macro_rules! declare_array_real{
     ( $name:ident, $N:expr) => {
 
         #[derive(Clone, Debug, PartialEq)]
-        /// Real numeric vector of type int32.
+        /// Real numeric array of type int32.
         pub struct $name{
             pub data: [i32; $N],
         }
 
-        impl numeric_vector::trait_definitions::New for $name {
-            /// Generate a vector of a value.
+        impl numeric_array::trait_definitions::New for $name {
+            /// Generate an array of a value.
             fn new( value:i32 ) -> Self {
                 $name {
                     data: [value;$N]
@@ -29,7 +29,7 @@ macro_rules! declare_vector_real{
             }
         }
 
-        impl numeric_vector::trait_definitions::Ramp for $name {
+        impl numeric_array::trait_definitions::Ramp for $name {
             /// Generate a linear ramp of values with increment step.
             fn ramp( start:i32, step:i32  ) -> Self {
                 let mut temp: [i32; $N] = [start; $N];
@@ -42,14 +42,14 @@ macro_rules! declare_vector_real{
             }
         }
 
-        impl numeric_vector::trait_definitions::Initializers for $name {
-            /// Generate a vector of ones.
+        impl numeric_array::trait_definitions::Initializers for $name {
+            /// Generate an array of ones.
             fn ones() -> Self {
                 $name {
                     data: [1;$N]
                 }
             }
-            /// Generate a vector of zeroes.
+            /// Generate an array of zeroes.
             fn zeros() -> Self {
                 $name {
                     data: [0;$N]
@@ -57,15 +57,15 @@ macro_rules! declare_vector_real{
             }
         }
 
-        impl numeric_vector::trait_definitions::Len for $name {
-            /// Returns the length of the vector.
+        impl numeric_array::trait_definitions::Len for $name {
+            /// Returns the length of the array.
             fn len( &self ) -> usize {
                 return $N;
             }
         }
 
-        impl numeric_vector::trait_definitions::VectorIndexing for $name {
-            /// Returns indexed item of the vector.
+        impl numeric_array::trait_definitions::arrayIndexing for $name {
+            /// Returns indexed item of the array.
             /// Index Clips at N-1.
             fn at( &self, index:usize) -> i32 {
                 if( $N <= index)
@@ -74,18 +74,18 @@ macro_rules! declare_vector_real{
                 }
                 return self.data[index];
             }
-            /// Returns the first item of the vector.
+            /// Returns the first item of the array.
             fn front( &self ) -> i32 {
                 return self.data[0];
             }
-            /// Returns the last item of the vector.
+            /// Returns the last item of the array.
             fn back( &self ) -> i32 {
                 return self.data[$N-1];
             }
         }   
 
-        impl numeric_vector::trait_definitions::ArithmeticTraits for $name {
-            /// Adds a scalar bias value to the entire vector.
+        impl numeric_array::trait_definitions::ArithmeticTraits for $name {
+            /// Adds a scalar bias value to the entire array.
             fn bias( &self, value:i32 ) -> Self {
                 let mut temp = self.data.clone();
                 for index in 0..$N {
@@ -95,7 +95,7 @@ macro_rules! declare_vector_real{
                     data: temp
                 }
             }
-            /// Scales the vector by a scalar integer value.
+            /// Scales the array by a scalar integer value.
             fn scale( &self, value:i32 ) -> Self {
                 let mut temp = self.data.clone();
                 for index in 0..$N {
@@ -105,7 +105,7 @@ macro_rules! declare_vector_real{
                     data: temp
                 }
             }
-            /// Scales the vector by a scalar float value.
+            /// Scales the array by a scalar float value.
             fn scale_float( &self, value:f32 ) -> Self {
                 let mut temp = self.data.clone();
                 for index in 0..$N {
@@ -115,7 +115,7 @@ macro_rules! declare_vector_real{
                     data: temp
                 }
             }
-            /// Return the itemwise square root using the 
+            /// Return the item-wise square root using the 
             /// Babylonian square root implementation.
             fn sqrt( &self ) -> Self {
                 let mut temp = self.data.clone();
@@ -231,8 +231,8 @@ macro_rules! declare_vector_real{
             }
         }
         
-        impl numeric_vector::trait_definitions::StatisticTraits for $name {
-            /// Return the sum of the vector.
+        impl numeric_array::trait_definitions::StatisticTraits for $name {
+            /// Return the sum of the array.
             fn sum( &self ) -> i32 {
                 let mut sum:i32 = 0;
                 for index in 0..$N {
@@ -240,7 +240,7 @@ macro_rules! declare_vector_real{
                 }
                 return sum;
             }
-            /// Return the mean of the vector.
+            /// Return the mean of the array.
             fn mean( &self ) -> i32 {
                 let mut sum:i32 = 0;
                 for index in 0..$N {
@@ -248,7 +248,7 @@ macro_rules! declare_vector_real{
                 }
                 return sum/$N;
             }
-            /// Return the variance of the vector.
+            /// Return the variance of the array.
             fn var( &self ) -> i32 {
                 let mean = self.mean();
                 let mut temp: i32 = 0;
@@ -257,7 +257,7 @@ macro_rules! declare_vector_real{
                 }
                 return temp/$N;
             }
-            /// Return the higherst value in the vector.
+            /// Return the higherst value in the array.
             fn max( &self ) -> i32 {
                 let mut max_val = i32::MIN;
                 for index in 0..$N {
@@ -268,7 +268,7 @@ macro_rules! declare_vector_real{
                 } 
                 return max_val;
             }
-            /// Return the lowest value in the vector.
+            /// Return the lowest value in the array.
             fn min( &self ) -> i32 {
                 let mut min_val = i32::MAX;
                 for index in 0..$N {
@@ -279,7 +279,7 @@ macro_rules! declare_vector_real{
                 } 
                 return min_val;
             }
-            /// Return the index of the greatest value in the vector.
+            /// Return the index of the greatest value in the array.
             fn argmax( &self ) -> usize {
                 let mut max_val = i32::MIN;
                 let mut arg_max = 0;
@@ -292,7 +292,7 @@ macro_rules! declare_vector_real{
                 } 
                 return arg_max;
             }
-            /// Return the index of the lowest value in the vector.
+            /// Return the index of the lowest value in the array.
             fn argmin( &self ) -> usize {
                 let mut min_val = i32::MAX;
                 let mut arg_min = 0;
@@ -307,15 +307,15 @@ macro_rules! declare_vector_real{
             }
         }
 
-        impl numeric_vector::trait_definitions::TrigonometryTraits for $name {
+        impl numeric_array::trait_definitions::TrigonometryTraits for $name {
             /// Take the item-wise sine using a Taylor approximation of sine x.
             /// Self must be wrapped to the -pi=<x<=pi range.
             /// * 'pi' The integer level which represents pi in the input data.
             /// * 'norm' The integer level which represents 1 in the output data.
 
             fn sin( &self, norm_pi:i32, norm:i32 ) -> Self {
-                use numeric_vector::utility_functions as util;
-                use numeric_vector::constants as cnst;
+                use numeric_array::utility_functions as util;
+                use numeric_array::constants as cnst;
 
                 const PI_HALF:f32 = cnst::PI/2.0;
 
@@ -348,8 +348,8 @@ macro_rules! declare_vector_real{
             fn tan( &self, norm_pi:i32, norm:i32 ) -> Self {
                 let mut temp = self.data.clone();
                 
-                use numeric_vector::utility_functions as util;
-                use numeric_vector::constants as cnst;
+                use numeric_array::utility_functions as util;
+                use numeric_array::constants as cnst;
 
 
                 for idx in 0..$N {
@@ -388,7 +388,7 @@ macro_rules! declare_vector_real{
 
         impl core::ops::Index<usize> for $name {
             type Output = i32;
-            /// Trait for returning an indexed value of the vector.
+            /// Trait for returning an indexed value of the array.
             #[inline]
             fn index(&self, index: usize) -> &i32 {
                 return &self.data[index];
@@ -398,9 +398,9 @@ macro_rules! declare_vector_real{
         impl core::ops::IndexMut<usize> for $name {
             /// Trait for returning a mutable reference to indexed item.
             /// ´´´
-            /// use crate as numeric_vector;
-            /// use numeric_vector::trait_definitions::*;
-            /// declare_vector_real!( Vec8, 8);
+            /// use crate as numeric_array;
+            /// use numeric_array::trait_definitions::*;
+            /// declare_array_real!( Vec8, 8);
             /// let mut x = Vec8::ramp(0,22);
             /// x[2] = 56;
             /// assert_eq!{x[2], 56i32 };
@@ -427,165 +427,165 @@ mod tests {
 
     #[test]
     fn test_scalar_len() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec2, 2);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec2, 2);
         let x = Vec2::zeros();
         assert_eq!{x.len(), 2};
     }
     #[test]
     fn test_scalar_at() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec2, 2);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec2, 2);
         let x = Vec2::ones();
         assert_eq!{x.at(0), 1};
     }
     #[test]
     fn test_scalar_new() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec2, 2);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec2, 2);
         let x = Vec2::new(200);
         assert_eq!{x.at(0), 200};
     }
     #[test]
     fn test_scalar_front() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec2, 2);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec2, 2);
         let x = Vec2::new(200);
         assert_eq!{x.front(), 200};
     }
     #[test]
     fn test_scalar_back() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec32, 32);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec32, 32);
         let x = Vec32::ramp(100,20);
         assert_eq!{x.back(), 720};
     }
     #[test]
     fn test_scalar_bias() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec2, 2);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec2, 2);
         let x = Vec2::new(200);
         let y = x.bias(5);
         assert_eq!{y.front(), 205};
     }
     #[test]
     fn test_zeros() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec2, 2);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec2, 2);
         let x = Vec2::zeros();
         assert_eq!{x.at(1), 0};
     }
     #[test]
     fn test_scalar_scale() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec2, 2);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec2, 2);
         let x = Vec2::new(100);
         let y = x.scale(5);
         assert_eq!{y.front(), 500};
     }
     #[test]
     fn test_max() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec32, 32);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec32, 32);
         let x = Vec32::ramp(100,20);
         assert_eq!{x.max(), 720};
     }
     #[test]
     fn test_min() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec32, 32);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec32, 32);
         let x = Vec32::ramp(100,20);
         assert_eq!{x.min(), 100};
     }
     #[test]
     fn test_argmax() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec32, 32);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec32, 32);
         let x = Vec32::ramp(0,1);
         assert_eq!{x.argmax(), 31};
     }
     #[test]
     fn test_argmin() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec32, 32);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec32, 32);
         let x = Vec32::ramp(100,20);
         assert_eq!{x.argmin(), 0};
     }
     #[test]
     fn test_sqrt() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec4, 4);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec4, 4);
         let x = Vec4::ramp(10000,1000);
         assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
     }
     #[test]
     fn test_sin() {//TODO
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec8, 8);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec8, 8);
         let x = Vec8::ramp(0,20);
         assert_eq!{x.sin( 180, 100).data, [1,2,3,4,5,6,7,8] };
     }
     #[test]
     fn test_tan() {//TODO
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec8, 8);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec8, 8);
         let x = Vec8::ramp(0,20);
         assert_eq!{x.tan( 180, 100).data, [1,2,3,4,5,6,7,8] };
     }
     #[test]
     fn test_wrap_phase() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec8, 8);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec8, 8);
         let x = Vec8::ramp(0,22);
         assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
     }
     #[test]
     fn test_index() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec8, 8);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec8, 8);
         let x = Vec8::ramp(0,22);
         assert_eq!{x[2], 44i32 };
     }
     #[test]
     fn test_mut_index() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec8, 8);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec8, 8);
         let mut x = Vec8::ramp(0,22);
         x[2] = 56;
         assert_eq!{x[2], 56i32 };
     }
     #[test]
     fn test_mul_scalar() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec8, 8);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec8, 8);
         let mut x = Vec8::ramp(0,22);
         x = x*3;
         assert_eq!{x[1], 66i32 };
     }
     #[test]
     fn test_mul_vec() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec4, 4);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec4, 4);
         let mut x = Vec4::ramp(10,22);
         let  y = Vec4::new(10);
         x = x*y;
@@ -593,9 +593,9 @@ mod tests {
     }
     #[test]
     fn test_div_vec() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec4, 4);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec4, 4);
         let mut x = Vec4::ramp(0,22);
         let y = Vec4::new(10);
         x = x/y;
@@ -603,9 +603,9 @@ mod tests {
     }
     #[test]
     fn test_div_vec_div_by_zero() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec4, 4);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec4, 4);
         let mut x = Vec4::ramp(0,22);
         let y = Vec4::new(1000);
         x = y/x;
@@ -613,18 +613,18 @@ mod tests {
     }
     #[test]
     fn test_add_scalar() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec4, 8);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec4, 8);
         let mut x = Vec4::ramp(0,22);
         x = x+3;
         assert_eq!{x[1], 25i32 };
     }
     #[test]
     fn test_add_vec() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec4, 4);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec4, 4);
         let mut x = Vec4::ramp(0,22);
         let y = Vec4::new(10);
         x = x+y;
@@ -632,9 +632,9 @@ mod tests {
     }
     #[test]
     fn test_neg() {
-        use crate as numeric_vector;
-        use numeric_vector::trait_definitions::*;
-        declare_vector_real!( Vec4, 4);
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec4, 4);
         let mut x = Vec4::ramp(0,22);
         x = -x;
         assert_eq!{x[1], -22i32 };

@@ -1,17 +1,17 @@
 [package]
-name = "numeric_vector"
+name = "numeric_array"
 version = "0.1.0"
 authors = ["Erik Buer"]
 edition = "2018"
-description = "No-STD numeric vector library for Rust."
+description = "No-STD numeric array library for Rust."
 readme = "README.md"
-repository = "https://github.com/ErikBuer/Numeric-Vector.git"
+repository = "https://github.com/ErikBuer/Numeric-array.git"
 license = "MIT"
 license-file = "LICENSE"
 keywords = ["dsp", "radio", "audio"]
 
 [lib]
-name = "numeric_vector"
+name = "numeric_array"
 bench = false
 test = true
 

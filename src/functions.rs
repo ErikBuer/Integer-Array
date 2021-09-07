@@ -3,23 +3,23 @@ use core::ops as ops;
 
 
 /*
-/// Element-wise addition of two vectors of equal or unequal size.
-/// The returned vector is of the same size as the first argument.
+/// Element-wise addition of two arrays of equal or unequal size.
+/// The returned array is of the same size as the first argument.
 pub fn add< V1, V2 >( vec1:V1, vec2:V2 ) -> V1
-            where V1: td::VectorTraits + ops::Index<usize> + ops::IndexMut<usize>, 
-                  V2: td::VectorTraits + ops::Index<usize>
+            where V1: td::arrayTraits + ops::Index<usize> + ops::IndexMut<usize>, 
+                  V2: td::arrayTraits + ops::Index<usize>
 {
     let mut min_len = vec1.len();
     // Determine length of output
     if vec2.len() < vec1.len() {
         min_len = vec2.len();
     }
-    let mut r_vector = V1::zeros();
+    let mut r_array = V1::zeros();
     
     for i in 0..min_len {
-        r_vector[i] = vec1[i]+vec2[i];
+        r_array[i] = vec1[i]+vec2[i];
     }
-    return r_vector;
+    return r_array;
 }
 
 #[cfg(test)]
