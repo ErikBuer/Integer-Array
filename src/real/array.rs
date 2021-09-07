@@ -598,8 +598,8 @@ mod tests {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec8, 8);
-        let x = Vec8::ramp(0,20);
-        assert_eq!{x.sin( 180, 100).data, [1,2,3,4,5,6,7,8] };
+        let x = Vec8::ramp(0,125);
+        assert_eq!{x.sin( 1125, 100).data, [1,2,3,4,5,6,7,8] };
     }
     #[test]
     fn tan() {//TODO
