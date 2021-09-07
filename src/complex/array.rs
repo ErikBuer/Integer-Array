@@ -28,7 +28,7 @@ macro_rules! declare_array_complex{
             }
         }
         
-        impl numeric_array::trait_definitions::arrayIndexingComplex for $name {
+        impl numeric_array::trait_definitions::ArrayIndexingComplex for $name {
             /// Returns indexed item of the array.
             /// Index Clips at N-1.
             fn at( &self, index:usize) -> numeric_array::complex::Complex {

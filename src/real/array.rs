@@ -64,7 +64,7 @@ macro_rules! declare_array_real{
             }
         }
 
-        impl numeric_array::trait_definitions::arrayIndexing for $name {
+        impl numeric_array::trait_definitions::ArrayIndexing for $name {
             /// Returns indexed item of the array.
             /// Index Clips at N-1.
             fn at( &self, index:usize) -> i32 {
