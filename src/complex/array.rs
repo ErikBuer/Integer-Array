@@ -80,7 +80,7 @@ mod tests {
     //use super::*;
 
     #[test]
-    fn test_new() {
+    fn new() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_complex!( CVec4, 4 );

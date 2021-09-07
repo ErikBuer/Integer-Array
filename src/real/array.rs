@@ -169,18 +169,66 @@ macro_rules! declare_array_real{
         impl core::ops::Div<$name> for $name {
             type Output = Self;
             fn div( self, other:$name ) -> $name {
-                let mut r_vec = self.clone();
+                let mut r_array = self.clone();
                 for index in 0..$N {
-                    if(other[index] == 0)
+                    if (self[index] == 0)
                     {
-                        r_vec[index] = i32::MAX;
+                        r_array[index] = 0;
+                    }
+                    else if(other[index] == 0)
+                    {
+                        r_array[index] = i32::MAX;
                     }
                     else
                     {
-                        r_vec[index] = self[index]/other[index];
+                        r_array[index] = self[index]/other[index];
                     }
                 } 
-                return r_vec;
+                return r_array;
+            }
+        }
+
+        impl core::ops::Div<i32> for $name {
+            type Output = Self;
+            fn div( self, other:i32 ) -> $name {
+                let mut r_array = self.clone();
+                for index in 0..$N {
+                    if (self[index] == 0)
+                    {
+                        r_array[index] = 0;
+                    }
+                    else if(other == 0)
+                    {
+                        r_array[index] = i32::MAX;
+                    }
+                    else
+                    {
+                        r_array[index] = self[index]/other;
+                    }
+                } 
+                return r_array;
+            }
+        }
+
+        impl core::ops::Div<$name> for i32 {
+            type Output = $name;
+            fn div( self, other:$name ) -> $name {
+                let mut r_array = other.clone();
+                for index in 0..$N {
+                    if (self == 0)
+                    {
+                        r_array[index] = 0;
+                    }
+                    else if(other[index] == 0)
+                    {
+                        r_array[index] = i32::MAX;
+                    }
+                    else
+                    {
+                        r_array[index] = self/other[index];
+                    }
+                } 
+                return r_array;
             }
         }
 
@@ -217,6 +265,13 @@ macro_rules! declare_array_real{
                 return self.bias( rhs as i32 ); 
             }
         }
+        
+        impl core::ops::Sub<i32> for $name {
+            type Output = Self;
+            fn sub( self, other:i32 ) -> $name {
+                return self.bias( -other ); 
+            }
+        }
 
         impl core::ops::Neg for $name {
             type Output = Self;
@@ -228,6 +283,13 @@ macro_rules! declare_array_real{
                 Self {
                     data: temp
                 }
+            }
+        }
+
+        impl core::ops::Sub<$name> for i32 {
+            type Output = $name;
+            fn sub( self, other: $name ) -> $name {
+                return -other + self; 
             }
         }
         
@@ -426,7 +488,7 @@ mod tests {
     //use super::*;
 
     #[test]
-    fn test_scalar_len() {
+    fn scalar_len() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec2, 2);
@@ -434,7 +496,7 @@ mod tests {
         assert_eq!{x.len(), 2};
     }
     #[test]
-    fn test_scalar_at() {
+    fn scalar_at() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec2, 2);
@@ -442,7 +504,7 @@ mod tests {
         assert_eq!{x.at(0), 1};
     }
     #[test]
-    fn test_scalar_new() {
+    fn scalar_new() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec2, 2);
@@ -450,7 +512,7 @@ mod tests {
         assert_eq!{x.at(0), 200};
     }
     #[test]
-    fn test_scalar_front() {
+    fn scalar_front() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec2, 2);
@@ -458,7 +520,7 @@ mod tests {
         assert_eq!{x.front(), 200};
     }
     #[test]
-    fn test_scalar_back() {
+    fn scalar_back() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec32, 32);
@@ -466,7 +528,7 @@ mod tests {
         assert_eq!{x.back(), 720};
     }
     #[test]
-    fn test_scalar_bias() {
+    fn scalar_bias() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec2, 2);
@@ -475,7 +537,7 @@ mod tests {
         assert_eq!{y.front(), 205};
     }
     #[test]
-    fn test_zeros() {
+    fn zeros() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec2, 2);
@@ -483,7 +545,7 @@ mod tests {
         assert_eq!{x.at(1), 0};
     }
     #[test]
-    fn test_scalar_scale() {
+    fn scalar_scale() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec2, 2);
@@ -492,7 +554,7 @@ mod tests {
         assert_eq!{y.front(), 500};
     }
     #[test]
-    fn test_max() {
+    fn max() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec32, 32);
@@ -500,7 +562,7 @@ mod tests {
         assert_eq!{x.max(), 720};
     }
     #[test]
-    fn test_min() {
+    fn min() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec32, 32);
@@ -508,7 +570,7 @@ mod tests {
         assert_eq!{x.min(), 100};
     }
     #[test]
-    fn test_argmax() {
+    fn argmax() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec32, 32);
@@ -516,7 +578,7 @@ mod tests {
         assert_eq!{x.argmax(), 31};
     }
     #[test]
-    fn test_argmin() {
+    fn argmin() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec32, 32);
@@ -524,7 +586,7 @@ mod tests {
         assert_eq!{x.argmin(), 0};
     }
     #[test]
-    fn test_sqrt() {
+    fn sqrt() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec4, 4);
@@ -532,7 +594,7 @@ mod tests {
         assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
     }
     #[test]
-    fn test_sin() {//TODO
+    fn sin() {//TODO
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec8, 8);
@@ -540,7 +602,7 @@ mod tests {
         assert_eq!{x.sin( 180, 100).data, [1,2,3,4,5,6,7,8] };
     }
     #[test]
-    fn test_tan() {//TODO
+    fn tan() {//TODO
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec8, 8);
@@ -548,7 +610,7 @@ mod tests {
         assert_eq!{x.tan( 180, 100).data, [1,2,3,4,5,6,7,8] };
     }
     #[test]
-    fn test_wrap_phase() {
+    fn wrap_phase() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec8, 8);
@@ -556,7 +618,7 @@ mod tests {
         assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
     }
     #[test]
-    fn test_index() {
+    fn index() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec8, 8);
@@ -564,7 +626,7 @@ mod tests {
         assert_eq!{x[2], 44i32 };
     }
     #[test]
-    fn test_mut_index() {
+    fn mut_index() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec8, 8);
@@ -573,7 +635,7 @@ mod tests {
         assert_eq!{x[2], 56i32 };
     }
     #[test]
-    fn test_mul_scalar() {
+    fn mul_scalar() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec8, 8);
@@ -582,7 +644,7 @@ mod tests {
         assert_eq!{x[1], 66i32 };
     }
     #[test]
-    fn test_mul_vec() {
+    fn mul_array() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec4, 4);
@@ -592,7 +654,7 @@ mod tests {
         assert_eq!{x.data, [100,320,540,760] };
     }
     #[test]
-    fn test_div_vec() {
+    fn div_array() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec4, 4);
@@ -602,7 +664,26 @@ mod tests {
         assert_eq!{x.data, [0,2,4,6] };
     }
     #[test]
-    fn test_div_vec_div_by_zero() {
+    fn div_scalar() {
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec4, 4);
+        let mut x = Vec4::ramp(0,22);
+        let y = 10i32;
+        x = x/y;
+        assert_eq!{x.data, [0,2,4,6] };
+    }
+    #[test]
+    fn scalar_div_array() {
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec4, 4);
+        let mut x = Vec4::ramp(0,22);
+        x = 1000/x;
+        assert_eq!{x.data, [2147483647, 45, 22, 15] };
+    }
+    #[test]
+    fn array_div_by_zero() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec4, 4);
@@ -612,7 +693,7 @@ mod tests {
         assert_eq!{x.data, [i32::MAX,45,22,15] };
     }
     #[test]
-    fn test_add_scalar() {
+    fn add_scalar() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec4, 8);
@@ -621,7 +702,7 @@ mod tests {
         assert_eq!{x[1], 25i32 };
     }
     #[test]
-    fn test_add_vec() {
+    fn add_array() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec4, 4);
@@ -631,7 +712,25 @@ mod tests {
         assert_eq!{x.data, [10,32,54,76] };
     }
     #[test]
-    fn test_neg() {
+    fn sub_scalar() {
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec4, 8);
+        let mut x = Vec4::ramp(0,22);
+        x = x-3;
+        assert_eq!{x[1], 19i32 };
+    }
+    #[test]
+    fn sub_array_switched_places() {
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec4, 8);
+        let mut x = Vec4::ramp(0,22);
+        x = 3-x;
+        assert_eq!{x[1], -19i32 };
+    }
+    #[test]
+    fn neg() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec4, 4);
@@ -643,7 +742,7 @@ mod tests {
     //TODO implement macro.
     /*
     #[test]
-    fn test_macro_generation() {
+    fn macro_generation() {
         let x = Vec2![1,2];
         assert_eq!{x, Vec2::ramp(1,1) };
     }
@@ -656,7 +755,7 @@ mod std_support {
     use super::*;
 
     #[test]
-    fn test_std_display() {
+    fn std_display() {
         let x = Vec32::ramp(100,20);
         println! ("{}", x);
         assert_eq!{x.max(), 720};
