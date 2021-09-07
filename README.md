@@ -3,11 +3,10 @@ No-STD numeric fixed-size array for Rust.
 
 This is an experimental library for no-std DSP.
 The library only supports fixed-sized arrays of i32.
-This is because the intention of the code is to experiment with ways of expressing DSP in Rust.
+32-bit arrays can be handled by most DSP-capable embedded devices and provides 6.02×32>192 dB of dynamic range, which is sufficient for most DSP use.
+The rationale is that if 64-bit processing is available, then so is an OS, and the Rust standard library. 
 
-Note that this project is not hosted on crates.io.
-
-See the main workings in /src/real/array.rs.
+See the main workings of the library in /src/real/array.rs.
 
 ## Use example
 arrays types of fixed size is defined with traits through a macro as follows:
@@ -17,10 +16,39 @@ use numeric_array::trait_definitions::*;
 
 numeric_array::declare_array_real!( Vec11, 11);
 ```
-The name of the type for the above array is `Vec11`{:.rust}. The size of the error is 11 elements.
+The name of the type for the above array is `Vec11`. The size of the error is 11 elements.
+
+### Initialization
+The array can be initalized with a single value across the array, or by creating a ramp.
+```rust
+declare_array_real!( Vec2, 2);
+let x = Vec2::new(6);
+assert_eq!{x[0], 6};
+```
+
+Zeros are made as separate traits for convenience.
+```rust
+declare_array_real!( Vec2, 2);
+let x = Vec2::zeros();
+assert_eq!{x[0], 0};
+```
 
 ### Indexing
-The elements of the array can be indexed using square brackets as normal arrays, as well as utilities such as 
+The elements of the array can be indexed using square brackets as normal arrays
+```rust
+declare_array_real!( Vec4, 4);
+let mut x = Vec4::ramp(0,22);
+x = -x;
+assert_eq!{x[1], -22i32 };
+```
+
+In addition to this, there are utilities such as `.front()` and `.back()`.
+```rust
+declare_array_real!( Vec2, 2);
+let x = Vec2::new(200);
+let y = x.bias(5);
+assert_eq!{y.front(), 205};
+```
 
 ### Element-wise arithmetic
 Math can then be performed on the array types, like one would expect from a modern language.

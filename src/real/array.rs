@@ -28,6 +28,23 @@ macro_rules! declare_array_real{
                 }
             }
         }
+        /* //TODO
+        impl IntoIterator for $name {
+            type Item = i32;
+            type IntoIter = core::array::IntoIter<i32, $N>;
+        
+            /// Creates a consuming iterator, that is, one that moves each value out of
+            /// the array (from start to end).
+            fn into_iter(self) -> Self::IntoIter {
+                core::array::IntoIter::new(self.data);
+            }
+        }
+        impl Iterator for $name {
+            type Item = i32;
+            fn next(&mut self) -> core::option::Option<Self::Item> {
+
+            }
+        }*/
 
         impl numeric_array::trait_definitions::Ramp for $name {
             /// Generate a linear ramp of values with increment step.
@@ -136,6 +153,17 @@ macro_rules! declare_array_real{
                 Self {
                     data: temp
                 }
+            }
+        }
+
+        impl numeric_array::trait_definitions::Pow for $name {
+            /// Raise the items to an integer-valued power.
+            fn powi( &self, power:u32 ) -> Self {
+                let mut r_array = self.clone();
+                for index in 0..$N {
+                    r_array[index] = numeric_array::utility_functions::powi( self[index], power );
+                }
+                return r_array;
             }
         }
 
@@ -506,6 +534,17 @@ mod tests {
         let x = Vec2::ones();
         assert_eq!{x.at(0), 1};
     }
+    /*
+    #[test]
+    fn iter() {
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Vec2, 2);
+        let x = Vec2::ramp(6,12);
+        let mut iter = x.into_iter();
+        assert_eq!(iter.next(), Some(&18));
+    }
+    */
     #[test]
     fn scalar_new() {
         use crate as numeric_array;

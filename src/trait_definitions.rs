@@ -38,6 +38,10 @@ pub trait ArithmeticTraits {
     fn sqrt( &self )                   -> Self;
 }
 
+pub trait Pow {
+    fn powi( &self, power:u32 ) -> Self;
+}
+
 pub trait TrigonometryTraits {
     fn sin( &self, norm_pi:i32, norm:i32 )  -> Self;
     fn tan( &self, norm_pi:i32, norm:i32 )  -> Self;
