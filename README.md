@@ -45,7 +45,7 @@ As this is a no-std library a cusom sine function is implemented. It utilizes a 
 
 The following polynomial is used:
 ```julia
-x-( x^3/6.0 )+( x^5/120.0 )-( x^7/5040.0 )+( x^9/362880.0 )
+sin(x) = x-( x^3/6.0 )+( x^5/120.0 )-( x^7/5040.0 )+( x^9/362880.0 )
 ```
 
 Below is the taylor approwimation compared to the native sine function, generated in Julia:
