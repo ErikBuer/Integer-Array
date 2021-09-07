@@ -10,7 +10,7 @@ function fast_sine( x::Float64 )
         elseif π/2 < x
             x = π/2 - abs(x-π/2);
         end
-    return x-(x^3/6.0 )+( x^5/120.0 )-( x^7/5040.0 )+( x^9/362880.0 );;
+    return x-( x^3/6.0 )+( x^5/120.0 )-( x^7/5040.0 )+( x^9/362880.0 );
 end
 
 x = LinRange(-π, π, 1000);

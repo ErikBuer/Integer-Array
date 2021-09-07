@@ -606,7 +606,7 @@ mod tests {
         assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
     }
     #[test]
-    fn tan() {//TODO Verify
+    fn tan() {//TODO Verify 
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
         declare_array_real!( Vec8, 8);
