@@ -27,7 +27,9 @@
 //! 
 //! 32-bit arrays can be handled by most DSP-capable embedded devices and provides 6.02×32>192 dB of dynamic range, which is sufficient for most DSP use.
 //! The rationale is that if 64-bit processing is available, then so is an OS, and the Rust standard library. 
-
+//!
+//! ## How to use
+//! See the macro documentation for the implemented traits.
 
 #![crate_name = "integer_array"]
 #![no_std]
