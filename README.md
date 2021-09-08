@@ -70,7 +70,7 @@ x = x+3;
 assert_eq!{x[1], 25i32 };
 ```
 ### Esimator utilities
-The arrays are equipped with traits for estimators, such as var, mean, max min and argmax.
+The arrays are equipped with traits for estimators, such as var, mean, max, min and argmax.
 ```rust
 ia::declare_array_real!( Arr32, 32);
 let x = Arr32::ramp(100,20);
