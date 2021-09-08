@@ -12,16 +12,22 @@ mod std_support {
 /// Create an i32 array type of size N.
 /// Complete with the traits shown below.
 /// 
-/// ## Basic array traits:
+/// # Traits implemented with the macro:
+/// The implemented traits are focumented below. See the source for a complete list.
+/// ## Basic use:
+/// arrays types of fixed size is defined with traits through a macro as follows:
 /// ```rust
 /// use numeric_array as na;
 /// use numeric_array::trait_definitions::*;
-/// na::declare_array_real!( Arr2, 2);
-/// let x = Arr2::zeros();
-/// assert_eq!{x.len(), 2};
+/// numeric_array::declare_array_real!( Arr11, 11);
 /// ```
+// The name of the type for the above array is `Arr11`. The size of the error is 11 elements.
 /// 
+/// ## Initialization
+/// The array can be initalized with a single value across the array, or by creating a ramp.
 /// ### Generate an array of zeros.
+/// `zeros` are made as separate traits for convenience.
+/// 
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
@@ -31,21 +37,23 @@ mod std_support {
 /// ```
 /// 
 /// ### Generate an array of ones.
+/// `ones` are made as separate traits for convenience.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
 /// na::declare_array_real!( Arr2, 2);
 /// let x = Arr2::ones();
-/// assert_eq!{x.at(0), 1};
+/// assert_eq!{x[0], 1};
 /// ```
 /// 
 /// ### Generate an array of a specific value.
+/// An array of a single value is generated using the `new` keyword.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
 /// na::declare_array_real!( Arr2, 2);
 /// let x = Arr2::new(200);
-/// assert_eq!{x.at(0), 200};
+/// assert_eq!{x.data, [200, 200]};
 /// ```
 /// 
 /// Generate a ramp of increasing value.
@@ -79,6 +87,7 @@ mod std_support {
 /// assert_eq!{x.back(), 720};
 /// ```
 ///
+/// ### At
 /// A specific item can be accessed through either using square bracket notation, or `.at( index )`.
 /// - `index` The index of the item, in the range 0..N-1.
 /// ```rust
@@ -89,6 +98,7 @@ mod std_support {
 /// assert_eq!{x.at(1), 0};
 /// ```
 /// 
+/// ### Bracket indexing
 /// Square bracket indexing can be used both for reading and writing from/to an item.
 /// ```rust
 /// use numeric_array as na;
@@ -117,6 +127,20 @@ mod std_support {
 /// let x = Arr2::new(200);
 /// let y = x.bias(5);
 /// assert_eq!{y.front(), 205};
+/// ```
+///
+/// The bias can also be implemented by adding or subtracting the array with a scalar. 
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Arr4, 8);
+/// let mut x = Arr4::ramp(0,22);
+/// x = x+3;
+/// assert_eq!{x[1], 25i32 };
+/// 
+/// let mut x = Arr4::ramp(0,22);
+/// x = x-3;
+/// assert_eq!{x[1], 19i32 };
 /// ```
 /// 
 /// ### Scale
@@ -162,7 +186,23 @@ mod std_support {
 /// ```
 /// 
 /// ## Inter-array arithemetic:
-/// Operations can also be performed on an array-basis.
+/// Operations can also be performed on an inter-array-basis.
+/// The arrays must be of the same size.
+/// The operations are written similarly as one would for scalars in Rust.
+/// 
+/// ### Addition and subtraction
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Arr4, 4);
+/// let mut x = Arr4::ramp(0,22);
+/// let y = Arr4::new(10);
+/// x = x+y;
+/// assert_eq!{x.data, [10,32,54,76] };
+/// 
+/// x = x-y;
+/// assert_eq!{x.data, [0,22,44,66] };
+/// ```
 /// 
 /// ```rust
 /// use numeric_array as na;
@@ -172,66 +212,21 @@ mod std_support {
 /// let  y = Arr4::new(10);
 /// x = x*y;
 /// assert_eq!{x.data, [100,320,540,760] };
-/// ```
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 4);
-/// let mut x = Arr4::ramp(0,22);
-/// let y = Arr4::new(10);
+/// 
+/// x = Arr4::ramp(0,22);
 /// x = x/y;
 /// assert_eq!{x.data, [0,2,4,6] };
 /// ```
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 4);
-/// let mut x = Arr4::ramp(0,22);
-/// let y = 10i32;
-/// x = x/y;
-/// assert_eq!{x.data, [0,2,4,6] };
-/// ```
+/// 
+/// In a divide-by-zero case, the maximum int value is returned. 
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
 /// na::declare_array_real!( Arr4, 4);
 /// let mut x = Arr4::ramp(0,22);
 /// let y = Arr4::new(1000);
-///    x = y/x;
-///    assert_eq!{x.data, [i32::MAX,45,22,15] };
-/// ```
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 8);
-/// let mut x = Arr4::ramp(0,22);
-/// x = x+3;
-/// assert_eq!{x[1], 25i32 };
-/// ```
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 4);
-/// let mut x = Arr4::ramp(0,22);
-/// let y = Arr4::new(10);
-/// x = x+y;
-/// assert_eq!{x.data, [10,32,54,76] };
-/// ```
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 8);
-/// let mut x = Arr4::ramp(0,22);
-/// x = x-3;
-/// assert_eq!{x[1], 19i32 };
-/// ```
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 8);
-/// let mut x = Arr4::ramp(0,22);
-/// x = 3-x;
-/// assert_eq!{x[1], -19i32 };
+/// x = y/x;
+/// assert_eq!{x.data, [i32::MAX,45,22,15] };
 /// ```
 /// 
 /// ## Trigometric functions:
@@ -581,6 +576,19 @@ macro_rules! declare_array_real{
             }
         }
 
+        impl core::ops::Sub<$name> for $name {
+            type Output = Self;
+            fn sub( self, other:$name ) -> $name {
+                let mut temp = self.data.clone();
+                for index in 0..$N {
+                    temp[index] = self[index]-other[index];
+                } 
+                Self {
+                    data: temp
+                }
+            }
+        }
+
         impl core::ops::Neg for $name {
             type Output = Self;
             fn neg( self ) -> $name {
@@ -798,4 +806,27 @@ mod tests {
         x = -x;
         assert_eq!{x[1], -22i32 };
     }
+
+    #[test]
+    fn zero_divide() {
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Arr4, 4);
+        let mut x = Arr4::ramp(0,22);
+        let y = 10i32;
+        x = x/y;
+        assert_eq!{x.data, [0,2,4,6] };
+    }
+
+    #[test]
+    fn sybtract_by_array() {
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Arr4, 8);
+        let mut x = Arr4::ramp(0,22);
+        x = 3-x;
+        assert_eq!{x[1], -19i32 };
+    }
+
+    
 }
