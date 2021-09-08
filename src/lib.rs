@@ -3,7 +3,7 @@
 //!
 //! The library lets the user declare arrays with traits that simplify the writhing of DSP-code.
 //! 
-//! ## Examle
+//! ## Example
 //! ```rust
 //! use integer_array as ia;
 //! use integer_array::trait_definitions::*;
