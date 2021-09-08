@@ -1,6 +1,6 @@
 [package]
 name = "integer_array"
-version = "0.1.0"
+version = "0.1.1"
 authors = ["Erik Buer"]
 edition = "2018"
 description = "No-STD numeric array."
@@ -8,7 +8,7 @@ readme = "README.md"
 repository = "https://github.com/ErikBuer/Integer-Array.git"
 license-file = "LICENSE"
 keywords = ["dsp", "radio", "audio","no_std"]
-exclude = ["numerical_verificatons/"]
+exclude = ["numerical_verificatons/numerical_verification.jl"]
 
 [lib]
 name  = "integer_array"

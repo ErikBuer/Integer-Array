@@ -19,7 +19,7 @@
 //! let y     = Arr4::new(2);
 //! x = x/y;
 //! assert_eq!(x.front(), 33);
-//! ```
+//! ``` 
 //! 
 //! ## Backgorund
 //! This is an experimental library for no-std DSP.
