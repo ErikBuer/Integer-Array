@@ -11,6 +11,8 @@ See the macro documentation for the implemented traits.
 The package can be found at https://crates.io/crates/integer_array.
 The documentation can be found at https://docs.rs/integer_array.
 
+## Release notes are found under RELEASES.md
+
 ## Use example
 arrays types of fixed size is defined with traits through a macro as follows:
 ```rust
