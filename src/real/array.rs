@@ -9,176 +9,209 @@ mod std_support {
     };
 }
 
-/// Create an i32 array type of size N. Complete with traits.
+/// Create an i32 array type of size N.
+/// Complete with the traits shown below.
+/// 
+/// 
+/// 
+/// ## Basic array traits:
 /// ```rust
 /// use numeric_array as na;
 /// use numeric_array::trait_definitions::*;
-/// na::declare_array_real!( Vec2, 2);
-/// let x = Vec2::zeros();
+/// na::declare_array_real!( Arr2, 2);
+/// let x = Arr2::zeros();
 /// assert_eq!{x.len(), 2};
 /// ```
-///     
+/// 
+/// Generate an array of zeros.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec2, 2);
-/// let x = Vec2::zeros();
+/// na::declare_array_real!( Arr2, 2);
+/// let x = Arr2::zeros();
 /// assert_eq!{x.len(), 2};
 /// ```
+/// 
+/// Generate an array of ones.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec2, 2);
-/// let x = Vec2::ones();
+/// na::declare_array_real!( Arr2, 2);
+/// let x = Arr2::ones();
 /// assert_eq!{x.at(0), 1};
 /// ```
+/// 
+/// Generate an array of a specific value.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec2, 2);
-/// let x = Vec2::new(200);
+/// na::declare_array_real!( Arr2, 2);
+/// let x = Arr2::new(200);
 /// assert_eq!{x.at(0), 200};
 /// ```
+/// 
+/// Generate a ramp of increasing value.
+/// * `start` The starting value (of item 0).
+/// * `step`  The incrimental value.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec2, 2);
-/// let x = Vec2::new(200);
+/// na::declare_array_real!( Arr4, 4);
+/// let x = Arr4::ramp(100,20);
+/// assert_eq!{x.data, [100, 120, 140, 160] };
+/// ```
+/// 
+/// ## Indexing
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Arr2, 2);
+/// let x = Arr2::new(200);
 /// assert_eq!{x.front(), 200};
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec32, 32);
-/// let x = Vec32::ramp(100,20);
+/// na::declare_array_real!( Arr32, 32);
+/// let x = Arr32::ramp(100,20);
 /// assert_eq!{x.back(), 720};
 /// ```
+/// ## Item-wise arithemetic:
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec2, 2);
-/// let x = Vec2::new(200);
+/// na::declare_array_real!( Arr2, 2);
+/// let x = Arr2::new(200);
 /// let y = x.bias(5);
 /// assert_eq!{y.front(), 205};
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec2, 2);
-/// let x = Vec2::zeros();
+/// na::declare_array_real!( Arr2, 2);
+/// let x = Arr2::zeros();
 /// assert_eq!{x.at(1), 0};
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec2, 2);
-/// let x = Vec2::new(100);
+/// na::declare_array_real!( Arr2, 2);
+/// let x = Arr2::new(100);
 /// let y = x.scale(5);
 ///    assert_eq!{y.front(), 500};
 /// ```
+/// 
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec32, 32);
-/// let x = Vec32::ramp(100,20);
+/// na::declare_array_real!( Arr4, 4);
+/// let x = Arr4::ramp(10000,1000);
+/// assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
+/// ```
+/// 
+/// ## Estimator utilites:
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Arr32, 32);
+/// let x = Arr32::ramp(100,20);
 /// assert_eq!{x.max(), 720};
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec32, 32);
-/// let x = Vec32::ramp(100,20);
+/// na::declare_array_real!( Arr32, 32);
+/// let x = Arr32::ramp(100,20);
 /// assert_eq!{x.min(), 100};
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec32, 32);
-/// let x = Vec32::ramp(0,1);
+/// na::declare_array_real!( Arr32, 32);
+/// let x = Arr32::ramp(0,1);
 /// assert_eq!{x.argmax(), 31};
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec32, 32);
-/// let x = Vec32::ramp(100,20);
+/// na::declare_array_real!( Arr32, 32);
+/// let x = Arr32::ramp(100,20);
 /// assert_eq!{x.argmin(), 0};
 /// ```
+/// 
+/// ## Trigometric functions:
+/// ### Sin
+/// The following trigometric functions are implemented based on a taylor approximation.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec4, 4);
-/// let x = Vec4::ramp(10000,1000);
-/// assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
-/// ```
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec8, 8);
-/// let mut x = Vec8::ramp(0,60);
+/// na::declare_array_real!( Arr8, 8);
+/// let mut x = Arr8::ramp(0,60);
 /// x = x.wrap_phase( 180 );
 ///    assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
 /// ```
+/// 
+/// ### Tan
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec8, 8);
-/// let x = Vec8::ramp(0,20);
+/// na::declare_array_real!( Arr8, 8);
+/// let x = Arr8::ramp(0,20);
 /// assert_eq!{x.tan( 180, 100).data, [0, 36, 83, 155, 289, 630, 1794, 5875] };
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec8, 8);
-/// let x = Vec8::ramp(0,22);
+/// na::declare_array_real!( Arr8, 8);
+/// let x = Arr8::ramp(0,22);
 /// assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec8, 8);
-/// let x = Vec8::ramp(0,22);
+/// na::declare_array_real!( Arr8, 8);
+/// let x = Arr8::ramp(0,22);
 /// assert_eq!{x[2], 44i32 };
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec8, 8);
-/// let mut x = Vec8::ramp(0,22);
+/// na::declare_array_real!( Arr8, 8);
+/// let mut x = Arr8::ramp(0,22);
 /// x[2] = 56;
 /// assert_eq!{x[2], 56i32 };
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec8, 8);
-/// let mut x = Vec8::ramp(0,22);
+/// na::declare_array_real!( Arr8, 8);
+/// let mut x = Arr8::ramp(0,22);
 /// x = x*3;
 /// assert_eq!{x[1], 66i32 };
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec4, 4);
-/// let mut x = Vec4::ramp(10,22);
-/// let  y = Vec4::new(10);
+/// na::declare_array_real!( Arr4, 4);
+/// let mut x = Arr4::ramp(10,22);
+/// let  y = Arr4::new(10);
 /// x = x*y;
 /// assert_eq!{x.data, [100,320,540,760] };
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec4, 4);
-/// let mut x = Vec4::ramp(0,22);
-/// let y = Vec4::new(10);
+/// na::declare_array_real!( Arr4, 4);
+/// let mut x = Arr4::ramp(0,22);
+/// let y = Arr4::new(10);
 /// x = x/y;
 /// assert_eq!{x.data, [0,2,4,6] };
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec4, 4);
-/// let mut x = Vec4::ramp(0,22);
+/// na::declare_array_real!( Arr4, 4);
+/// let mut x = Arr4::ramp(0,22);
 /// let y = 10i32;
 /// x = x/y;
 /// assert_eq!{x.data, [0,2,4,6] };
@@ -186,58 +219,58 @@ mod std_support {
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec4, 4);
-/// let mut x = Vec4::ramp(0,22);
+/// na::declare_array_real!( Arr4, 4);
+/// let mut x = Arr4::ramp(0,22);
 /// x = 1000/x;
 /// assert_eq!{x.data, [2147483647, 45, 22, 15] };
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec4, 4);
-/// let mut x = Vec4::ramp(0,22);
-/// let y = Vec4::new(1000);
+/// na::declare_array_real!( Arr4, 4);
+/// let mut x = Arr4::ramp(0,22);
+/// let y = Arr4::new(1000);
 ///    x = y/x;
 ///    assert_eq!{x.data, [i32::MAX,45,22,15] };
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec4, 8);
-/// let mut x = Vec4::ramp(0,22);
+/// na::declare_array_real!( Arr4, 8);
+/// let mut x = Arr4::ramp(0,22);
 /// x = x+3;
 /// assert_eq!{x[1], 25i32 };
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec4, 4);
-/// let mut x = Vec4::ramp(0,22);
-/// let y = Vec4::new(10);
+/// na::declare_array_real!( Arr4, 4);
+/// let mut x = Arr4::ramp(0,22);
+/// let y = Arr4::new(10);
 /// x = x+y;
 /// assert_eq!{x.data, [10,32,54,76] };
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec4, 8);
-/// let mut x = Vec4::ramp(0,22);
+/// na::declare_array_real!( Arr4, 8);
+/// let mut x = Arr4::ramp(0,22);
 /// x = x-3;
 /// assert_eq!{x[1], 19i32 };
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec4, 8);
-/// let mut x = Vec4::ramp(0,22);
+/// na::declare_array_real!( Arr4, 8);
+/// let mut x = Arr4::ramp(0,22);
 /// x = 3-x;
 /// assert_eq!{x[1], -19i32 };
 /// ```
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Vec4, 4);
-/// let mut x = Vec4::ramp(0,22);
+/// na::declare_array_real!( Arr4, 4);
+/// let mut x = Arr4::ramp(0,22);
 /// x = -x;
 /// assert_eq!{x[1], -22i32 };
 /// ```
@@ -672,9 +705,9 @@ macro_rules! declare_array_real{
             /// * 'pi' The integer level which represents pi in the input data.
             fn wrap_phase( &self, norm_pi:i32 ) -> Self {
 
-                let mut temp_vec = self.data.clone();
+                let mut temp_Arr = self.data.clone();
                 for idx in 0..$N {
-                    let mut temp_scalar = temp_vec[idx];
+                    let mut temp_scalar = temp_Arr[idx];
                     
                     while temp_scalar < -norm_pi 
                     {
@@ -684,10 +717,10 @@ macro_rules! declare_array_real{
                     {
                         temp_scalar = &temp_scalar-2*norm_pi;
                     }
-                    temp_vec[idx] = temp_scalar;
+                    temp_Arr[idx] = temp_scalar;
                 } 
                 Self {
-                    data: temp_vec
+                    data: temp_Arr
                 }
             }
         }

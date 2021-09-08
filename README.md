@@ -14,38 +14,38 @@ arrays types of fixed size is defined with traits through a macro as follows:
 use numeric_array as na;
 use numeric_array::trait_definitions::*;
 
-numeric_array::declare_array_real!( Vec11, 11);
+numeric_array::declare_array_real!( Arr11, 11);
 ```
-The name of the type for the above array is `Vec11`. The size of the error is 11 elements.
+The name of the type for the above array is `Arr11`. The size of the error is 11 elements.
 
 ### Initialization
 The array can be initalized with a single value across the array, or by creating a ramp.
 ```rust
-na::declare_array_real!( Vec2, 2);
-let x = Vec2::new(6);
+na::declare_array_real!( Arr2, 2);
+let x = Arr2::new(6);
 assert_eq!{x[0], 6};
 ```
 
 Zeros are made as separate traits for convenience.
 ```rust
-na::declare_array_real!( Vec2, 2);
-let x = Vec2::zeros();
+na::declare_array_real!( Arr2, 2);
+let x = Arr2::zeros();
 assert_eq!{x[0], 0};
 ```
 
 ### Indexing
 The elements of the array can be indexed using square brackets as normal arrays
 ```rust
-na::declare_array_real!( Vec4, 4);
-let mut x = Vec4::ramp(0,22);
+na::declare_array_real!( Arr4, 4);
+let mut x = Arr4::ramp(0,22);
 x = -x;
 assert_eq!{x[1], -22i32 };
 ```
 
 In addition to this, there are utilities such as `.front()` and `.back()`.
 ```rust
-na::declare_array_real!( Vec2, 2);
-let x = Vec2::new(200);
+na::declare_array_real!( Arr2, 2);
+let x = Arr2::new(200);
 let y = x.bias(5);
 assert_eq!{y.front(), 205};
 ```
@@ -53,24 +53,24 @@ assert_eq!{y.front(), 205};
 ### Element-wise arithmetic
 Math can then be performed on the array types, like one would expect from a modern language.
 ```rust
-let mut x = Vec11::new(66);
-let y     = Vec11::new(2);
+let mut x = Arr11::new(66);
+let y     = Arr11::new(2);
 x = x/y;
 assert_eq!(x.front(), 33);
 ```
 ### array-scalar operations
 There is also some support for array-scalar operations.
 ```rust
-na::declare_array_real!( Vec4, 8);
-let mut x = Vec4::ramp(0,22);
+na::declare_array_real!( Arr4, 8);
+let mut x = Arr4::ramp(0,22);
 x = x+3;
 assert_eq!{x[1], 25i32 };
 ```
 ### Esimator utilities
 The arrays are equipped with traits for estimators, such as var, mean, max min and argmax.
 ```rust
-na::declare_array_real!( Vec32, 32);
-let x = Vec32::ramp(100,20);
+na::declare_array_real!( Arr32, 32);
+let x = Arr32::ramp(100,20);
 assert_eq!{x.argmax(), 31};
 ```
 
@@ -110,8 +110,8 @@ This is a vast improvement showing close to no reduction in Singal to Noise and 
 
 The sin(x) function is used as follows:
 ```rust
-na::declare_array_real!( Vec8, 8);
-let mut x = Vec8::ramp(0,60);
+na::declare_array_real!( Arr8, 8);
+let mut x = Arr8::ramp(0,60);
 x = x.wrap_phase( 180 );
 assert_eq!{x.sin( 180, 100 ).data, [0, 86, 86, 0, -86, -86, 0, 86] };
 ```
