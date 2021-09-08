@@ -1,44 +1,46 @@
 using Plots
 using FFTW
 
+cos_taylor(x) = 1-( x^2/2 )+( x^4/24.0 )-( x^6/720.0 )+( x^8/40320.0 );
+
 """
 Calculate cos(x) with a five-term Taylor series, using only the quarter-waves closest to the origin for increased accuracy.
 """
 function fast_cos( x::Float64 ) 
         if x < -π/2
             x = -π/2 + abs(x+π/2);
-            return -(1-(x^2/2 )+( x^4/24.0 )-( x^6/720.0 )+( x^8/40320.0 ));
+            return -cos_taylor(x);
         elseif π/2 < x
             x = π/2 - abs(x-π/2);
-            return -(1-(x^2/2 )+( x^4/24.0 )-( x^6/720.0 )+( x^8/40320.0 ));
+            return -cos_taylor(x)
         else
-            return 1-(x^2/2 )+( x^4/24.0 )-( x^6/720.0 )+( x^8/40320.0 );
+            return cos_taylor(x)
             
         end
 end
 
 x = LinRange(-π, π, 1000);
-cos_taylor(x) = 1-(x^2/2 )+( x^4/24.0 )-( x^6/720.0 )+( x^8/40320.0 );
+
 
 cosx_taylor = cos_taylor.(x);
 cosx_native = cos.(x);
 
-delta = sinx_native-sinx_taylor
+delta = cosx_native-cosx_taylor
 
 # Time domain comparison.
 plot( 	x, cosx_native,
-	 	label = "Julia native sine",
+	 	label = "Julia native cosine",
         size = (1024, 720),)
 plot!( 	x, cosx_taylor,
 	 	label = "5-term Taylor series",)
 plot!( 	x, delta*100,
 	 	label = "Difference*100",)
 
-savefig("figures/cos/cos_time_domain_sinx")
+savefig("figures/cos/time_domain")
 
 
-taylor_sine2 = fast_sine.(x);
-delta2 = sinx_native-taylor_sine2
+taylor_cos2 = fast_cos.(x);
+delta2 = cosx_native-taylor_cos2
 
 # Taylor vs first quarter taylor.
 plot( 	x, delta*100,
@@ -83,28 +85,28 @@ end
 omega = LinRange(0, 1, Int(size(x)[1]/2));
 
 # Frequency domain.
-plot( 	omega, frequecny_domain_analysis(sinx_native),
-	 	label = "Julia native sine",
+plot( 	omega, frequecny_domain_analysis(cosx_native),
+	 	label = "Julia native cosine",
         ylims = [-100, 0],
         size = (1024, 720),)
 xlabel!("Frequency relative to Fs")
 ylabel!("Normalized power [dBC]")
 
-plot!( 	omega, frequecny_domain_analysis(sinx_taylor),
+plot!( 	omega, frequecny_domain_analysis(cosx_taylor),
 	 	label = "5-term Taylor series",)
 
-savefig("figures/cos/frequency_domain_sinx")
+savefig("figures/cos/frequency_domain")
 
 
 # Frequency domain first quarter.
-plot( 	omega, frequecny_domain_analysis(sinx_native),
-	 	label = "Julia native sine",
+plot( 	omega, frequecny_domain_analysis(cosx_native),
+	 	label = "Julia native cosine",
         ylims = [-100, 0],
         size = (1024, 720),)
 xlabel!("Frequency relative to Fs")
 ylabel!("Normalized power [dBC]")
 
-plot!( 	omega, frequecny_domain_analysis(fast_sine.(x)),
+plot!( 	omega, frequecny_domain_analysis(fast_cos.(x)),
 	 	label = "5-term Taylor, first quarter",)
 
-savefig("figures/cos/taylor_sine_comparison")
+savefig("figures/cos/frequency_domain2")

@@ -245,8 +245,11 @@ mod std_support {
 /// 
 /// ### Sin
 /// Take the elemtent-wise sine using a Taylor approximation of sine x.
+/// sin is calculated using the following polynomial:
+/// `sinx = x -( x^3/6.0 )+( x^5/120.0 )-( x^7/5040.0 )+( x^9/362880.0 )`
+/// 
 /// Self must be wrapped to the -π=<x<π range.
-/// * `pi` The integer level which represents π in the input data.
+/// * `pi`   The integer level which represents π in the input data.
 /// * `norm` The integer level which represents 1 in the output data.
 /// ```rust
 /// use integer_array as ia;
@@ -254,12 +257,29 @@ mod std_support {
 /// ia::declare_array_real!( Arr8, 8);
 /// let mut x = Arr8::ramp(0,60);
 /// x = x.wrap_phase( 180 );
-///    assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
+/// assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
+/// ```
+/// 
+/// ### Cos
+/// Take the elemtent-wise cosine using a Taylor approximation of cos x.
+/// Cos is calculated using the following polynomial:
+/// `cosx = 1 -( x^2/2 )+( x^4/24.0 )-( x^6/720.0 )+( x^8/40320.0 )`
+/// 
+/// Self must be wrapped to the -π=<x<π range.
+/// * `pi`   The integer level which represents π in the input data.
+/// * `norm` The integer level which represents 1 in the output data.
+/// ```rust
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr8, 8);
+/// let mut x = Arr8::ramp(0,60);
+/// x = x.wrap_phase( 180 );
+/// assert_eq!{x.cos( 180, 100).data, [100, 50, -50, -100, -50, 50, 100, 50] };
 /// ```
 /// 
 /// ### Tan
 /// Take the element-wise tan using a Taylor approximation of tan x.
-/// * 'pi' The integer level which represents π in the input data.
+/// * 'pi'   The integer level which represents π in the input data.
 /// * 'norm' The integer level which represents 1 in the output data.
 /// ```rust
 /// use integer_array as ia;
@@ -713,12 +733,12 @@ macro_rules! declare_array_real{
 
                     // Calculate sine by using 
                     let sinx:f32 = x-( util::fpowi(x,3)/6.0 )+( util::fpowi(x,5)/120.0 )-( util::fpowi(x,7)/5040.0 )+( util::fpowi(x,9)/362880.0 );
-                    assert!( sinx.abs()<1.0, "sinx = {}, x = {}", sinx, x);
 
                     r_array[idx] = ( sinx*(norm as f32) ) as i32;
                 } 
                 return r_array;
             }
+            
             /// Take the elemtent-wise cosine using a Taylor approximation of cos(x).
             /// Self must be wrapped to the -π=<x<π range.
             /// * `pi` The integer level which represents π in the input data.
@@ -733,27 +753,31 @@ macro_rules! declare_array_real{
                 for idx in 0..$N {
                     // Add a π/2 phase shift and run the sine computation from above.
                     let mut x:f32 = ((self[idx] as f32)/(norm_pi as f32 ) *cnst::PI);
-
+                    
+                    let cosx:f32;
                     // Ensure that the angle is within the accurate range of the tailor series. 
                     if x < -PI_HALF
                     {   
                         let delta = x+PI_HALF;
                         x = -PI_HALF+delta.abs();
+                        cosx = -(1.0-( util::fpowi(x,2)/2.0 )+( util::fpowi(x,4)/24.0 )-( util::fpowi(x,6)/720.0 )+( util::fpowi(x,8)/40320.0 ));
+
                     }
                     else if PI_HALF < x
                     {
                         let delta = x-PI_HALF;
                         x = PI_HALF-delta.abs();
+                        cosx = -(1.0-( util::fpowi(x,2)/2.0 )+( util::fpowi(x,4)/24.0 )-( util::fpowi(x,6)/720.0 )+( util::fpowi(x,8)/40320.0 ));
                     }
-
-                    // Calculate sine by using 
-                    let cosx:f32 = x-( util::fpowi(x,3)/6.0 )+( util::fpowi(x,5)/120.0 )-( util::fpowi(x,7)/5040.0 )+( util::fpowi(x,9)/362880.0 );
-                    assert!( cosx.abs()<1.0, "sinx = {}, x = {}", cosx, x);
-                    
+                    else
+                    {
+                        cosx = 1.0-( util::fpowi(x,2)/2.0 )+( util::fpowi(x,4)/24.0 )-( util::fpowi(x,6)/720.0 )+( util::fpowi(x,8)/40320.0 );
+                    }
                     r_array[idx] = ( cosx*(norm as f32) ) as i32;
                 } 
                 return r_array;
             }
+
             /// Take the element-wise tan using a Taylor approximation of tan x.
             /// Self must be wrapped to the -π=<x<π range.
             /// * `pi` The integer level which represents π in the input data.
