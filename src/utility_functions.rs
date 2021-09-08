@@ -18,11 +18,6 @@ pub fn fpowi( base:f32, power:u32 ) -> f32 {
     return temp;
 }
 
-/// Absolute value.
-pub fn abs( sample:i32 ) -> i32 {
-    return sample.abs();
-}
-
 #[cfg(test)]
 mod tests {
     #[test]

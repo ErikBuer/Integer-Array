@@ -9,7 +9,7 @@ extern crate std;
 
 
 // Pull in core as std.
-#[cfg(all(not(feature = "std"), not(test)))]
+//#[cfg(all(not(feature = "std"), not(test)))]
 extern crate core as std;
 
 // Modules (files in the top hierarchy)

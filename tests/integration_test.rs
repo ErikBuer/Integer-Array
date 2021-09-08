@@ -15,6 +15,6 @@ fn create_type_real() {
 fn create_type_complex() {
     numeric_array::declare_array_complex!( CVec11, 11);
     let x = CVec11::new( 1, 2 );
-    assert_eq!{ x[1], numeric_array::complex::Complex{re:1, im:2} };
+    assert_eq!{ x[1], num::complex::Complex{re:1, im:2} };
 
 }

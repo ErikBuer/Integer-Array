@@ -26,9 +26,9 @@ pub trait ArrayIndexing {
 }
 
 pub trait ArrayIndexingComplex {
-    fn at( &self, index:usize) -> crate::complex::Complex;
-    fn front( &self )          -> crate::complex::Complex;
-    fn back( &self )           -> crate::complex::Complex;
+    fn at( &self, index:usize) -> num::complex::Complex<i32>;
+    fn front( &self )          -> num::complex::Complex<i32>;
+    fn back( &self )           -> num::complex::Complex<i32>;
 }
 
 pub trait ArithmeticTraits {
