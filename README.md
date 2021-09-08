@@ -26,7 +26,7 @@ let x = Arr2::new(6);
 assert_eq!{x[0], 6};
 ```
 
-Zeros are made as separate traits for convenience.
+Zeros is made as a separate trait for convenience.
 ```rust
 na::declare_array_real!( Arr2, 2);
 let x = Arr2::zeros();

@@ -26,8 +26,7 @@ mod std_support {
 /// ## Initialization
 /// The array can be initalized with a single value across the array, or by creating a ramp.
 /// ### Generate an array of zeros.
-/// `zeros` are made as separate traits for convenience.
-/// 
+/// `zeros` is made as separate trait for convenience.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
@@ -37,7 +36,7 @@ mod std_support {
 /// ```
 /// 
 /// ### Generate an array of ones.
-/// `ones` are made as separate traits for convenience.
+/// `ones` is made as separate trait for convenience.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
@@ -203,7 +202,8 @@ mod std_support {
 /// x = x-y;
 /// assert_eq!{x.data, [0,22,44,66] };
 /// ```
-/// 
+///
+///  ### Multiplication and division
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
@@ -233,8 +233,8 @@ mod std_support {
 /// The following trigometric functions are implemented based on a taylor approximation.
 /// 
 /// ### Wrap phase 
-/// Wrap array to a fixed-point -pi=<x<=pi range.
-/// * 'pi' The integer level which represents pi in the input data.
+/// Wrap array to a fixed-point -π=<x<π range.
+/// * `pi` The integer level which represents π in the input data.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
@@ -245,9 +245,9 @@ mod std_support {
 /// 
 /// ### Sin
 /// Take the elemtent-wise sine using a Taylor approximation of sine x.
-/// Self must be wrapped to the -pi=<x<=pi range.
-/// * 'pi' The integer level which represents pi in the input data.
-/// * 'norm' The integer level which represents 1 in the output data.
+/// Self must be wrapped to the -π=<x<π range.
+/// * `pi` The integer level which represents π in the input data.
+/// * `norm` The integer level which represents 1 in the output data.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
@@ -259,7 +259,7 @@ mod std_support {
 /// 
 /// ### Tan
 /// Take the element-wise tan using a Taylor approximation of tan x.
-/// * 'pi' The integer level which represents pi in the input data.
+/// * 'pi' The integer level which represents π in the input data.
 /// * 'norm' The integer level which represents 1 in the output data.
 /// ```rust
 /// use numeric_array as na;
@@ -687,9 +687,9 @@ macro_rules! declare_array_real{
 
         impl numeric_array::trait_definitions::TrigonometryTraits for $name {
             /// Take the elemtent-wise sine using a Taylor approximation of sine x.
-            /// Self must be wrapped to the -pi=<x<=pi range.
-            /// * 'pi' The integer level which represents pi in the input data.
-            /// * 'norm' The integer level which represents 1 in the output data.
+            /// Self must be wrapped to the -π=<x<π range.
+            /// * `pi` The integer level which represents π in the input data.
+            /// * `norm` The integer level which represents 1 in the output data.
             fn sin( &self, norm_pi:i32, norm:i32 ) -> Self {
                 use numeric_array::utility_functions as util;
                 use numeric_array::constants as cnst;
@@ -722,9 +722,9 @@ macro_rules! declare_array_real{
                 return r_array;
             }
             /// Take the element-wise tan using a Taylor approximation of tan x.
-            /// Self must be wrapped to the -pi=<x<=pi range.
-            /// * 'pi' The integer level which represents pi in the input data.
-            /// * 'norm' The integer level which represents 1 in the output data.
+            /// Self must be wrapped to the -π=<x<π range.
+            /// * `pi` The integer level which represents π in the input data.
+            /// * `norm` The integer level which represents 1 in the output data.
             fn tan( &self, norm_pi:i32, norm:i32 ) -> Self {
                 let mut temp = self.data.clone();
                 
@@ -742,8 +742,8 @@ macro_rules! declare_array_real{
                     data: temp
                 }
             }
-            /// Wrapps Self to the -pi=<x<pi range.
-            /// * 'pi' The integer level which represents pi in the input data.
+            /// Wrapps Self to the -π=<x<π range.
+            /// * `pi` The integer level which represents π in the input data.
             fn wrap_phase( &self, norm_pi:i32 ) -> Self {
 
                 let mut temp_arr = self.data.clone();
