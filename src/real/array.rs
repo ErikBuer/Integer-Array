@@ -9,8 +9,238 @@ mod std_support {
     };
 }
 
-/// Create an i32 array type of size N.
-/// Complete with traits.
+/// Create an i32 array type of size N. Complete with traits.
+/// ```rust
+/// use numeric_array as na;
+/// use numeric_array::trait_definitions::*;
+/// na::declare_array_real!( Vec2, 2);
+/// let x = Vec2::zeros();
+/// assert_eq!{x.len(), 2};
+/// ```
+///     
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec2, 2);
+/// let x = Vec2::zeros();
+/// assert_eq!{x.len(), 2};
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec2, 2);
+/// let x = Vec2::ones();
+/// assert_eq!{x.at(0), 1};
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec2, 2);
+/// let x = Vec2::new(200);
+/// assert_eq!{x.at(0), 200};
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec2, 2);
+/// let x = Vec2::new(200);
+/// assert_eq!{x.front(), 200};
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec32, 32);
+/// let x = Vec32::ramp(100,20);
+/// assert_eq!{x.back(), 720};
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec2, 2);
+/// let x = Vec2::new(200);
+/// let y = x.bias(5);
+/// assert_eq!{y.front(), 205};
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec2, 2);
+/// let x = Vec2::zeros();
+/// assert_eq!{x.at(1), 0};
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec2, 2);
+/// let x = Vec2::new(100);
+/// let y = x.scale(5);
+///    assert_eq!{y.front(), 500};
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec32, 32);
+/// let x = Vec32::ramp(100,20);
+/// assert_eq!{x.max(), 720};
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec32, 32);
+/// let x = Vec32::ramp(100,20);
+/// assert_eq!{x.min(), 100};
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec32, 32);
+/// let x = Vec32::ramp(0,1);
+/// assert_eq!{x.argmax(), 31};
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec32, 32);
+/// let x = Vec32::ramp(100,20);
+/// assert_eq!{x.argmin(), 0};
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec4, 4);
+/// let x = Vec4::ramp(10000,1000);
+/// assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec8, 8);
+/// let mut x = Vec8::ramp(0,60);
+/// x = x.wrap_phase( 180 );
+///    assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec8, 8);
+/// let x = Vec8::ramp(0,20);
+/// assert_eq!{x.tan( 180, 100).data, [0, 36, 83, 155, 289, 630, 1794, 5875] };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec8, 8);
+/// let x = Vec8::ramp(0,22);
+/// assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec8, 8);
+/// let x = Vec8::ramp(0,22);
+/// assert_eq!{x[2], 44i32 };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec8, 8);
+/// let mut x = Vec8::ramp(0,22);
+/// x[2] = 56;
+/// assert_eq!{x[2], 56i32 };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec8, 8);
+/// let mut x = Vec8::ramp(0,22);
+/// x = x*3;
+/// assert_eq!{x[1], 66i32 };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec4, 4);
+/// let mut x = Vec4::ramp(10,22);
+/// let  y = Vec4::new(10);
+/// x = x*y;
+/// assert_eq!{x.data, [100,320,540,760] };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec4, 4);
+/// let mut x = Vec4::ramp(0,22);
+/// let y = Vec4::new(10);
+/// x = x/y;
+/// assert_eq!{x.data, [0,2,4,6] };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec4, 4);
+/// let mut x = Vec4::ramp(0,22);
+/// let y = 10i32;
+/// x = x/y;
+/// assert_eq!{x.data, [0,2,4,6] };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec4, 4);
+/// let mut x = Vec4::ramp(0,22);
+/// x = 1000/x;
+/// assert_eq!{x.data, [2147483647, 45, 22, 15] };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec4, 4);
+/// let mut x = Vec4::ramp(0,22);
+/// let y = Vec4::new(1000);
+///    x = y/x;
+///    assert_eq!{x.data, [i32::MAX,45,22,15] };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec4, 8);
+/// let mut x = Vec4::ramp(0,22);
+/// x = x+3;
+/// assert_eq!{x[1], 25i32 };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec4, 4);
+/// let mut x = Vec4::ramp(0,22);
+/// let y = Vec4::new(10);
+/// x = x+y;
+/// assert_eq!{x.data, [10,32,54,76] };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec4, 8);
+/// let mut x = Vec4::ramp(0,22);
+/// x = x-3;
+/// assert_eq!{x[1], 19i32 };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec4, 8);
+/// let mut x = Vec4::ramp(0,22);
+/// x = 3-x;
+/// assert_eq!{x[1], -19i32 };
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Vec4, 4);
+/// let mut x = Vec4::ramp(0,22);
+/// x = -x;
+/// assert_eq!{x[1], -22i32 };
+/// ```
 #[macro_export]
 macro_rules! declare_array_real{
     ( $name:ident, $N:expr) => {
@@ -473,14 +703,6 @@ macro_rules! declare_array_real{
         
         impl core::ops::IndexMut<usize> for $name {
             /// Trait for returning a mutable reference to indexed item.
-            /// ´´´
-            /// use crate as numeric_array;
-            /// use numeric_array::trait_definitions::*;
-            /// declare_array_real!( Vec8, 8);
-            /// let mut x = Vec8::ramp(0,22);
-            /// x[2] = 56;
-            /// assert_eq!{x[2], 56i32 };
-            /// ´´´
             #[inline]
             fn index_mut(&mut self, index: usize) -> &mut i32 {
                 return &mut self.data[index];
@@ -494,288 +716,5 @@ macro_rules! declare_array_real{
             }
         }
 
-    }
-}
-
-#[cfg(test)]
-mod tests {
-    //use super::*;
-
-    #[test]
-    fn scalar_len() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec2, 2);
-        let x = Vec2::zeros();
-        assert_eq!{x.len(), 2};
-    }
-    #[test]
-    fn scalar_at() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec2, 2);
-        let x = Vec2::ones();
-        assert_eq!{x.at(0), 1};
-    }
-    /*
-    #[test]
-    fn iter() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec2, 2);
-        let x = Vec2::ramp(6,12);
-        let mut iter = x.into_iter();
-        assert_eq!(iter.next(), Some(&18));
-    }
-    */
-    #[test]
-    fn scalar_new() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec2, 2);
-        let x = Vec2::new(200);
-        assert_eq!{x.at(0), 200};
-    }
-    #[test]
-    fn scalar_front() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec2, 2);
-        let x = Vec2::new(200);
-        assert_eq!{x.front(), 200};
-    }
-    #[test]
-    fn scalar_back() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec32, 32);
-        let x = Vec32::ramp(100,20);
-        assert_eq!{x.back(), 720};
-    }
-    #[test]
-    fn scalar_bias() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec2, 2);
-        let x = Vec2::new(200);
-        let y = x.bias(5);
-        assert_eq!{y.front(), 205};
-    }
-    #[test]
-    fn zeros() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec2, 2);
-        let x = Vec2::zeros();
-        assert_eq!{x.at(1), 0};
-    }
-    #[test]
-    fn scalar_scale() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec2, 2);
-        let x = Vec2::new(100);
-        let y = x.scale(5);
-        assert_eq!{y.front(), 500};
-    }
-    #[test]
-    fn max() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec32, 32);
-        let x = Vec32::ramp(100,20);
-        assert_eq!{x.max(), 720};
-    }
-    #[test]
-    fn min() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec32, 32);
-        let x = Vec32::ramp(100,20);
-        assert_eq!{x.min(), 100};
-    }
-    #[test]
-    fn argmax() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec32, 32);
-        let x = Vec32::ramp(0,1);
-        assert_eq!{x.argmax(), 31};
-    }
-    #[test]
-    fn argmin() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec32, 32);
-        let x = Vec32::ramp(100,20);
-        assert_eq!{x.argmin(), 0};
-    }
-    #[test]
-    fn sqrt() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec4, 4);
-        let x = Vec4::ramp(10000,1000);
-        assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
-    }
-    #[test]
-    fn sin() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec8, 8);
-        let mut x = Vec8::ramp(0,60);
-        x = x.wrap_phase( 180 );
-        assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
-    }
-    #[test]
-    #[ignore]
-    fn tan() {//TODO Verify 
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec8, 8);
-        let x = Vec8::ramp(0,20);
-        assert_eq!{x.tan( 180, 100).data, [1,2,3,4,5,6,7,8] };
-    }
-    #[test]
-    fn wrap_phase() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec8, 8);
-        let x = Vec8::ramp(0,22);
-        assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
-    }
-    #[test]
-    fn index() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec8, 8);
-        let x = Vec8::ramp(0,22);
-        assert_eq!{x[2], 44i32 };
-    }
-    #[test]
-    fn mut_index() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec8, 8);
-        let mut x = Vec8::ramp(0,22);
-        x[2] = 56;
-        assert_eq!{x[2], 56i32 };
-    }
-    #[test]
-    fn mul_scalar() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec8, 8);
-        let mut x = Vec8::ramp(0,22);
-        x = x*3;
-        assert_eq!{x[1], 66i32 };
-    }
-    #[test]
-    fn mul_array() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec4, 4);
-        let mut x = Vec4::ramp(10,22);
-        let  y = Vec4::new(10);
-        x = x*y;
-        assert_eq!{x.data, [100,320,540,760] };
-    }
-    #[test]
-    fn div_array() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec4, 4);
-        let mut x = Vec4::ramp(0,22);
-        let y = Vec4::new(10);
-        x = x/y;
-        assert_eq!{x.data, [0,2,4,6] };
-    }
-    #[test]
-    fn div_scalar() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec4, 4);
-        let mut x = Vec4::ramp(0,22);
-        let y = 10i32;
-        x = x/y;
-        assert_eq!{x.data, [0,2,4,6] };
-    }
-    #[test]
-    fn scalar_div_array() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec4, 4);
-        let mut x = Vec4::ramp(0,22);
-        x = 1000/x;
-        assert_eq!{x.data, [2147483647, 45, 22, 15] };
-    }
-    #[test]
-    fn array_div_by_zero() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec4, 4);
-        let mut x = Vec4::ramp(0,22);
-        let y = Vec4::new(1000);
-        x = y/x;
-        assert_eq!{x.data, [i32::MAX,45,22,15] };
-    }
-    #[test]
-    fn add_scalar() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec4, 8);
-        let mut x = Vec4::ramp(0,22);
-        x = x+3;
-        assert_eq!{x[1], 25i32 };
-    }
-    #[test]
-    fn add_array() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec4, 4);
-        let mut x = Vec4::ramp(0,22);
-        let y = Vec4::new(10);
-        x = x+y;
-        assert_eq!{x.data, [10,32,54,76] };
-    }
-    #[test]
-    fn sub_scalar() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec4, 8);
-        let mut x = Vec4::ramp(0,22);
-        x = x-3;
-        assert_eq!{x[1], 19i32 };
-    }
-    #[test]
-    fn sub_array_switched_places() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec4, 8);
-        let mut x = Vec4::ramp(0,22);
-        x = 3-x;
-        assert_eq!{x[1], -19i32 };
-    }
-    #[test]
-    fn neg() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
-        declare_array_real!( Vec4, 4);
-        let mut x = Vec4::ramp(0,22);
-        x = -x;
-        assert_eq!{x[1], -22i32 };
-    }
-}
-
-
-#[cfg(feature = "std")]
-mod std_support {
-    use super::*;
-
-    #[test]
-    fn std_display() {
-        let x = Vec32::ramp(100,20);
-        println! ("{}", x);
-        assert_eq!{x.max(), 720};
     }
 }

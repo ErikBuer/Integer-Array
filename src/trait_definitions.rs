@@ -62,6 +62,7 @@ pub trait StdUtilities {
     fn todo( &self ) -> Self;
 }
 
+/*
 // TODO
 pub trait ComplexExponential {
     fn exp( &self, norm_pi:i32, norm:i32 )  -> Self;
@@ -74,3 +75,4 @@ pub trait Complexutilities {
     fn mag()  -> Self;
     fn ang()  -> Self;
 }
+*/

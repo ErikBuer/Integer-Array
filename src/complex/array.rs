@@ -1,5 +1,5 @@
-/// Create a complex i32 array type of size N.
-/// Complete with traits.
+/// Create a complex i32 array type of size N. Complete with traits.
+/// 
 #[macro_export]
 macro_rules! declare_array_complex{
     ( $name:ident, $N:expr) => {
