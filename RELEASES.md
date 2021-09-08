@@ -3,4 +3,4 @@
 - Added cosine calculation for real vector.
 - Added plot of the accuracy of sin, cos and tan.
 
-**Contributors**: @ErikBuer
+**Contributors**: ErikBuer
