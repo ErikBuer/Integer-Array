@@ -9,7 +9,8 @@ mod std_support {
     };
 }
 
-/// Create array type of size N.
+/// Create an i32 array type of size N.
+/// Complete with traits.
 #[macro_export]
 macro_rules! declare_array_real{
     ( $name:ident, $N:expr) => {
@@ -385,7 +386,6 @@ macro_rules! declare_array_real{
             /// Self must be wrapped to the -pi=<x<=pi range.
             /// * 'pi' The integer level which represents pi in the input data.
             /// * 'norm' The integer level which represents 1 in the output data.
-
             fn sin( &self, norm_pi:i32, norm:i32 ) -> Self {
                 use numeric_array::utility_functions as util;
                 use numeric_array::constants as cnst;

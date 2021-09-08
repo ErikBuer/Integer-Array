@@ -1,4 +1,5 @@
-/// Create array type of size N.
+/// Create a complex i32 array type of size N.
+/// Complete with traits.
 #[macro_export]
 macro_rules! declare_array_complex{
     ( $name:ident, $N:expr) => {
@@ -57,14 +58,6 @@ macro_rules! declare_array_complex{
         
         impl core::ops::IndexMut<usize> for $name {
             /// Trait for returning a mutable reference to indexed item.
-            /// ```
-            /// use crate as numeric_array;
-            /// use numeric_array::trait_definitions::*;
-            /// declare_array_real!( Vec8, 8);
-            /// let mut x = Vec8::ramp(0,22);
-            /// x[2] = 56;
-            /// assert_eq!{x[2], 56i32 };
-            /// ```
             #[inline]
             fn index_mut(&mut self, index: usize) -> &mut num::complex::Complex<i32> {
                 return &mut self.data[index];
