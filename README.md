@@ -14,6 +14,8 @@ The documentation can be found at https://docs.rs/integer_array.
 ## Release notes are found under RELEASES.md
 
 ## Use example
+Here are some use examples. Find the complete documentation at https://docs.rs/integer_array.
+
 arrays types of fixed size is defined with traits through a macro as follows:
 ```rust
 use integer_array as ia;
