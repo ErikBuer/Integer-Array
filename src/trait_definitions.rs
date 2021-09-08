@@ -44,6 +44,7 @@ pub trait Pow {
 
 pub trait TrigonometryTraits {
     fn sin( &self, norm_pi:i32, norm:i32 )  -> Self;
+    fn cos( &self, norm_pi:i32, norm:i32 )  -> Self;
     fn tan( &self, norm_pi:i32, norm:i32 )  -> Self;
     fn wrap_phase( &self, norm_pi:i32)      -> Self;
 }

@@ -410,9 +410,9 @@ macro_rules! declare_array_real{
             /// Return the elemtent-wise square root using the 
             /// Babylonian square root implementation.
             fn sqrt( &self ) -> Self {
-                let mut temp = self.data.clone();
+                let mut r_array = self.clone();
                 for index in 0..$N {
-                    let item = self.data[index];
+                    let item = self[index];
                     // Initial approximation
                     let mut root:i32 = item/2;
                     let mut y:i32 = 1;
@@ -423,11 +423,9 @@ macro_rules! declare_array_real{
                         root = (root + y) / 2;
                         y = item / root;
                     }
-                    temp[index] = root;
+                    r_array[index] = root;
                 } 
-                Self {
-                    data: temp
-                }
+                return r_array;
             }
         }
 
@@ -686,7 +684,7 @@ macro_rules! declare_array_real{
         }
 
         impl integer_array::trait_definitions::TrigonometryTraits for $name {
-            /// Take the elemtent-wise sine using a Taylor approximation of sine x.
+            /// Take the elemtent-wise sine using a Taylor approximation of sin(x).
             /// Self must be wrapped to the -π=<x<π range.
             /// * `pi` The integer level which represents π in the input data.
             /// * `norm` The integer level which represents 1 in the output data.
@@ -700,8 +698,8 @@ macro_rules! declare_array_real{
 
                 for idx in 0..$N {
                     let mut x:f32 = (self[idx] as f32)/(norm_pi as f32 ) *cnst::PI;
-                    // Ensure that the angle is within the accurate range of the tailor series. 
 
+                    // Ensure that the angle is within the accurate range of the tailor series. 
                     if x < -PI_HALF
                     {   
                         let delta = x+PI_HALF;
@@ -718,6 +716,41 @@ macro_rules! declare_array_real{
                     assert!( sinx.abs()<1.0, "sinx = {}, x = {}", sinx, x);
 
                     r_array[idx] = ( sinx*(norm as f32) ) as i32;
+                } 
+                return r_array;
+            }
+            /// Take the elemtent-wise cosine using a Taylor approximation of cos(x).
+            /// Self must be wrapped to the -π=<x<π range.
+            /// * `pi` The integer level which represents π in the input data.
+            /// * `norm` The integer level which represents 1 in the output data.
+            fn cos( &self, norm_pi:i32, norm:i32 ) -> Self {
+                use integer_array::utility_functions as util;
+                use integer_array::constants as cnst;
+
+                const PI_HALF:f32 = cnst::PI/2.0;
+
+                let mut r_array = $name::zeros();
+                for idx in 0..$N {
+                    // Add a π/2 phase shift and run the sine computation from above.
+                    let mut x:f32 = ((self[idx] as f32)/(norm_pi as f32 ) *cnst::PI);
+
+                    // Ensure that the angle is within the accurate range of the tailor series. 
+                    if x < -PI_HALF
+                    {   
+                        let delta = x+PI_HALF;
+                        x = -PI_HALF+delta.abs();
+                    }
+                    else if PI_HALF < x
+                    {
+                        let delta = x-PI_HALF;
+                        x = PI_HALF-delta.abs();
+                    }
+
+                    // Calculate sine by using 
+                    let cosx:f32 = x-( util::fpowi(x,3)/6.0 )+( util::fpowi(x,5)/120.0 )-( util::fpowi(x,7)/5040.0 )+( util::fpowi(x,9)/362880.0 );
+                    assert!( cosx.abs()<1.0, "sinx = {}, x = {}", cosx, x);
+                    
+                    r_array[idx] = ( cosx*(norm as f32) ) as i32;
                 } 
                 return r_array;
             }
