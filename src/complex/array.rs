@@ -2,8 +2,7 @@
 /// Complete with traits.
 /// 
 /// # Traits implemented with the macro:
-/// Traits that are shared between real and complex arrays are documented under real/array.
-/// The complex support is under development.
+/// The complex support is currently under development.
 /// 
 /// ### Generate an array of a specific value.
 /// ```rust

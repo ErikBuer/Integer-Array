@@ -87,10 +87,10 @@ sin(x) = x-( x^3/6.0 )+( x^5/120.0 )-( x^7/5040.0 )+( x^9/362880.0 )
 
 Below is the taylor approwimation compared to the native sine function, generated in Julia:
 The error of the Taylor aproximation is magnified by 100 and showed as well. In the figure it is apparent that there is greater error in the Taylor approximation further from origo.
-![Image](numerical_verificatons/figures/time_domain_sinx.png?raw=true)
+![Image](numerical_verificatons/figures/sin/time_domain_sinx.png?raw=true)
 
 The error allthough small, introduces strong harmonic components, which can be seen below. These limits the practicality of the resulting signal.
-![Image](numerical_verificatons/figures/frequency_domain_sinx.png?raw=true)
+![Image](numerical_verificatons/figures/sin/frequency_domain_sinx.png?raw=true)
 
 To counter these, the fact that all quarters of the sine(x) function are mirrored versions of each other. Therefore the first quarters, having the least error, which can be seen in the time domain plot above, can be used for all values of x, with the below correction:
 
@@ -107,7 +107,7 @@ end
 ```
 
 The resulting spectrum is shown below. Note that these plots are generated using 64-bit floating point arithemtic, not integers as in this Rust library.
-![Image](numerical_verificatons/figures/taylor_sine_comparison.png?raw=true)
+![Image](numerical_verificatons/figures/sin/taylor_sine_comparison.png?raw=true)
 
 This is a vast improvement showing close to no reduction in Singal to Noise and Distortion (SiNaD) compared to the native sine function in the Julia language.
 

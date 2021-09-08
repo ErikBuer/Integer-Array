@@ -245,7 +245,8 @@ mod std_support {
 /// 
 /// ### Sin
 /// Take the elemtent-wise sine using a Taylor approximation of sine x.
-/// sin is calculated using the following polynomial:
+/// 
+/// Sin is calculated using the following polynomial:
 /// `sinx = x -( x^3/6.0 )+( x^5/120.0 )-( x^7/5040.0 )+( x^9/362880.0 )`
 /// 
 /// Self must be wrapped to the -π=<x<π range.
@@ -260,8 +261,19 @@ mod std_support {
 /// assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
 /// ```
 /// 
+/// Below is the the taylor approximation for sine compared to the Julia native sin function.
+/// The below plot is generated with double presicion floationg point for demonstrative purposes.
+/// In the figure it is apparent that there is greater error in the Taylor approximation further from origo.
+/// Therefore, 
+/// ![Image](../../../numerical_verificatons/figures/sin/time_domain_sinx.png?raw=true)
+/// To counter these, the fact that all quarters of the sine(x) function are mirrored versions of each other. 
+/// Therefore the first quarters, having the least error, which can be seen in the time domain plot above, are used for all values of x.
+/// Resulting in a practically ideal sine function, as can be seen in the frequency domain comparison below. 
+/// ![Image](../../../numerical_verificatons/figures/sin/time_domain_sinx.png?raw=true)
+/// 
 /// ### Cos
 /// Take the elemtent-wise cosine using a Taylor approximation of cos x.
+/// 
 /// Cos is calculated using the following polynomial:
 /// `cosx = 1 -( x^2/2 )+( x^4/24.0 )-( x^6/720.0 )+( x^8/40320.0 )`
 /// 
@@ -277,17 +289,34 @@ mod std_support {
 /// assert_eq!{x.cos( 180, 100).data, [100, 50, -50, -100, -50, 50, 100, 50] };
 /// ```
 /// 
+/// A first-quarter method as described for the sine implementation is also used on cosine. The pure Taylor approximation is displayed below. 
+/// ![Image](../../../numerical_verificatons/figures/cos/time_domain.png?raw=true)
+/// With the first-quarter method, the resulting cosine power spectrum is displayed below.
+/// ![Image](../../../numerical_verificatons/figures/com/frequency_domain2.png?raw=true)
+/// 
+/// 
 /// ### Tan
 /// Take the element-wise tan using a Taylor approximation of tan x.
-/// * 'pi'   The integer level which represents π in the input data.
-/// * 'norm' The integer level which represents 1 in the output data.
+/// 
+/// Tan is calculated using the following polynomial:
+/// tanx = x+( x^3/3 )+( x^5*2/15.0 )+( x^7*17/315.0 )+( x^9*62/2835.0 )+( x^11*1382/155925.0 )+( x^13*21844/6081075.0 )+( x^15*929569/638512875.0 );
+
+/// Self must be wrapped to the -π/2=<x<π/2 range.
+/// The function is based on a Taylor expansion. Its error increases as |x| approaches π/2.
+/// 
+/// * `pi`   The integer level which represents π in the input data.
+/// * `norm` The integer level which represents 1 in the output data.
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
 /// ia::declare_array_real!( Arr8, 8);
 /// let x = Arr8::ramp(0,20);
-/// assert_eq!{x.tan( 180, 100).data, [0, 36, 83, 155, 289, 630, 1794, 5875] };
+/// assert_eq!{x.tan( 180, 100).data, [0, 36, 83, 158, 373, 2155, 19696, 158268] };
 /// ```
+/// 
+/// Below is the the taylor approximation for tan compared to the Julia native tan function.
+/// The below plot is generated with double presicion floationg point for demonstrative purposes.
+/// ![Image](../../../numerical_verificatons/figures/tan/time_domain.png?raw=true) 
 /// 
 /// ## Estimator utilites:
 /// ### Max and min:
@@ -738,7 +767,7 @@ macro_rules! declare_array_real{
                 } 
                 return r_array;
             }
-            
+
             /// Take the elemtent-wise cosine using a Taylor approximation of cos(x).
             /// Self must be wrapped to the -π=<x<π range.
             /// * `pi` The integer level which represents π in the input data.
@@ -779,7 +808,8 @@ macro_rules! declare_array_real{
             }
 
             /// Take the element-wise tan using a Taylor approximation of tan x.
-            /// Self must be wrapped to the -π=<x<π range.
+            /// Self must be wrapped to the -π/2=<x<π/2 range.
+            /// The function is based on a Taylor expansion. Its error increases as |x| approaches π/2.
             /// * `pi` The integer level which represents π in the input data.
             /// * `norm` The integer level which represents 1 in the output data.
             fn tan( &self, norm_pi:i32, norm:i32 ) -> Self {
@@ -788,11 +818,11 @@ macro_rules! declare_array_real{
                 use integer_array::utility_functions as util;
                 use integer_array::constants as cnst;
 
-
                 for idx in 0..$N {
                     let x:f32 = (temp[idx] as f32)*cnst::PI/(norm_pi as f32 );
                     // Calculate tan by using a polynomial 
-                    let tanx:f32 = x+(util::fpowi(x,3)/3.0 )+( util::fpowi(x,5)*2.0/15.0 )-( util::fpowi(x,7)*17.0/315.0 )+( util::fpowi(x,9)*62.0/2835.0 );
+                    let tanx:f32 = x+( util::fpowi(x,3)/3.0 )+( util::fpowi(x,5)*2.0/15.0 )-( util::fpowi(x,7)*17.0/315.0 )+( util::fpowi(x,9)*62.0/2835.0 )+( util::fpowi(x,11)*1382.0/155925.0 )
+                                    +( util::fpowi(x,13)*21844.0/6081075.0 )+( util::fpowi(x,15)*929569.0/638512875.0 );
                     temp[idx] = ( tanx*(norm as f32) ) as i32;
                 } 
                 Self {

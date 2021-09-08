@@ -28,7 +28,7 @@ plot!( 	x, sinx_taylor,
 plot!( 	x, delta*100,
 	 	label = "Difference*100",)
 
-savefig("figures/time_domain_sinx")
+savefig("figures/sin/time_domain_sinx")
 
 
 taylor_sine2 = fast_sine.(x);
@@ -41,7 +41,7 @@ plot( 	x, delta*100,
 plot!( 	x, delta2*100,
 	 	label = "Difference (first quarter)",)
 
-savefig("figures/time_domain_comparison2")
+savefig("figures/sin/time_domain_comparison2")
 
 
 """
@@ -87,7 +87,7 @@ ylabel!("Normalized power [dBC]")
 plot!( 	omega, frequecny_domain_analysis(sinx_taylor),
 	 	label = "5-term Taylor series",)
 
-savefig("figures/frequency_domain_sinx")
+savefig("figures/sin/frequency_domain_sinx")
 
 
 # Frequency domain first quarter.
@@ -101,4 +101,4 @@ ylabel!("Normalized power [dBC]")
 plot!( 	omega, frequecny_domain_analysis(fast_sine.(x)),
 	 	label = "5-term Taylor, first quarter",)
 
-savefig("figures/taylor_sine_comparison")
+savefig("figures/sin/taylor_sine_comparison")
