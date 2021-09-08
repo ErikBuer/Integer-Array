@@ -51,8 +51,8 @@ mod std_support {
 /// ```
 /// 
 /// Generate a ramp of increasing value.
-/// * `start` The starting value (of item 0).
-/// * `step`  The incrimental value.
+/// - `start` The starting value (of item 0).
+/// - `step`  The incrimental value.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
@@ -61,7 +61,9 @@ mod std_support {
 /// assert_eq!{x.data, [100, 120, 140, 160] };
 /// ```
 /// 
-/// ## Indexing
+/// ## Indexing:
+/// ### Front and back:
+/// Access the first element of the array using the `.front()` attribute.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
@@ -69,6 +71,8 @@ mod std_support {
 /// let x = Arr2::new(200);
 /// assert_eq!{x.front(), 200};
 /// ```
+/// 
+/// Access the last element of the array using the `.back()` attribute.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
@@ -76,15 +80,9 @@ mod std_support {
 /// let x = Arr32::ramp(100,20);
 /// assert_eq!{x.back(), 720};
 /// ```
-/// ## Item-wise arithemetic:
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr2, 2);
-/// let x = Arr2::new(200);
-/// let y = x.bias(5);
-/// assert_eq!{y.front(), 205};
-/// ```
+///
+/// A specific item can be accessed through either using square bracket notation, or `.at( index )`.
+/// - `index` The index of the item, in the range 0..N-1.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
@@ -92,80 +90,8 @@ mod std_support {
 /// let x = Arr2::zeros();
 /// assert_eq!{x.at(1), 0};
 /// ```
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr2, 2);
-/// let x = Arr2::new(100);
-/// let y = x.scale(5);
-///    assert_eq!{y.front(), 500};
-/// ```
 /// 
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 4);
-/// let x = Arr4::ramp(10000,1000);
-/// assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
-/// ```
-/// 
-/// ## Estimator utilites:
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr32, 32);
-/// let x = Arr32::ramp(100,20);
-/// assert_eq!{x.max(), 720};
-/// ```
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr32, 32);
-/// let x = Arr32::ramp(100,20);
-/// assert_eq!{x.min(), 100};
-/// ```
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr32, 32);
-/// let x = Arr32::ramp(0,1);
-/// assert_eq!{x.argmax(), 31};
-/// ```
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr32, 32);
-/// let x = Arr32::ramp(100,20);
-/// assert_eq!{x.argmin(), 0};
-/// ```
-/// 
-/// ## Trigometric functions:
-/// ### Sin
-/// The following trigometric functions are implemented based on a taylor approximation.
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr8, 8);
-/// let mut x = Arr8::ramp(0,60);
-/// x = x.wrap_phase( 180 );
-///    assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
-/// ```
-/// 
-/// ### Tan
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr8, 8);
-/// let x = Arr8::ramp(0,20);
-/// assert_eq!{x.tan( 180, 100).data, [0, 36, 83, 155, 289, 630, 1794, 5875] };
-/// ```
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr8, 8);
-/// let x = Arr8::ramp(0,22);
-/// assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
-/// ```
+/// Square bracket indexing can be used both for reading and writing from/to an item.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
@@ -181,7 +107,34 @@ mod std_support {
 /// x[2] = 56;
 /// assert_eq!{x[2], 56i32 };
 /// ```
+/// 
+/// ## Scalar-array arithemetic:
+/// ### Bias
+/// The `bias` attribute adds a scalar bias to every element in the array.
+/// - `value` The bias amount.
 /// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Arr2, 2);
+/// let x = Arr2::new(200);
+/// let y = x.bias(5);
+/// assert_eq!{y.front(), 205};
+/// ```
+/// 
+/// ### Scale
+/// The `scale` attribute scales every element in the array with a scalar value.
+/// - `value` The scaling factor.
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Arr2, 2);
+/// let x = Arr2::new(100);
+/// let y = x.scale(5);
+///    assert_eq!{y.front(), 500};
+/// ```
+///
+/// Scaling can also be used by simply multiplying the array with a scalar value. 
+///  ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
 /// na::declare_array_real!( Arr8, 8);
@@ -189,6 +142,30 @@ mod std_support {
 /// x = x*3;
 /// assert_eq!{x[1], 66i32 };
 /// ```
+/// 
+/// or through a division.
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Arr4, 4);
+/// let mut x = Arr4::ramp(0,22);
+/// x = 1000/x;
+/// assert_eq!{x.data, [2147483647, 45, 22, 15] };
+/// ```
+/// 
+/// ### Sqrt
+/// The `sqrt` attribute finds the square root of every element in the array.
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Arr4, 4);
+/// let x = Arr4::ramp(10000,1000);
+/// assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
+/// ```
+/// 
+/// ## Inter-array arithemetic:
+/// Operations can also be performed on an array-basis.
+/// 
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
@@ -215,14 +192,6 @@ mod std_support {
 /// let y = 10i32;
 /// x = x/y;
 /// assert_eq!{x.data, [0,2,4,6] };
-/// ```
-/// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 4);
-/// let mut x = Arr4::ramp(0,22);
-/// x = 1000/x;
-/// assert_eq!{x.data, [2147483647, 45, 22, 15] };
 /// ```
 /// ```rust
 /// use numeric_array as na;
@@ -266,13 +235,79 @@ mod std_support {
 /// x = 3-x;
 /// assert_eq!{x[1], -19i32 };
 /// ```
+/// 
+/// ## Trigometric functions:
+/// The following trigometric functions are implemented based on a taylor approximation.
+/// 
+/// ### Wrap phase 
+/// Wrap array to a fixed-point -pi=<x<=pi range.
+/// * 'pi' The integer level which represents pi in the input data.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 4);
-/// let mut x = Arr4::ramp(0,22);
-/// x = -x;
-/// assert_eq!{x[1], -22i32 };
+/// na::declare_array_real!( Arr8, 8);
+/// let x = Arr8::ramp(0,22);
+/// assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
+/// ```
+/// 
+/// ### Sin
+/// Take the elemtent-wise sine using a Taylor approximation of sine x.
+/// Self must be wrapped to the -pi=<x<=pi range.
+/// * 'pi' The integer level which represents pi in the input data.
+/// * 'norm' The integer level which represents 1 in the output data.
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Arr8, 8);
+/// let mut x = Arr8::ramp(0,60);
+/// x = x.wrap_phase( 180 );
+///    assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
+/// ```
+/// 
+/// ### Tan
+/// Take the element-wise tan using a Taylor approximation of tan x.
+/// * 'pi' The integer level which represents pi in the input data.
+/// * 'norm' The integer level which represents 1 in the output data.
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Arr8, 8);
+/// let x = Arr8::ramp(0,20);
+/// assert_eq!{x.tan( 180, 100).data, [0, 36, 83, 155, 289, 630, 1794, 5875] };
+/// ```
+/// 
+/// ## Estimator utilites:
+/// ### Max and min:
+/// The maimum and minimum value in the array can be found through the `.max()` and `.min()` traits respectively.
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Arr32, 32);
+/// let x = Arr32::ramp(100,20);
+/// assert_eq!{x.max(), 720};
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Arr32, 32);
+/// let x = Arr32::ramp(100,20);
+/// assert_eq!{x.min(), 100};
+/// ```
+/// ### Argmax and argmin:
+/// The index of the maximum and minimum items in the array can be found through the `.argmax()` and `.argmin()` traits respectively.
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Arr32, 32);
+/// let x = Arr32::ramp(0,1);
+/// assert_eq!{x.argmax(), 31};
+/// ```
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// na::declare_array_real!( Arr32, 32);
+/// let x = Arr32::ramp(100,20);
+/// assert_eq!{x.argmin(), 0};
 /// ```
 #[macro_export]
 macro_rules! declare_array_real{
@@ -705,9 +740,9 @@ macro_rules! declare_array_real{
             /// * 'pi' The integer level which represents pi in the input data.
             fn wrap_phase( &self, norm_pi:i32 ) -> Self {
 
-                let mut temp_Arr = self.data.clone();
+                let mut temp_arr = self.data.clone();
                 for idx in 0..$N {
-                    let mut temp_scalar = temp_Arr[idx];
+                    let mut temp_scalar = temp_arr[idx];
                     
                     while temp_scalar < -norm_pi 
                     {
@@ -717,10 +752,10 @@ macro_rules! declare_array_real{
                     {
                         temp_scalar = &temp_scalar-2*norm_pi;
                     }
-                    temp_Arr[idx] = temp_scalar;
+                    temp_arr[idx] = temp_scalar;
                 } 
                 Self {
-                    data: temp_Arr
+                    data: temp_arr
                 }
             }
         }
@@ -749,5 +784,20 @@ macro_rules! declare_array_real{
             }
         }
 
+    }
+}
+
+// Test that are not needed for documentation are placed below.
+#[cfg(test)]
+mod tests {
+
+    #[test]
+    fn neg() {
+        use crate as numeric_array;
+        use numeric_array::trait_definitions::*;
+        declare_array_real!( Arr4, 4);
+        let mut x = Arr4::ramp(0,22);
+        x = -x;
+        assert_eq!{x[1], -22i32 };
     }
 }

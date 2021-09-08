@@ -68,8 +68,6 @@ macro_rules! declare_array_complex{
 
 #[cfg(test)]
 mod tests {
-    //use super::*;
-
     #[test]
     fn new() {
         use crate as numeric_array;
