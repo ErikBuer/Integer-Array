@@ -12,8 +12,6 @@ mod std_support {
 /// Create an i32 array type of size N.
 /// Complete with the traits shown below.
 /// 
-/// 
-/// 
 /// ## Basic array traits:
 /// ```rust
 /// use numeric_array as na;
@@ -23,7 +21,7 @@ mod std_support {
 /// assert_eq!{x.len(), 2};
 /// ```
 /// 
-/// Generate an array of zeros.
+/// ### Generate an array of zeros.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
@@ -32,7 +30,7 @@ mod std_support {
 /// assert_eq!{x.len(), 2};
 /// ```
 /// 
-/// Generate an array of ones.
+/// ### Generate an array of ones.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;
@@ -41,7 +39,7 @@ mod std_support {
 /// assert_eq!{x.at(0), 1};
 /// ```
 /// 
-/// Generate an array of a specific value.
+/// ### Generate an array of a specific value.
 /// ```rust
 /// use numeric_array as na;
 /// use na::trait_definitions::*;

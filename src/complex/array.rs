@@ -1,5 +1,16 @@
-/// Create a complex i32 array type of size N. Complete with traits.
+/// Create a complex i32 array type of size N.
+/// Complete with traits.
 /// 
+/// Traits that are shared between real and complex arrays are documented under real/array.
+/// 
+/// ### Generate an array of a specific value.
+/// ```rust
+/// use numeric_array as na;
+/// use na::trait_definitions::*;
+/// declare_array_complex!( CArr4, 4 );
+/// let x = na::CArr4::new( 1, 2 );
+/// assert_eq!{ x[1], num::complex::Complex{re:1, im:2} };
+/// ```
 #[macro_export]
 macro_rules! declare_array_complex{
     ( $name:ident, $N:expr) => {
@@ -72,8 +83,8 @@ mod tests {
     fn new() {
         use crate as numeric_array;
         use numeric_array::trait_definitions::*;
-        declare_array_complex!( CVec4, 4 );
-        let x = CVec4::new( 1, 2 );
+        declare_array_complex!( CArr4, 4 );
+        let x = CArr4::new( 1, 2 );
         assert_eq!{ x[1], num::complex::Complex{re:1, im:2} };
     }
 }
