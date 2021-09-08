@@ -3,6 +3,7 @@
 /// 
 /// # Traits implemented with the macro:
 /// Traits that are shared between real and complex arrays are documented under real/array.
+/// The complex support is under development.
 /// 
 /// ### Generate an array of a specific value.
 /// ```rust
