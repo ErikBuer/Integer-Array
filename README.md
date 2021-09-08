@@ -1,4 +1,4 @@
-# Numeric-Array
+# Integer-Array
 No-STD numeric fixed-size array for Rust.
 
 This is an experimental library for no-std DSP.
@@ -11,24 +11,24 @@ See the main workings of the library in /src/real/array.rs.
 ## Use example
 arrays types of fixed size is defined with traits through a macro as follows:
 ```rust
-use numeric_array as na;
-use numeric_array::trait_definitions::*;
+use integer_array as ia;
+use integer_array::trait_definitions::*;
 
-numeric_array::declare_array_real!( Arr11, 11);
+integer_array::declare_array_real!( Arr11, 11);
 ```
 The name of the type for the above array is `Arr11`. The size of the error is 11 elements.
 
 ### Initialization
 The array can be initalized with a single value across the array, or by creating a ramp.
 ```rust
-na::declare_array_real!( Arr2, 2);
+ia::declare_array_real!( Arr2, 2);
 let x = Arr2::new(6);
 assert_eq!{x[0], 6};
 ```
 
 Zeros is made as a separate trait for convenience.
 ```rust
-na::declare_array_real!( Arr2, 2);
+ia::declare_array_real!( Arr2, 2);
 let x = Arr2::zeros();
 assert_eq!{x[0], 0};
 ```
@@ -36,7 +36,7 @@ assert_eq!{x[0], 0};
 ### Indexing
 The elements of the array can be indexed using square brackets as normal arrays
 ```rust
-na::declare_array_real!( Arr4, 4);
+ia::declare_array_real!( Arr4, 4);
 let mut x = Arr4::ramp(0,22);
 x = -x;
 assert_eq!{x[1], -22i32 };
@@ -44,7 +44,7 @@ assert_eq!{x[1], -22i32 };
 
 In addition to this, there are utilities such as `.front()` and `.back()`.
 ```rust
-na::declare_array_real!( Arr2, 2);
+ia::declare_array_real!( Arr2, 2);
 let x = Arr2::new(200);
 let y = x.bias(5);
 assert_eq!{y.front(), 205};
@@ -61,7 +61,7 @@ assert_eq!(x.front(), 33);
 ### array-scalar operations
 There is also some support for array-scalar operations.
 ```rust
-na::declare_array_real!( Arr4, 8);
+ia::declare_array_real!( Arr4, 8);
 let mut x = Arr4::ramp(0,22);
 x = x+3;
 assert_eq!{x[1], 25i32 };
@@ -69,7 +69,7 @@ assert_eq!{x[1], 25i32 };
 ### Esimator utilities
 The arrays are equipped with traits for estimators, such as var, mean, max min and argmax.
 ```rust
-na::declare_array_real!( Arr32, 32);
+ia::declare_array_real!( Arr32, 32);
 let x = Arr32::ramp(100,20);
 assert_eq!{x.argmax(), 31};
 ```
@@ -110,7 +110,7 @@ This is a vast improvement showing close to no reduction in Singal to Noise and 
 
 The sin(x) function is used as follows:
 ```rust
-na::declare_array_real!( Arr8, 8);
+ia::declare_array_real!( Arr8, 8);
 let mut x = Arr8::ramp(0,60);
 x = x.wrap_phase( 180 );
 assert_eq!{x.sin( 180, 100 ).data, [0, 86, 86, 0, -86, -86, 0, 86] };

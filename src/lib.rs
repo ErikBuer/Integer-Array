@@ -1,15 +1,15 @@
-//! # Numeric-Array
-//! No-STD numeric fixed-size array for Rust.
+//! # Integer-Array
+//! No-STD i32 fixed-size array for Rust.
 //!
 //! The library lets the user declare arrays with traits that simplify the writhing of DSP-code.
 //! 
 //! ## Examle
 //! ```rust
-//! use numeric_array as na;
-//! use numeric_array::trait_definitions::*;
+//! use integer_array as ia;
+//! use integer_array::trait_definitions::*;
 //! 
 //! // Define an array type of size 4, and implemnets a buch of traits to it.
-//! na::declare_array_real!( Arr4, 4);
+//! ia::declare_array_real!( Arr4, 4);
 //! 
 //! // Create the actual array.
 //! let mut x = Arr4::new(66);
@@ -29,7 +29,7 @@
 //! The rationale is that if 64-bit processing is available, then so is an OS, and the Rust standard library. 
 
 
-#![crate_name = "numeric_array"]
+#![crate_name = "integer_array"]
 #![no_std]
 
 /*

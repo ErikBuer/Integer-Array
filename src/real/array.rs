@@ -17,9 +17,9 @@ mod std_support {
 /// ## Basic use:
 /// arrays types of fixed size is defined with traits through a macro as follows:
 /// ```rust
-/// use numeric_array as na;
-/// use numeric_array::trait_definitions::*;
-/// numeric_array::declare_array_real!( Arr11, 11);
+/// use integer_array as ia;
+/// use integer_array::trait_definitions::*;
+/// integer_array::declare_array_real!( Arr11, 11);
 /// ```
 // The name of the type for the above array is `Arr11`. The size of the error is 11 elements.
 /// 
@@ -28,9 +28,9 @@ mod std_support {
 /// ### Generate an array of zeros.
 /// `zeros` is made as separate trait for convenience.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr2, 2);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr2, 2);
 /// let x = Arr2::zeros();
 /// assert_eq!{x.len(), 2};
 /// ```
@@ -38,9 +38,9 @@ mod std_support {
 /// ### Generate an array of ones.
 /// `ones` is made as separate trait for convenience.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr2, 2);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr2, 2);
 /// let x = Arr2::ones();
 /// assert_eq!{x[0], 1};
 /// ```
@@ -48,9 +48,9 @@ mod std_support {
 /// ### Generate an array of a specific value.
 /// An array of a single value is generated using the `new` keyword.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr2, 2);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr2, 2);
 /// let x = Arr2::new(200);
 /// assert_eq!{x.data, [200, 200]};
 /// ```
@@ -59,9 +59,9 @@ mod std_support {
 /// - `start` The starting value (of item 0).
 /// - `step`  The incrimental value.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 4);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr4, 4);
 /// let x = Arr4::ramp(100,20);
 /// assert_eq!{x.data, [100, 120, 140, 160] };
 /// ```
@@ -70,18 +70,18 @@ mod std_support {
 /// ### Front and back:
 /// Access the first element of the array using the `.front()` attribute.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr2, 2);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr2, 2);
 /// let x = Arr2::new(200);
 /// assert_eq!{x.front(), 200};
 /// ```
 /// 
 /// Access the last element of the array using the `.back()` attribute.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr32, 32);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr32, 32);
 /// let x = Arr32::ramp(100,20);
 /// assert_eq!{x.back(), 720};
 /// ```
@@ -90,9 +90,9 @@ mod std_support {
 /// A specific item can be accessed through either using square bracket notation, or `.at( index )`.
 /// - `index` The index of the item, in the range 0..N-1.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr2, 2);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr2, 2);
 /// let x = Arr2::zeros();
 /// assert_eq!{x.at(1), 0};
 /// ```
@@ -100,16 +100,16 @@ mod std_support {
 /// ### Bracket indexing
 /// Square bracket indexing can be used both for reading and writing from/to an item.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr8, 8);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr8, 8);
 /// let x = Arr8::ramp(0,22);
 /// assert_eq!{x[2], 44i32 };
 /// ```
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr8, 8);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr8, 8);
 /// let mut x = Arr8::ramp(0,22);
 /// x[2] = 56;
 /// assert_eq!{x[2], 56i32 };
@@ -120,9 +120,9 @@ mod std_support {
 /// The `bias` attribute adds a scalar bias to every element in the array.
 /// - `value` The bias amount.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr2, 2);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr2, 2);
 /// let x = Arr2::new(200);
 /// let y = x.bias(5);
 /// assert_eq!{y.front(), 205};
@@ -130,9 +130,9 @@ mod std_support {
 ///
 /// The bias can also be implemented by adding or subtracting the array with a scalar. 
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 8);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr4, 8);
 /// let mut x = Arr4::ramp(0,22);
 /// x = x+3;
 /// assert_eq!{x[1], 25i32 };
@@ -146,9 +146,9 @@ mod std_support {
 /// The `scale` attribute scales every element in the array with a scalar value.
 /// - `value` The scaling factor.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr2, 2);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr2, 2);
 /// let x = Arr2::new(100);
 /// let y = x.scale(5);
 ///    assert_eq!{y.front(), 500};
@@ -156,9 +156,9 @@ mod std_support {
 ///
 /// Scaling can also be used by simply multiplying the array with a scalar value. 
 ///  ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr8, 8);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr8, 8);
 /// let mut x = Arr8::ramp(0,22);
 /// x = x*3;
 /// assert_eq!{x[1], 66i32 };
@@ -166,9 +166,9 @@ mod std_support {
 /// 
 /// or through a division.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 4);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr4, 4);
 /// let mut x = Arr4::ramp(0,22);
 /// x = 1000/x;
 /// assert_eq!{x.data, [2147483647, 45, 22, 15] };
@@ -177,9 +177,9 @@ mod std_support {
 /// ### Sqrt
 /// The `sqrt` attribute finds the square root of every element in the array.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 4);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr4, 4);
 /// let x = Arr4::ramp(10000,1000);
 /// assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
 /// ```
@@ -191,9 +191,9 @@ mod std_support {
 /// 
 /// ### Addition and subtraction
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 4);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr4, 4);
 /// let mut x = Arr4::ramp(0,22);
 /// let y = Arr4::new(10);
 /// x = x+y;
@@ -205,9 +205,9 @@ mod std_support {
 ///
 ///  ### Multiplication and division
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 4);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr4, 4);
 /// let mut x = Arr4::ramp(10,22);
 /// let  y = Arr4::new(10);
 /// x = x*y;
@@ -220,9 +220,9 @@ mod std_support {
 /// 
 /// In a divide-by-zero case, the maximum int value is returned. 
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr4, 4);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr4, 4);
 /// let mut x = Arr4::ramp(0,22);
 /// let y = Arr4::new(1000);
 /// x = y/x;
@@ -236,9 +236,9 @@ mod std_support {
 /// Wrap array to a fixed-point -π=<x<π range.
 /// * `pi` The integer level which represents π in the input data.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr8, 8);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr8, 8);
 /// let x = Arr8::ramp(0,22);
 /// assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
 /// ```
@@ -249,9 +249,9 @@ mod std_support {
 /// * `pi` The integer level which represents π in the input data.
 /// * `norm` The integer level which represents 1 in the output data.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr8, 8);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr8, 8);
 /// let mut x = Arr8::ramp(0,60);
 /// x = x.wrap_phase( 180 );
 ///    assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
@@ -262,9 +262,9 @@ mod std_support {
 /// * 'pi' The integer level which represents π in the input data.
 /// * 'norm' The integer level which represents 1 in the output data.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr8, 8);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr8, 8);
 /// let x = Arr8::ramp(0,20);
 /// assert_eq!{x.tan( 180, 100).data, [0, 36, 83, 155, 289, 630, 1794, 5875] };
 /// ```
@@ -273,32 +273,32 @@ mod std_support {
 /// ### Max and min:
 /// The maimum and minimum value in the array can be found through the `.max()` and `.min()` traits respectively.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr32, 32);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr32, 32);
 /// let x = Arr32::ramp(100,20);
 /// assert_eq!{x.max(), 720};
 /// ```
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr32, 32);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr32, 32);
 /// let x = Arr32::ramp(100,20);
 /// assert_eq!{x.min(), 100};
 /// ```
 /// ### Argmax and argmin:
 /// The index of the maximum and minimum items in the array can be found through the `.argmax()` and `.argmin()` traits respectively.
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr32, 32);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr32, 32);
 /// let x = Arr32::ramp(0,1);
 /// assert_eq!{x.argmax(), 31};
 /// ```
 /// ```rust
-/// use numeric_array as na;
-/// use na::trait_definitions::*;
-/// na::declare_array_real!( Arr32, 32);
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr32, 32);
 /// let x = Arr32::ramp(100,20);
 /// assert_eq!{x.argmin(), 0};
 /// ```
@@ -312,7 +312,7 @@ macro_rules! declare_array_real{
             pub data: [i32; $N],
         }
 
-        impl numeric_array::trait_definitions::New for $name {
+        impl integer_array::trait_definitions::New for $name {
             /// Generate an array of a value.
             fn new( value:i32 ) -> Self {
                 $name {
@@ -321,7 +321,7 @@ macro_rules! declare_array_real{
             }
         }
 
-        impl numeric_array::trait_definitions::Ramp for $name {
+        impl integer_array::trait_definitions::Ramp for $name {
             /// Generate a linear ramp of values with increment step.
             fn ramp( start:i32, step:i32  ) -> Self {
                 let mut temp: [i32; $N] = [start; $N];
@@ -334,7 +334,7 @@ macro_rules! declare_array_real{
             }
         }
 
-        impl numeric_array::trait_definitions::Initializers for $name {
+        impl integer_array::trait_definitions::Initializers for $name {
             /// Generate an array of ones.
             fn ones() -> Self {
                 $name {
@@ -349,14 +349,14 @@ macro_rules! declare_array_real{
             }
         }
 
-        impl numeric_array::trait_definitions::Len for $name {
+        impl integer_array::trait_definitions::Len for $name {
             /// Returns the length of the array.
             fn len( &self ) -> usize {
                 return $N;
             }
         }
 
-        impl numeric_array::trait_definitions::ArrayIndexing for $name {
+        impl integer_array::trait_definitions::ArrayIndexing for $name {
             /// Returns indexed item of the array.
             /// Index Clips at N-1.
             fn at( &self, index:usize) -> i32 {
@@ -376,7 +376,7 @@ macro_rules! declare_array_real{
             }
         }   
 
-        impl numeric_array::trait_definitions::ArithmeticTraits for $name {
+        impl integer_array::trait_definitions::ArithmeticTraits for $name {
             /// Adds a scalar bias value to the entire array.
             fn bias( &self, value:i32 ) -> Self {
                 let mut temp = self.data.clone();
@@ -431,12 +431,12 @@ macro_rules! declare_array_real{
             }
         }
 
-        impl numeric_array::trait_definitions::Pow for $name {
+        impl integer_array::trait_definitions::Pow for $name {
             /// Raise the items to an integer-valued power.
             fn powi( &self, power:u32 ) -> Self {
                 let mut r_array = self.clone();
                 for index in 0..$N {
-                    r_array[index] = numeric_array::utility_functions::powi( self[index], power );
+                    r_array[index] = integer_array::utility_functions::powi( self[index], power );
                 }
                 return r_array;
             }
@@ -609,7 +609,7 @@ macro_rules! declare_array_real{
             }
         }
         
-        impl numeric_array::trait_definitions::StatisticTraits for $name {
+        impl integer_array::trait_definitions::StatisticTraits for $name {
             /// Return the sum of the array.
             fn sum( &self ) -> i32 {
                 let mut sum:i32 = 0;
@@ -685,14 +685,14 @@ macro_rules! declare_array_real{
             }
         }
 
-        impl numeric_array::trait_definitions::TrigonometryTraits for $name {
+        impl integer_array::trait_definitions::TrigonometryTraits for $name {
             /// Take the elemtent-wise sine using a Taylor approximation of sine x.
             /// Self must be wrapped to the -π=<x<π range.
             /// * `pi` The integer level which represents π in the input data.
             /// * `norm` The integer level which represents 1 in the output data.
             fn sin( &self, norm_pi:i32, norm:i32 ) -> Self {
-                use numeric_array::utility_functions as util;
-                use numeric_array::constants as cnst;
+                use integer_array::utility_functions as util;
+                use integer_array::constants as cnst;
 
                 const PI_HALF:f32 = cnst::PI/2.0;
 
@@ -728,8 +728,8 @@ macro_rules! declare_array_real{
             fn tan( &self, norm_pi:i32, norm:i32 ) -> Self {
                 let mut temp = self.data.clone();
                 
-                use numeric_array::utility_functions as util;
-                use numeric_array::constants as cnst;
+                use integer_array::utility_functions as util;
+                use integer_array::constants as cnst;
 
 
                 for idx in 0..$N {
@@ -799,8 +799,8 @@ mod tests {
 
     #[test]
     fn neg() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
+        use crate as integer_array;
+        use integer_array::trait_definitions::*;
         declare_array_real!( Arr4, 4);
         let mut x = Arr4::ramp(0,22);
         x = -x;
@@ -809,8 +809,8 @@ mod tests {
 
     #[test]
     fn zero_divide() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
+        use crate as integer_array;
+        use integer_array::trait_definitions::*;
         declare_array_real!( Arr4, 4);
         let mut x = Arr4::ramp(0,22);
         let y = 10i32;
@@ -820,8 +820,8 @@ mod tests {
 
     #[test]
     fn sybtract_by_array() {
-        use crate as numeric_array;
-        use numeric_array::trait_definitions::*;
+        use crate as integer_array;
+        use integer_array::trait_definitions::*;
         declare_array_real!( Arr4, 8);
         let mut x = Arr4::ramp(0,22);
         x = 3-x;

@@ -1,17 +1,17 @@
 [package]
-name = "numeric_array"
+name = "integer_array"
 version = "0.1.0"
 authors = ["Erik Buer"]
 edition = "2018"
 description = "No-STD numeric array."
 readme = "README.md"
-repository = "https://github.com/ErikBuer/Numeric-Array.git"
+repository = "https://github.com/ErikBuer/Integer-Array.git"
 license-file = "LICENSE"
 keywords = ["dsp", "radio", "audio","no_std"]
 exclude = ["numerical_verificatons/"]
 
 [lib]
-name  = "numeric_array"
+name  = "integer_array"
 path  = "src/lib.rs"
 bench = false
 doc   = true
