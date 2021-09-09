@@ -265,11 +265,12 @@ mod std_support {
 /// The below plot is generated with double presicion floationg point for demonstrative purposes.
 /// In the figure it is apparent that there is greater error in the Taylor approximation further from origo.
 /// Therefore, 
-/// ![Image](../../../numerical_verificatons/figures/sin/time_domain_sinx.png?raw=true)
+/// ![Alt version](https://github.com/ErikBuer/Integer-Array/blob/main/numerical_verificatons/figures/sin/time_domain_sinx.png?raw=true)
 /// To counter these, the fact that all quarters of the sine(x) function are mirrored versions of each other. 
 /// Therefore the first quarters, having the least error, which can be seen in the time domain plot above, are used for all values of x.
 /// Resulting in a practically ideal sine function, as can be seen in the frequency domain comparison below. 
-/// ![Image](../../../numerical_verificatons/figures/sin/time_domain_sinx.png?raw=true)
+/// ![Alt version](https://github.com/ErikBuer/Integer-Array/blob/main/numerical_verificatons/figures/sin/time_domain_comparison2.png?raw=true)
+/// 
 /// 
 /// ### Cos
 /// Take the elemtent-wise cosine using a Taylor approximation of cos x.
@@ -289,18 +290,19 @@ mod std_support {
 /// assert_eq!{x.cos( 180, 100).data, [100, 50, -50, -100, -50, 50, 100, 50] };
 /// ```
 /// 
-/// A first-quarter method as described for the sine implementation is also used on cosine. The pure Taylor approximation is displayed below. 
-/// ![Image](../../../numerical_verificatons/figures/cos/time_domain.png?raw=true)
+/// A first-quarter method as described for the sine implementation is also used on cosine. The pure Taylor approximation is displayed below.
+/// ![Alt version](https://github.com/ErikBuer/Integer-Array/blob/main/numerical_verificatons/figures/cos/time_domain.png?raw=true)
 /// With the first-quarter method, the resulting cosine power spectrum is displayed below.
-/// ![Image](../../../numerical_verificatons/figures/com/frequency_domain2.png?raw=true)
+/// ![Alt version](https://github.com/ErikBuer/Integer-Array/blob/main/numerical_verificatons/figures/cos/frequency_domain2.png?raw=true)
+/// 
 /// 
 /// 
 /// ### Tan
 /// Take the element-wise tan using a Taylor approximation of tan x.
 /// 
 /// Tan is calculated using the following polynomial:
-/// tanx = x+( x^3/3 )+( x^5*2/15.0 )+( x^7*17/315.0 )+( x^9*62/2835.0 )+( x^11*1382/155925.0 )+( x^13*21844/6081075.0 )+( x^15*929569/638512875.0 );
-
+/// `tanx = x+( x^3/3 )+( x^5*2/15.0 )+( x^7*17/315.0 )+( x^9*62/2835.0 )+( x^11*1382/155925.0 )+( x^13*21844/6081075.0 )+( x^15*929569/638512875.0 )`
+/// 
 /// Self must be wrapped to the -π/2=<x<π/2 range.
 /// The function is based on a Taylor expansion. Its error increases as |x| approaches π/2.
 /// 
@@ -316,7 +318,8 @@ mod std_support {
 /// 
 /// Below is the the taylor approximation for tan compared to the Julia native tan function.
 /// The below plot is generated with double presicion floationg point for demonstrative purposes.
-/// ![Image](../../../numerical_verificatons/figures/tan/time_domain.png?raw=true) 
+/// ![Alt version](https://github.com/ErikBuer/Integer-Array/blob/main/numerical_verificatons/figures/tan/time_domain.png?raw=true)
+/// 
 /// 
 /// ## Estimator utilites:
 /// ### Max and min:
