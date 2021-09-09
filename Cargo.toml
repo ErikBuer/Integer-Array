@@ -8,7 +8,7 @@ readme = "README.md"
 repository = "https://github.com/ErikBuer/Integer-Array.git"
 license-file = "LICENSE"
 keywords = ["dsp", "radio", "audio","no_std"]
-exclude = ["numerical_verificatons/numerical_verification.jl"]
+exclude = ["numerical_verificatons/"]
 
 [lib]
 name  = "integer_array"
