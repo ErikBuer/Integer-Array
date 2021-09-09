@@ -64,7 +64,7 @@ let y     = Arr11::new(2);
 x = x/y;
 assert_eq!(x.front(), 33);
 ```
-### array-scalar operations
+### Array-scalar operations
 There is also some support for array-scalar operations.
 ```rust
 ia::declare_array_real!( Arr4, 8);
