@@ -1,3 +1,9 @@
+# Release 0.1.3 (2021-09-09)
+- Changed images to link to tha projects git-hub.
+- Excluded the numeric_verifications folder from cargo package.
+
+**Contributors**: ErikBuer
+
 # Release 0.1.2 (2021-09-08)
 - Increased tan accuracy.
 - Added cosine calculation for real vector.
