@@ -459,23 +459,15 @@ macro_rules! declare_array_real{
                     data: temp
                 }
             }
+        }
+
+        impl integer_array::trait_definitions::SquareRoot for $name {
             /// Return the elemtent-wise square root using the 
             /// Babylonian square root implementation.
             fn sqrt( &self ) -> Self {
                 let mut r_array = self.clone();
                 for index in 0..$N {
-                    let item = self[index];
-                    // Initial approximation
-                    let mut root:i32 = item/2;
-                    let mut y:i32 = 1;
-                    // Accuracy level
-                    let error:i32 = 1;
-                    while ( error <= root - y)
-                    {
-                        root = (root + y) / 2;
-                        y = item / root;
-                    }
-                    r_array[index] = root;
+                    r_array[index] = integer_array::utility_functions::sqrt(self[index]);
                 } 
                 return r_array;
             }

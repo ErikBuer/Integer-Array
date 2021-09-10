@@ -35,6 +35,9 @@ pub trait ArithmeticTraits {
     fn bias( &self, value:i32 )        -> Self;
     fn scale( &self, value:i32 )       -> Self;
     fn scale_float( &self, value:f32 ) -> Self;
+}
+
+pub trait SquareRoot {
     fn sqrt( &self )                   -> Self;
 }
 
@@ -63,13 +66,13 @@ pub trait StdUtilities {
     fn todo( &self ) -> Self;
 }
 
-/*
-// TODO
+/* // TODO
 pub trait ComplexExponential {
     fn exp( &self, norm_pi:i32, norm:i32 )  -> Self;
 }
 
-// TODO
+*/
+/*
 pub trait Complexutilities {
     fn real() -> Self;
     fn imag() -> Self;
@@ -77,3 +80,27 @@ pub trait Complexutilities {
     fn ang()  -> Self;
 }
 */
+
+pub trait ComplexCartesian {
+    fn real() -> Self;
+    fn imag() -> Self;
+}
+
+
+/*
+#[macro_export]
+macro_rules! declare_complex_traits{
+    ( $name:ident, $r_name:ident, $N:expr) => {
+        pub trait ComplexCartesian {
+            fn real() -> Self;
+            fn imag() -> Self;
+        }
+
+        pub trait ComplexPolar {
+            fn real() -> Self;
+            fn imag() -> Self;
+        }
+    }
+}
+*/
+

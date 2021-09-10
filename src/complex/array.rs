@@ -8,13 +8,27 @@
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_complex!( CArr4, 4 );
+/// ia::declare_array_complex!( CArr4, Arr4, 4 );
 /// let x = CArr4::new( 1, 2 );
 /// assert_eq!{ x[1], num::complex::Complex{re:1, im:2} };
 /// ```
+/// ### Real and imaginary component.
+/// Get the real and imaginary components by running the `real()` and `imag()` traits.
+/// The traits return a real integer-array of the same length.
+/// ```rust
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_complex!( CArr4, Arr4, 4 );
+/// let x = CArr4::new( 1, 2 );
+/// assert_eq!{ x.real(), Arr4::new(1) };
+/// assert_eq!{ x.imag(), Arr4::new(2) };
+/// ```
 #[macro_export]
 macro_rules! declare_array_complex{
-    ( $name:ident, $N:expr) => {
+    ( $name:ident, $r_name:ident, $N:expr) => {
+
+        // Declare the real array counterpart.
+        integer_array::declare_array_real!($r_name, $N);
 
         #[derive(Copy, Clone, Default, Debug, PartialEq)]
         /// Real numeric array of type int32.
@@ -75,6 +89,38 @@ macro_rules! declare_array_complex{
                 return &mut self.data[index];
             }
         }
+
+        impl $name {
+            /// Return the real component of the complex array
+            #[allow(dead_code)]
+            fn real( &self ) -> $r_name {
+                let mut r_array = $r_name::zeros();
+                for n in 0..$N {
+                    r_array[n] = self[n].re;
+                }
+                return r_array;
+            }
+
+            /// Return the imaginary component of the complex array
+            #[allow(dead_code)]
+            fn imag( &self ) -> $r_name {
+                let mut r_array = $r_name::zeros();
+                for n in 0..$N {
+                    r_array[n] = self[n].im;
+                }
+                return r_array;
+            }
+
+            /// Return the real component of the complex array
+            #[allow(dead_code)]
+            fn mag( &self ) -> $r_name {
+                let mut r_array = $r_name::zeros();
+                for n in 0..$N {
+                    r_array[n] = integer_array::utility_functions::sqrt(self[n].re+self[n].im);
+                }
+                return r_array;
+            }
+        }
     }
 }
 
@@ -84,8 +130,16 @@ mod tests {
     fn new() {
         use crate as integer_array;
         use integer_array::trait_definitions::*;
-        declare_array_complex!( CArr4, 4 );
+        declare_array_complex!( CArr4, Arr4, 4 );
         let x = CArr4::new( 1, 2 );
         assert_eq!{ x[1], num::complex::Complex{re:1, im:2} };
+    }
+    #[test]
+    fn real() {
+        use crate as integer_array;
+        use integer_array::trait_definitions::*;
+        declare_array_complex!( CArr4, Arr4, 4 );
+        let x = CArr4::new( 1, 2 );
+        assert_eq!{ x.real(), Arr4::new(1) };
     }
 }

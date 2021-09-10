@@ -1,3 +1,13 @@
+# Release 0.2.0 (2021-09-??)
+- Breaking change on declare_array_complex!
+
+## Complex arrays
+- Added traits for real and imag.
+- Added traits for magnitude calculation.
+
+
+**Contributors**: ErikBuer
+
 # Release 0.1.3 (2021-09-09)
 - Changed images to link to tha projects git-hub.
 - Excluded the numeric_verifications folder from cargo package.
