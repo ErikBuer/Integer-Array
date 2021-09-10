@@ -12,8 +12,9 @@
 /// let x = CArr4::new( 1, 2 );
 /// assert_eq!{ x[1], num::complex::Complex{re:1, im:2} };
 /// ```
+/// 
 /// ### Real and imaginary component.
-/// Get the real and imaginary components by running the `real()` and `imag()` traits.
+/// Get the real and imaginary array-components by running the `real()` and `imag()` traits.
 /// The traits return a real integer-array of the same length.
 /// ```rust
 /// use integer_array as ia;
@@ -22,6 +23,16 @@
 /// let x = CArr4::new( 1, 2 );
 /// assert_eq!{ x.real(), Arr4::new(1) };
 /// assert_eq!{ x.imag(), Arr4::new(2) };
+/// ```
+/// 
+/// ### Magnitude.
+/// Get the item-wies magnitude of the complex array.
+/// ```rust
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_complex!( CArr4, Arr4, 4 );
+/// let x = CArr4::new( 100, 200 );
+/// assert_eq!{ x.mag(), Arr4::new(223) };
 /// ```
 #[macro_export]
 macro_rules! declare_array_complex{
@@ -116,7 +127,9 @@ macro_rules! declare_array_complex{
             fn mag( &self ) -> $r_name {
                 let mut r_array = $r_name::zeros();
                 for n in 0..$N {
-                    r_array[n] = integer_array::utility_functions::sqrt(self[n].re+self[n].im);
+                    let re_pow = integer_array::utility_functions::powi( self[n].re, 2 );
+                    let im_pow = integer_array::utility_functions::powi( self[n].im, 2 );
+                    r_array[n] = integer_array::utility_functions::sqrt(re_pow+im_pow);
                 }
                 return r_array;
             }
