@@ -41,7 +41,8 @@ pub fn sqrt( item:i32 ) -> i32 {
 /// `atan(y,x) = ((y,x)+0.372003(y,x)^3) / (1+0.703384f32(y/x)^2 + 0.0043562f32(y/x)^4)`
 /// 
 /// The method is accurat within 0.003 degrees when |θ|<=π/4.
-/// - R. G. Lyons, Streamlining Digital Signal Processing, Second Etition, IEEE Press, 2012.
+/// 
+/// \[1\] R. G. Lyons, Streamlining Digital Signal Processing, Second Etition, IEEE Press, 2012.
 /// 
 /// # Arguments 
 ///

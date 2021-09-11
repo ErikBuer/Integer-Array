@@ -266,7 +266,7 @@ mod std_support {
 /// assert_eq!{x.data, [i32::MAX,45,22,15] };
 /// ```
 ///
-/// # Wrap phase
+/// # ::wrap_phase
 /// Wrap array to a fixed-point -π=<x<π range.
 /// 
 /// ## Arguments
