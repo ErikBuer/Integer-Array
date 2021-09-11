@@ -87,7 +87,7 @@ mod std_support {
 /// use fixed::{types::extra::U20, FixedI32};
 /// 
 /// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
-/// let x = Arr4::ramp(100,20);
+/// let x = Arr4::ramp_from_f32(100.0,20.0);
 /// assert_eq!{x.data, [100, 120, 140, 160] };
 /// ```
 /// 
@@ -112,7 +112,7 @@ mod std_support {
 /// use fixed::{types::extra::U20, FixedI32};
 /// 
 /// ia::declare_array_real!( Arr32, 32, FixedI32<U20> );
-/// let x = Arr32::ramp(100,20);
+/// let x = Arr32::ramp_from_f32(100.0,20.0);
 /// assert_eq!{x.back(), 720};
 /// ```
 ///
@@ -145,7 +145,7 @@ mod std_support {
 /// use fixed::{types::extra::U20, FixedI32};
 /// 
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
-/// let x = Arr8::ramp(0,22);
+/// let x = Arr8::ramp_from_f32(0.0,22.0);
 /// assert_eq!{x[2], 44i32 };
 /// ```
 /// 
@@ -155,7 +155,7 @@ mod std_support {
 /// use fixed::{types::extra::U20, FixedI32};
 /// 
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
-/// let mut x = Arr8::ramp(0,22);
+/// let mut x = Arr8::ramp_from_f32(0.0,22.0);
 /// x[2] = 56;
 /// assert_eq!{x[2], 56i32 };
 /// ```
@@ -175,7 +175,7 @@ mod std_support {
 /// use fixed::{types::extra::U20, FixedI32};
 /// 
 /// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
-/// let x = Arr2::new(200);
+/// let x = Arr2::new_from_i32(200);
 /// let y = x.bias(5);
 /// assert_eq!{y.front(), 205};
 /// ```
@@ -187,11 +187,11 @@ mod std_support {
 /// use fixed::{types::extra::U20, FixedI32};
 /// 
 /// ia::declare_array_real!( Arr4, 8, FixedI32<U20> );
-/// let mut x = Arr4::ramp(0,22);
+/// let mut x = Arr4::ramp_from_f32(0.0,22.0);
 /// x = x+3;
 /// assert_eq!{x[1], 25i32 };
 /// 
-/// let mut x = Arr4::ramp(0,22);
+/// let mut x = Arr4::ramp_from_f32(0.0,22.0);
 /// x = x-3;
 /// assert_eq!{x[1], 19i32 };
 /// ```
@@ -211,7 +211,7 @@ mod std_support {
 /// use fixed::{types::extra::U20, FixedI32};
 /// 
 /// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
-/// let x = Arr2::new(100);
+/// let x = Arr2::new_from_i32(100);
 /// let y = x.scale(5);
 ///    assert_eq!{y.front(), 500};
 /// ```
@@ -223,7 +223,7 @@ mod std_support {
 /// use fixed::{types::extra::U20, FixedI32};
 /// 
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
-/// let mut x = Arr8::ramp(0,22);
+/// let mut x = Arr8::ramp_from_f32(0.0,22.0);
 /// x = x*3;
 /// assert_eq!{x[1], 66i32 };
 /// ```
@@ -235,7 +235,7 @@ mod std_support {
 /// use fixed::{types::extra::U20, FixedI32};
 /// 
 /// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
-/// let mut x = Arr4::ramp(0,22);
+/// let mut x = Arr4::ramp_from_f32(0.0,22.0);
 /// x = 1000/x;
 /// assert_eq!{x.data, [2147483647, 45, 22, 15] };
 /// ```
@@ -255,7 +255,7 @@ mod std_support {
 /// use fixed::{types::extra::U20, FixedI32};
 /// 
 /// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
-/// let x = Arr4::ramp(10000,1000);
+/// let x = Arr4::ramp_from_f32(10000.0,1000.0);
 /// assert_eq!{x.sqrt(  ).data, [100, 104, 109, 114] };
 /// ```
 /// 
@@ -273,8 +273,8 @@ mod std_support {
 
 /// 
 /// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
-/// let mut x = Arr4::ramp(0,22);
-/// let y = Arr4::new(10);
+/// let mut x = Arr4::ramp_from_f32(0.0,22.0);
+/// let y = Arr4::new_from_i32(10);
 /// x = x+y;
 /// assert_eq!{x.data, [10,32,54,76] };
 /// 
@@ -289,12 +289,12 @@ mod std_support {
 
 /// 
 /// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
-/// let mut x = Arr4::ramp(10,22);
-/// let  y = Arr4::new(10);
+/// let mut x = Arr4::ramp_from_f32(10.0,22.0);
+/// let  y = Arr4::new_from_i32(10);
 /// x = x*y;
 /// assert_eq!{x.data, [100,320,540,760] };
 /// 
-/// x = Arr4::ramp(0,22);
+/// x = Arr4::ramp_from_f32(0.0,22.0);
 /// x = x/y;
 /// assert_eq!{x.data, [0,2,4,6] };
 /// ```
@@ -304,11 +304,10 @@ mod std_support {
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
 /// use fixed::{types::extra::U20, FixedI32};
-
 /// 
 /// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
-/// let mut x = Arr4::ramp(0,22);
-/// let y = Arr4::new(1000);
+/// let mut x = Arr4::ramp_from_f32(0.0,22.0);
+/// let y = Arr4::new_from_i32(1);
 /// x = y/x;
 /// assert_eq!{x.data, [i32::MAX,45,22,15] };
 /// ```
@@ -328,7 +327,7 @@ mod std_support {
 /// use fixed::{types::extra::U20, FixedI32};
 /// 
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
-/// let x = Arr8::ramp(0,22);
+/// let x = Arr8::ramp_from_f32(0.0,22.0);
 /// assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
 /// ```
 /// 
@@ -355,7 +354,7 @@ mod std_support {
 
 /// 
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
-/// let mut x = Arr8::ramp(0,60);
+/// let mut x = Arr8::ramp_from_f32(0.0,60.0);
 /// x = x.wrap_phase( 180 );
 /// assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
 /// ```
@@ -393,7 +392,7 @@ mod std_support {
 
 /// 
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
-/// let mut x = Arr8::ramp(0,60);
+/// let mut x = Arr8::ramp_from_f32(0.0,60.0);
 /// x = x.wrap_phase( 180 );
 /// assert_eq!{x.cos( 180, 100).data, [100, 50, -50, -100, -50, 50, 100, 50] };
 /// ```
@@ -429,7 +428,7 @@ mod std_support {
 
 /// 
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
-/// let x = Arr8::ramp(0,20);
+/// let x = Arr8::ramp_from_f32(0.0,20.0);
 /// assert_eq!{x.tan( 180, 100).data, [0, 36, 83, 158, 373, 2155, 19696, 158268] };
 /// ```
 /// 
@@ -451,7 +450,7 @@ mod std_support {
 
 /// 
 /// ia::declare_array_real!( Arr32, 32, FixedI32<U20> );
-/// let x = Arr32::ramp(100,20);
+/// let x = Arr32::ramp_from_f32(100.0,20.0);
 /// assert_eq!{x.max(), 720};
 /// ```
 /// ```rust
@@ -461,7 +460,7 @@ mod std_support {
 
 /// 
 /// ia::declare_array_real!( Arr32, 32, FixedI32<U20> );
-/// let x = Arr32::ramp(100,20);
+/// let x = Arr32::ramp_from_f32(100.0,20.0);
 /// assert_eq!{x.min(), 100};
 /// ```
 /// 
@@ -478,7 +477,7 @@ mod std_support {
 
 /// 
 /// ia::declare_array_real!( Arr32, 32, FixedI32<U20> );
-/// let x = Arr32::ramp(0,1);
+/// let x = Arr32::ramp_from_f32(0.0,1.0);
 /// assert_eq!{x.argmax(), 31};
 /// ```
 /// ```rust
@@ -487,7 +486,7 @@ mod std_support {
 /// use fixed::{types::extra::U20, FixedI32};
 /// 
 /// ia::declare_array_real!( Arr32, 32, FixedI32<U20> );
-/// let x = Arr32::ramp(100,20);
+/// let x = Arr32::ramp_from_f32(100.0,20.0);
 /// assert_eq!{x.argmin(), 0};
 /// ```
 #[macro_export]
@@ -507,6 +506,13 @@ macro_rules! declare_array_real{
             {
                 $name {
                     data: [value; $N],
+                }
+            }
+            #[allow(dead_code)]
+            fn new_from_i32( value: i32 ) -> Self
+            {
+                $name {
+                    data: [<$T>::from_num(value); $N],
                 }
             }
             #[allow(dead_code)]
@@ -538,7 +544,7 @@ macro_rules! declare_array_real{
                 }
             }
             #[allow(dead_code)]
-            fn ramp_from_float( start: f32, step: f32 ) -> Self {
+            fn ramp_from_f32( start: f32, step: f32 ) -> Self {
                 let mut temp: [$T; $N] = [<$T>::from_num(0); $N];
                 for n in 0..$N {
                     temp[n] = <$T>::from_num(start)+((<$T>::from_num(n))*<$T>::from_num(step));
