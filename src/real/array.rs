@@ -23,7 +23,7 @@ mod std_support {
 /// ```
 // The name of the type for the above array is `Arr11`. The size of the error is 11 elements.
 /// 
-/// ## Initialization
+/// # Initialization
 /// The array can be initalized with a single value across the array, or by creating a ramp.
 /// ### Generate an array of zeros.
 /// `zeros` is made as separate trait for convenience.
@@ -35,18 +35,13 @@ mod std_support {
 /// assert_eq!{x.len(), 2};
 /// ```
 /// 
-/// ### Generate an array of ones.
-/// `ones` is made as separate trait for convenience.
-/// ```rust
-/// use integer_array as ia;
-/// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr2, 2);
-/// let x = Arr2::ones();
-/// assert_eq!{x[0], 1};
-/// ```
+/// # New
+/// For creating an array with a specific value.
 /// 
-/// ### Generate an array of a specific value.
-/// An array of a single value is generated using the `new` keyword.
+/// ## Arguments
+/// * `value` - The falue to fill each item with.
+/// 
+/// ## Example
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -55,9 +50,27 @@ mod std_support {
 /// assert_eq!{x.data, [200, 200]};
 /// ```
 /// 
+/// # ::ones
+/// `ones` is made as separate trait for convenience.
+/// It generates an array of ones.
+/// 
+/// ## Example
+/// ```rust
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// ia::declare_array_real!( Arr2, 2);
+/// let x = Arr2::ones();
+/// assert_eq!{x[0], 1};
+/// ```
+/// 
+/// # ::ramp
 /// Generate a ramp of increasing value.
-/// - `start` The starting value (of item 0).
-/// - `step`  The incrimental value.
+/// 
+/// ## Arguments
+/// * `start` - The starting value (of item 0).
+/// * `step`  - The incrimental value.
+/// 
+/// ## Example
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -66,9 +79,10 @@ mod std_support {
 /// assert_eq!{x.data, [100, 120, 140, 160] };
 /// ```
 /// 
-/// ## Indexing:
-/// ### Front and back:
+/// # ::front and ::back:
 /// Access the first element of the array using the `.front()` attribute.
+/// 
+/// ## Examples
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -86,9 +100,14 @@ mod std_support {
 /// assert_eq!{x.back(), 720};
 /// ```
 ///
-/// ### At
+/// # ::at
 /// A specific item can be accessed through either using square bracket notation, or `.at( index )`.
-/// - `index` The index of the item, in the range 0..N-1.
+/// 
+/// ## Arguments
+/// 
+/// * `index` - The index of the item, in the range 0..N-1.
+/// 
+/// ## Example
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -97,8 +116,11 @@ mod std_support {
 /// assert_eq!{x.at(1), 0};
 /// ```
 /// 
-/// ### Bracket indexing
+/// # Bracket indexing
 /// Square bracket indexing can be used both for reading and writing from/to an item.
+/// 
+/// ## Examples
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -106,6 +128,7 @@ mod std_support {
 /// let x = Arr8::ramp(0,22);
 /// assert_eq!{x[2], 44i32 };
 /// ```
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -115,10 +138,15 @@ mod std_support {
 /// assert_eq!{x[2], 56i32 };
 /// ```
 /// 
-/// ## Scalar-array arithemetic:
-/// ### Bias
+/// # ::bias
 /// The `bias` attribute adds a scalar bias to every element in the array.
-/// - `value` The bias amount.
+/// 
+/// ## Arguments
+/// 
+/// * `value` - The bias amount.
+/// 
+/// ## Examples
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -142,9 +170,15 @@ mod std_support {
 /// assert_eq!{x[1], 19i32 };
 /// ```
 /// 
-/// ### Scale
+/// # ::scale
 /// The `scale` attribute scales every element in the array with a scalar value.
-/// - `value` The scaling factor.
+/// 
+/// ## Arguments
+/// 
+/// * `value` - The scaling factor.
+/// 
+/// ## Examples
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -154,7 +188,7 @@ mod std_support {
 ///    assert_eq!{y.front(), 500};
 /// ```
 ///
-/// Scaling can also be used by simply multiplying the array with a scalar value. 
+/// Scaling can also be used by simply multiplying the array with a scalar value,
 ///  ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -174,8 +208,11 @@ mod std_support {
 /// assert_eq!{x.data, [2147483647, 45, 22, 15] };
 /// ```
 /// 
-/// ### Sqrt
-/// The `sqrt` attribute finds the square root of every element in the array.
+/// # ::sqrt
+/// The `sqrt` attribute finds the item-wise square root of array.
+/// 
+/// ## Example
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -184,12 +221,13 @@ mod std_support {
 /// assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
 /// ```
 /// 
-/// ## Inter-array arithemetic:
+/// # Array operations
 /// Operations can also be performed on an inter-array-basis.
 /// The arrays must be of the same size.
 /// The operations are written similarly as one would for scalars in Rust.
 /// 
-/// ### Addition and subtraction
+/// ## Examples
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -203,7 +241,6 @@ mod std_support {
 /// assert_eq!{x.data, [0,22,44,66] };
 /// ```
 ///
-///  ### Multiplication and division
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -228,13 +265,16 @@ mod std_support {
 /// x = y/x;
 /// assert_eq!{x.data, [i32::MAX,45,22,15] };
 /// ```
-/// 
-/// ## Trigometric functions:
-/// The following trigometric functions are implemented based on a taylor approximation.
-/// 
-/// ### Wrap phase 
+///
+/// # Wrap phase
 /// Wrap array to a fixed-point -π=<x<π range.
-/// * `pi` The integer level which represents π in the input data.
+/// 
+/// ## Arguments
+/// 
+/// * `pi` - The integer level which represents π in the input data.
+/// 
+/// ## Example
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -243,15 +283,22 @@ mod std_support {
 /// assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
 /// ```
 /// 
-/// ### Sin
+/// # ::sin
 /// Take the elemtent-wise sine using a Taylor approximation of sine x.
 /// 
 /// Sin is calculated using the following polynomial:
-/// `sinx = x -( x^3/6.0 )+( x^5/120.0 )-( x^7/5040.0 )+( x^9/362880.0 )`
+/// 
+/// `sin(x) = x -( x^3/6.0 )+( x^5/120.0 )-( x^7/5040.0 )+( x^9/362880.0 )`
 /// 
 /// Self must be wrapped to the -π=<x<π range.
-/// * `pi`   The integer level which represents π in the input data.
-/// * `norm` The integer level which represents 1 in the output data.
+/// 
+/// ## Arguments
+/// 
+/// * `pi`   - The integer level which represents π in the input data.
+/// * `norm` - The integer level which represents 1 in the output data.
+/// 
+/// ## Example
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -271,15 +318,22 @@ mod std_support {
 /// ![Alt version](https://github.com/ErikBuer/Integer-Array/blob/main/numerical_verificatons/figures/sin/time_domain_comparison2.png?raw=true)
 /// 
 /// 
-/// ### Cos
+/// # ::cos
 /// Take the elemtent-wise cosine using a Taylor approximation of cos x.
 /// 
 /// Cos is calculated using the following polynomial:
-/// `cosx = 1 -( x^2/2 )+( x^4/24.0 )-( x^6/720.0 )+( x^8/40320.0 )`
+/// 
+/// `cos(x) = 1 -( x^2/2 )+( x^4/24.0 )-( x^6/720.0 )+( x^8/40320.0 )`
 /// 
 /// Self must be wrapped to the -π=<x<π range.
-/// * `pi`   The integer level which represents π in the input data.
-/// * `norm` The integer level which represents 1 in the output data.
+/// 
+/// ## Arguments
+/// 
+/// * `pi`   - The integer level which represents π in the input data.
+/// * `norm` - The integer level which represents 1 in the output data.
+/// 
+/// ## Example
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -296,17 +350,23 @@ mod std_support {
 /// 
 /// 
 /// 
-/// ### Tan
+/// # ::tan
 /// Take the element-wise tan using a Taylor approximation of tan x.
 /// 
 /// Tan is calculated using the following polynomial:
-/// `tanx = x+( x^3/3 )+( x^5*2/15.0 )+( x^7*17/315.0 )+( x^9*62/2835.0 )+( x^11*1382/155925.0 )+( x^13*21844/6081075.0 )+( x^15*929569/638512875.0 )`
+/// 
+/// `tan(x) = x+( x^3/3 )+( x^5*2/15.0 )+( x^7*17/315.0 )+( x^9*62/2835.0 )+( x^11*1382/155925.0 )+( x^13*21844/6081075.0 )+( x^15*929569/638512875.0 )`
 /// 
 /// Self must be wrapped to the -π/2=<x<π/2 range.
 /// The function is based on a Taylor expansion. Its error increases as |x| approaches π/2.
 /// 
-/// * `pi`   The integer level which represents π in the input data.
-/// * `norm` The integer level which represents 1 in the output data.
+/// ## Arguments
+/// 
+/// * `pi`   - The integer level which represents π in the input data.
+/// * `norm` - The integer level which represents 1 in the output data.
+/// 
+/// ## Example
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -320,9 +380,12 @@ mod std_support {
 /// ![Alt version](https://github.com/ErikBuer/Integer-Array/blob/main/numerical_verificatons/figures/tan/time_domain.png?raw=true)
 /// 
 /// 
-/// ## Estimator utilites:
-/// ### Max and min:
+/// # ::max and ::min
+/// 
 /// The maimum and minimum value in the array can be found through the `.max()` and `.min()` traits respectively.
+/// 
+/// ## Examples
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -337,8 +400,13 @@ mod std_support {
 /// let x = Arr32::ramp(100,20);
 /// assert_eq!{x.min(), 100};
 /// ```
-/// ### Argmax and argmin:
+/// 
+/// # ::argmax and ::argmin
+/// 
 /// The index of the maximum and minimum items in the array can be found through the `.argmax()` and `.argmin()` traits respectively.
+/// 
+/// ## Example
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -729,8 +797,8 @@ macro_rules! declare_array_real{
         impl integer_array::trait_definitions::TrigonometryTraits for $name {
             /// Take the elemtent-wise sine using a Taylor approximation of sin(x).
             /// Self must be wrapped to the -π=<x<π range.
-            /// * `pi` The integer level which represents π in the input data.
-            /// * `norm` The integer level which represents 1 in the output data.
+            /// * `pi`   -  The integer level which represents π in the input data.
+            /// * `norm` - The integer level which represents 1 in the output data.
             fn sin( &self, norm_pi:i32, norm:i32 ) -> Self {
                 use integer_array::utility as util;
                 use integer_array::constants as cnst;
@@ -764,8 +832,8 @@ macro_rules! declare_array_real{
 
             /// Take the elemtent-wise cosine using a Taylor approximation of cos(x).
             /// Self must be wrapped to the -π=<x<π range.
-            /// * `pi` The integer level which represents π in the input data.
-            /// * `norm` The integer level which represents 1 in the output data.
+            /// * `pi`   - The integer level which represents π in the input data.
+            /// * `norm` - The integer level which represents 1 in the output data.
             fn cos( &self, norm_pi:i32, norm:i32 ) -> Self {
                 use integer_array::utility as util;
                 use integer_array::constants as cnst;
@@ -804,8 +872,8 @@ macro_rules! declare_array_real{
             /// Take the element-wise tan using a Taylor approximation of tan x.
             /// Self must be wrapped to the -π/2=<x<π/2 range.
             /// The function is based on a Taylor expansion. Its error increases as |x| approaches π/2.
-            /// * `pi` The integer level which represents π in the input data.
-            /// * `norm` The integer level which represents 1 in the output data.
+            /// * `pi`   - The integer level which represents π in the input data.
+            /// * `norm` - The integer level which represents 1 in the output data.
             fn tan( &self, norm_pi:i32, norm:i32 ) -> Self {
                 let mut temp = self.data.clone();
                 
@@ -824,7 +892,7 @@ macro_rules! declare_array_real{
                 }
             }
             /// Wrapps Self to the -π=<x<π range.
-            /// * `pi` The integer level which represents π in the input data.
+            /// * `pi` - The integer level which represents π in the input data.
             fn wrap_phase( &self, norm_pi:i32 ) -> Self {
 
                 let mut temp_arr = self.data.clone();
