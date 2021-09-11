@@ -1,4 +1,5 @@
 # Release 0.2.0 (2021-09-??)
+- Improved documentation for the decleration macros with traits they implement.
 - Breaking change on declare_array_complex!
 
 ## Complex arrays
