@@ -1,5 +1,5 @@
 pub trait New {
-    fn new( value:i32 ) -> Self;
+    fn new<T>( value:T ) -> Self;
 }
 
 pub trait NewComplex {
@@ -7,7 +7,7 @@ pub trait NewComplex {
 }
 
 pub trait Ramp {
-    fn ramp( start:i32, step:i32 ) -> Self;
+    fn ramp<T>( start:T, step:T ) -> Self;
 }
 
 pub trait Initializers {
@@ -17,28 +17,6 @@ pub trait Initializers {
 
 pub trait Len {
     fn len( &self ) -> usize;
-}
-
-pub trait ArrayIndexing {
-    fn at( &self, index:usize) -> i32;
-    fn front( &self )   -> i32;
-    fn back( &self )    -> i32;
-}
-
-pub trait ArrayIndexingComplex {
-    fn at( &self, index:usize) -> num::complex::Complex<i32>;
-    fn front( &self )          -> num::complex::Complex<i32>;
-    fn back( &self )           -> num::complex::Complex<i32>;
-}
-
-pub trait ArithmeticTraits {
-    fn bias( &self, value:i32 )        -> Self;
-    fn scale( &self, value:i32 )       -> Self;
-    fn scale_float( &self, value:f32 ) -> Self;
-}
-
-pub trait SquareRoot {
-    fn sqrt( &self )                   -> Self;
 }
 
 pub trait Pow {
@@ -52,6 +30,7 @@ pub trait TrigonometryTraits {
     fn wrap_phase( &self, norm_pi:i32)      -> Self;
 }
 
+/*
 pub trait StatisticTraits {
     fn sum( &self )  -> i32;
     fn mean( &self ) -> i32;
@@ -61,6 +40,7 @@ pub trait StatisticTraits {
     fn argmax( &self ) -> usize;
     fn argmin( &self ) -> usize;
 }
+*/
 
 pub trait StdUtilities {
     fn todo( &self ) -> Self;

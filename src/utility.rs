@@ -34,16 +34,29 @@ pub fn fixed_powi<T>( base:T, power:usize ) -> T
     return temp;
 }
 
-/// Numerical square root of an integer.
-pub fn sqrt( item:i32 ) -> i32 {
+/// Numerical square root of a fixed point scalar.
+/// Slow but acurate method.
+/// 
+/// ## Argument
+/// * `error` - The gratest allowed error in the result.
+/// 
+/// # Example
+/// 
+/// ```
+/// use fixed::{types::extra::U28, FixedI32};
+/// use integer_array::utility as util;
+/// assert_eq!{ sqrt( FixedI32::<U28>::from_num(110), FixedI32::<U28>::from_num(0.025) ) , 0.983006064 };
+/// ``` 
+pub fn sqrt<T>( item:T, error:T ) -> T
+    where T: fixed::traits::Fixed
+{
     // Initial approximation
-    let mut root:i32 = item/2;
-    let mut y:i32 = 1;
+    let mut root: T = item/T::from_num(2);
+    let mut y:T = T::from_num(1);
     // Accuracy level
-    let error:i32 = 1;
     while  error <= root - y
     {
-        root = (root + y) / 2;
+        root = (root + y) / T::from_num(2);
         y = item / root;
     }
     return root;
@@ -108,6 +121,14 @@ pub fn atan_precise_fixed<T>( y: T, x: T ) -> T
                         / (T::from_num(1) + T::from_num(0.703384f32)*fixed_powi(division,2) + T::from_num(0.043562f32)*fixed_powi(division,4) );
 }
 
+/*
+pub fn test_complex<T>( y: T, x: T ) -> num::complex::Complex<T>
+    where T: Fixed
+{
+    return num::complex::Complex::new(x, y);
+}
+*/
+
 
 #[cfg(test)]
 mod tests {
@@ -118,9 +139,5 @@ mod tests {
     #[test]
     fn fpowi() {
         assert_eq!{super::fpowi(3.0,2), 9.0};
-    }
-    #[test]
-    fn sqrt() {
-        assert_eq!{super::sqrt(100), 10};
     }
 }

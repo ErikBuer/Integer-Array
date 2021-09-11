@@ -34,7 +34,9 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr2, 2);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
 /// let x = Arr2::zeros();
 /// assert_eq!{x.len(), 2};
 /// ```
@@ -49,8 +51,10 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr2, 2);
-/// let x = Arr2::new(200);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
+/// let x = Arr2::new(FixedI32::<U20>::from_num(200));
 /// assert_eq!{x.data, [200, 200]};
 /// ```
 /// 
@@ -62,7 +66,9 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr2, 2);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
 /// let x = Arr2::ones();
 /// assert_eq!{x[0], 1};
 /// ```
@@ -78,7 +84,9 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr4, 4);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
 /// let x = Arr4::ramp(100,20);
 /// assert_eq!{x.data, [100, 120, 140, 160] };
 /// ```
@@ -90,8 +98,10 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr2, 2);
-/// let x = Arr2::new(200);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
+/// let x = Arr2::new(FixedI32::<U20>::from_num(200));
 /// assert_eq!{x.front(), 200};
 /// ```
 /// 
@@ -99,7 +109,9 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr32, 32);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr32, 32, FixedI32<U20> );
 /// let x = Arr32::ramp(100,20);
 /// assert_eq!{x.back(), 720};
 /// ```
@@ -115,7 +127,9 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr2, 2);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
 /// let x = Arr2::zeros();
 /// assert_eq!{x.at(1), 0};
 /// ```
@@ -128,7 +142,9 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr8, 8);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
 /// let x = Arr8::ramp(0,22);
 /// assert_eq!{x[2], 44i32 };
 /// ```
@@ -136,7 +152,9 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr8, 8);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
 /// let mut x = Arr8::ramp(0,22);
 /// x[2] = 56;
 /// assert_eq!{x[2], 56i32 };
@@ -154,7 +172,9 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr2, 2);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
 /// let x = Arr2::new(200);
 /// let y = x.bias(5);
 /// assert_eq!{y.front(), 205};
@@ -164,7 +184,9 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr4, 8);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr4, 8, FixedI32<U20> );
 /// let mut x = Arr4::ramp(0,22);
 /// x = x+3;
 /// assert_eq!{x[1], 25i32 };
@@ -186,7 +208,9 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr2, 2);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
 /// let x = Arr2::new(100);
 /// let y = x.scale(5);
 ///    assert_eq!{y.front(), 500};
@@ -196,7 +220,9 @@ mod std_support {
 ///  ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr8, 8);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
 /// let mut x = Arr8::ramp(0,22);
 /// x = x*3;
 /// assert_eq!{x[1], 66i32 };
@@ -206,7 +232,9 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr4, 4);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
 /// let mut x = Arr4::ramp(0,22);
 /// x = 1000/x;
 /// assert_eq!{x.data, [2147483647, 45, 22, 15] };
@@ -215,14 +243,20 @@ mod std_support {
 /// # ::sqrt
 /// The `sqrt` attribute finds the item-wise square root of array.
 /// 
+/// ## Argument
+/// 
+/// * `error` - The gratest allowed error in the result.
+/// 
 /// ## Example
 /// 
-/// ```rust
+/// ```rust 
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr4, 4);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
 /// let x = Arr4::ramp(10000,1000);
-/// assert_eq!{x.sqrt().data, [100, 104, 109, 114] };
+/// assert_eq!{x.sqrt(  ).data, [100, 104, 109, 114] };
 /// ```
 /// 
 /// # Array operations
@@ -235,7 +269,10 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr4, 4);
+/// use fixed::{types::extra::U20, FixedI32};
+
+/// 
+/// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
 /// let mut x = Arr4::ramp(0,22);
 /// let y = Arr4::new(10);
 /// x = x+y;
@@ -248,7 +285,10 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr4, 4);
+/// use fixed::{types::extra::U20, FixedI32};
+
+/// 
+/// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
 /// let mut x = Arr4::ramp(10,22);
 /// let  y = Arr4::new(10);
 /// x = x*y;
@@ -263,7 +303,10 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr4, 4);
+/// use fixed::{types::extra::U20, FixedI32};
+
+/// 
+/// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
 /// let mut x = Arr4::ramp(0,22);
 /// let y = Arr4::new(1000);
 /// x = y/x;
@@ -282,7 +325,9 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr8, 8);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
 /// let x = Arr8::ramp(0,22);
 /// assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
 /// ```
@@ -306,7 +351,10 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr8, 8);
+/// use fixed::{types::extra::U20, FixedI32};
+
+/// 
+/// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
 /// let mut x = Arr8::ramp(0,60);
 /// x = x.wrap_phase( 180 );
 /// assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
@@ -341,7 +389,10 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr8, 8);
+/// use fixed::{types::extra::U20, FixedI32};
+
+/// 
+/// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
 /// let mut x = Arr8::ramp(0,60);
 /// x = x.wrap_phase( 180 );
 /// assert_eq!{x.cos( 180, 100).data, [100, 50, -50, -100, -50, 50, 100, 50] };
@@ -374,7 +425,10 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr8, 8);
+/// use fixed::{types::extra::U20, FixedI32};
+
+/// 
+/// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
 /// let x = Arr8::ramp(0,20);
 /// assert_eq!{x.tan( 180, 100).data, [0, 36, 83, 158, 373, 2155, 19696, 158268] };
 /// ```
@@ -393,14 +447,20 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr32, 32);
+/// use fixed::{types::extra::U20, FixedI32};
+
+/// 
+/// ia::declare_array_real!( Arr32, 32, FixedI32<U20> );
 /// let x = Arr32::ramp(100,20);
 /// assert_eq!{x.max(), 720};
 /// ```
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr32, 32);
+/// use fixed::{types::extra::U20, FixedI32};
+
+/// 
+/// ia::declare_array_real!( Arr32, 32, FixedI32<U20> );
 /// let x = Arr32::ramp(100,20);
 /// assert_eq!{x.min(), 100};
 /// ```
@@ -414,42 +474,74 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr32, 32);
+/// use fixed::{types::extra::U20, FixedI32};
+
+/// 
+/// ia::declare_array_real!( Arr32, 32, FixedI32<U20> );
 /// let x = Arr32::ramp(0,1);
 /// assert_eq!{x.argmax(), 31};
 /// ```
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_real!( Arr32, 32);
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr32, 32, FixedI32<U20> );
 /// let x = Arr32::ramp(100,20);
 /// assert_eq!{x.argmin(), 0};
 /// ```
 #[macro_export]
 macro_rules! declare_array_real{
-    ( $name:ident, $N:expr ) => {
+    ( $name:ident, $N:expr, $T:ty ) => {
 
         #[derive(Copy, Clone, Default, Debug, PartialEq)]
         /// Real numeric array of type int32.
         pub struct $name{
-            pub data: [i32; $N],
+            pub data: [$T; $N],
         }
 
-        impl integer_array::trait_definitions::New for $name {
+        impl $name {
             /// Generate an array of a value.
-            fn new( value:i32 ) -> Self {
+            #[allow(dead_code)]
+            fn new( value: $T ) -> Self
+            {
                 $name {
-                    data: [value;$N],
+                    data: [value; $N],
+                }
+            }
+            #[allow(dead_code)]
+            fn new_from_f32( value: f32 ) -> Self
+            {
+                $name {
+                    data: [<$T>::from_num(value); $N],
+                }
+            }
+            #[allow(dead_code)]
+            fn new_from_f64( value: f64 ) -> Self
+            {
+                $name {
+                    data: [<$T>::from_num(value); $N],
                 }
             }
         }
 
-        impl integer_array::trait_definitions::Ramp for $name {
+        impl $name {
             /// Generate a linear ramp of values with increment step.
-            fn ramp( start:i32, step:i32  ) -> Self {
-                let mut temp: [i32; $N] = [start; $N];
+            #[allow(dead_code)]
+            fn ramp( start: $T, step: $T ) -> Self {
+                let mut temp: [$T; $N] = [<$T>::from_num(0); $N];
                 for n in 0..$N {
-                    temp[n] = start+((n as i32)*step);
+                    temp[n] = start+((<$T>::from_num(n))*step);
+                }
+                $name {
+                    data: temp
+                }
+            }
+            #[allow(dead_code)]
+            fn ramp_from_float( start: f32, step: f32 ) -> Self {
+                let mut temp: [$T; $N] = [<$T>::from_num(0); $N];
+                for n in 0..$N {
+                    temp[n] = <$T>::from_num(start)+((<$T>::from_num(n))*<$T>::from_num(step));
                 }
                 $name {
                     data: temp
@@ -461,13 +553,13 @@ macro_rules! declare_array_real{
             /// Generate an array of ones.
             fn ones() -> Self {
                 $name {
-                    data: [1;$N]
+                    data: [<$T>::from_num(1); $N]
                 }
             }
             /// Generate an array of zeroes.
             fn zeros() -> Self {
                 $name {
-                    data: [0;$N]
+                    data: [<$T>::from_num(0); $N]
                 }
             }
         }
@@ -479,68 +571,61 @@ macro_rules! declare_array_real{
             }
         }
 
-        impl integer_array::trait_definitions::ArrayIndexing for $name {
+        impl $name {
             /// Returns indexed item of the array.
             /// Index Clips at N-1.
-            fn at( &self, index:usize) -> i32 {
+            #[allow(dead_code)]
+            fn at( &self, index:usize) -> $T {
                 if( $N <= index)
                 {
-                    return self.data[$N - 1];
+                    return self[$N - 1];
                 }
-                return self.data[index];
+                return self[index];
             }
             /// Returns the first item of the array.
-            fn front( &self ) -> i32 {
-                return self.data[0];
+            #[allow(dead_code)]
+            fn front( &self ) -> $T {
+                return self[0];
             }
             /// Returns the last item of the array.
-            fn back( &self ) -> i32 {
-                return self.data[$N-1];
+            #[allow(dead_code)]
+            fn back( &self ) -> $T {
+                return self[$N-1];
             }
-        }   
+        }
 
-        impl integer_array::trait_definitions::ArithmeticTraits for $name {
+        impl $name {
+            /// Return the elemtent-wise square root using the 
+            /// Babylonian square root implementation.
+            #[allow(dead_code)]
+            fn sqrt( &self, error: $T ) -> Self {
+                let mut r_array = self.clone();
+                for index in 0..$N {
+                    r_array[index] = integer_array::utility::sqrt( self[index] , error );
+                } 
+                return r_array;
+            }
             /// Adds a scalar bias value to the entire array.
-            fn bias( &self, value:i32 ) -> Self {
+            fn bias( &self, value:$T ) -> Self
+            {
                 let mut temp = self.data.clone();
                 for index in 0..$N {
-                    temp[index] = self.data[index]+value;
+                    temp[index] = self[index]+value;
                 } 
                 $name {
                     data: temp
                 }
             }
-            /// Scales the array by a scalar integer value.
-            fn scale( &self, value:i32 ) -> Self {
+            /// Scales the array by a scalar value.
+            fn scale( &self, value:$T ) -> Self
+            {
                 let mut temp = self.data.clone();
                 for index in 0..$N {
-                    temp[index] = self.data[index]*value;
+                    temp[index] = self[index]*value;
                 } 
                 Self {
                     data: temp
                 }
-            }
-            /// Scales the array by a scalar float value.
-            fn scale_float( &self, value:f32 ) -> Self {
-                let mut temp = self.data.clone();
-                for index in 0..$N {
-                    temp[index] = (self.data[index]as f32*value) as i32;
-                }
-                Self {
-                    data: temp
-                }
-            }
-        }
-
-        impl integer_array::trait_definitions::SquareRoot for $name {
-            /// Return the elemtent-wise square root using the 
-            /// Babylonian square root implementation.
-            fn sqrt( &self ) -> Self {
-                let mut r_array = self.clone();
-                for index in 0..$N {
-                    r_array[index] = integer_array::utility::sqrt(self[index]);
-                } 
-                return r_array;
             }
         }
 
@@ -549,7 +634,7 @@ macro_rules! declare_array_real{
             fn powi( &self, power:u32 ) -> Self {
                 let mut r_array = self.clone();
                 for index in 0..$N {
-                    r_array[index] = integer_array::utility::powi( self[index], power as usize );
+                    r_array[index] = integer_array::utility::fixed_powi( self[index], power as usize );
                 }
                 return r_array;
             }
@@ -571,14 +656,14 @@ macro_rules! declare_array_real{
         impl core::ops::Mul<i32> for $name {
             type Output = Self;
             fn mul( self, rhs:i32 ) -> $name {
-                return self.scale( rhs );
+                return self.scale( <$T>::from_num(rhs) );
             }
         }
 
         impl core::ops::Mul<f32> for $name {
             type Output = Self;
             fn mul( self, rhs:f32 ) -> $name {
-                return self.scale_float( rhs ); 
+                return self.scale( <$T>::from_num(rhs) ); 
             }
         }
 
@@ -589,11 +674,11 @@ macro_rules! declare_array_real{
                 for index in 0..$N {
                     if (self[index] == 0)
                     {
-                        r_array[index] = 0;
+                        r_array[index] = <$T>::from_num(0);
                     }
                     else if(other[index] == 0)
                     {
-                        r_array[index] = i32::MAX;
+                        r_array[index] = <$T>::MAX;
                     }
                     else
                     {
@@ -611,11 +696,11 @@ macro_rules! declare_array_real{
                 for index in 0..$N {
                     if (self[index] == 0)
                     {
-                        r_array[index] = 0;
+                        r_array[index] = <$T>::from_num(0);
                     }
                     else if(other == 0)
                     {
-                        r_array[index] = i32::MAX;
+                        r_array[index] = <$T>::MAX;
                     }
                     else
                     {
@@ -633,15 +718,59 @@ macro_rules! declare_array_real{
                 for index in 0..$N {
                     if (self == 0)
                     {
-                        r_array[index] = 0;
+                        r_array[index] = <$T>::from_num(0);
                     }
                     else if(other[index] == 0)
                     {
-                        r_array[index] = i32::MAX;
+                        r_array[index] = <$T>::MAX;
                     }
                     else
                     {
-                        r_array[index] = self/other[index];
+                        r_array[index] = <$T>::from_num(self)/other[index];
+                    }
+                } 
+                return r_array;
+            }
+        }
+
+        impl core::ops::Div<f32> for $name {
+            type Output = Self;
+            fn div( self, other:f32 ) -> $name {
+                let mut r_array = self.clone();
+                for index in 0..$N {
+                    if (self[index] == 0)
+                    {
+                        r_array[index] = <$T>::from_num(0);
+                    }
+                    else if(other == 0.0)
+                    {
+                        r_array[index] = <$T>::MAX;
+                    }
+                    else
+                    {
+                        r_array[index] = self[index]/<$T>::from_num(other);
+                    }
+                } 
+                return r_array;
+            }
+        }
+
+        impl core::ops::Div<$name> for f32 {
+            type Output = $name;
+            fn div( self, other:$name ) -> $name {
+                let mut r_array = other.clone();
+                for index in 0..$N {
+                    if (self == 0.0)
+                    {
+                        r_array[index] = <$T>::from_num(0);
+                    }
+                    else if(other[index] == 0)
+                    {
+                        r_array[index] = <$T>::MAX;
+                    }
+                    else
+                    {
+                        r_array[index] = <$T>::from_num(self)/other[index];
                     }
                 } 
                 return r_array;
@@ -661,31 +790,73 @@ macro_rules! declare_array_real{
             }
         }
 
+        impl core::ops::Add<f32> for $name {
+            type Output = Self;
+            fn add( self, rhs:f32 ) -> $name {
+                return self.bias( <$T>::from_num(rhs) ); 
+            }
+        }
+
+        impl core::ops::Add<f64> for $name {
+            type Output = Self;
+            fn add( self, rhs:f64 ) -> $name {
+                return self.bias( <$T>::from_num(rhs) ); 
+            }
+        }
+
         impl core::ops::Add<i32> for $name {
             type Output = Self;
             fn add( self, rhs:i32 ) -> $name {
-                return self.bias( rhs ); 
+                return self.bias( <$T>::from_num(rhs) ); 
             }
         }
         
         impl core::ops::Add<i16> for $name {
             type Output = Self;
             fn add( self, rhs:i16 ) -> $name {
-                return self.bias( rhs as i32 ); 
+                return self.bias( <$T>::from_num(rhs) ); 
             }
         }
 
         impl core::ops::Add<i8> for $name {
             type Output = Self;
             fn add( self, rhs:i8 ) -> $name {
-                return self.bias( rhs as i32 ); 
+                return self.bias( <$T>::from_num(rhs) ); 
             }
         }
         
         impl core::ops::Sub<i32> for $name {
             type Output = Self;
-            fn sub( self, other:i32 ) -> $name {
-                return self.bias( -other ); 
+            fn sub( self, rhs:i32 ) -> $name {
+                return self.bias( -<$T>::from_num(rhs) ); 
+            }
+        }
+
+        impl core::ops::Sub<i8> for $name {
+            type Output = Self;
+            fn sub( self, rhs:i8 ) -> $name {
+                return self.bias( -<$T>::from_num(rhs) ); 
+            }
+        }
+
+        impl core::ops::Sub<i16> for $name {
+            type Output = Self;
+            fn sub( self, rhs:i16 ) -> $name {
+                return self.bias( -<$T>::from_num(rhs) ); 
+            }
+        }
+
+        impl core::ops::Sub<f32> for $name {
+            type Output = Self;
+            fn sub( self, rhs:f32 ) -> $name {
+                return self.bias( -<$T>::from_num(rhs) ); 
+            }
+        }
+
+        impl core::ops::Sub<f64> for $name {
+            type Output = Self;
+            fn sub( self, rhs:f64 ) -> $name {
+                return self.bias( -<$T>::from_num(rhs) ); 
             }
         }
 
@@ -722,82 +893,90 @@ macro_rules! declare_array_real{
             }
         }
         
-        impl integer_array::trait_definitions::StatisticTraits for $name {
+        impl $name {
             /// Return the sum of the array.
-            fn sum( &self ) -> i32 {
-                let mut sum:i32 = 0;
+            #[allow(dead_code)]
+            fn sum( &self ) -> $T {
+                let mut sum:$T = <$T>::from_num(0);
                 for index in 0..$N {
-                    sum = sum+ self.data[index];
+                    sum = sum + self.data[index];
                 }
                 return sum;
             }
             /// Return the mean of the array.
-            fn mean( &self ) -> i32 {
-                let mut sum:i32 = 0;
+            #[allow(dead_code)]
+            fn mean( &self ) -> $T {
+                let mut sum:$T = <$T>::from_num(0);
                 for index in 0..$N {
-                    sum = sum+ self.data[index];
+                    sum = sum + self.data[index];
                 }
                 return sum/$N;
             }
             /// Return the variance of the array.
-            fn var( &self ) -> i32 {
+            #[allow(dead_code)]
+            fn var( &self ) -> $T {
                 let mean = self.mean();
-                let mut temp: i32 = 0;
+                let mut temp: $T = <$T>::from_num(0);
                 for idx in 0..$N {
-                    temp = temp + (self.data[idx]-mean)^2;
+                    temp = temp + integer_array::utility::fixed_powi((self[idx]-mean), 2);
                 }
                 return temp/$N;
             }
             /// Return the higherst value in the array.
-            fn max( &self ) -> i32 {
-                let mut max_val = i32::MIN;
+            #[allow(dead_code)]
+            fn max( &self ) -> $T {
+                let mut max_val = <$T>::MIN;
                 for index in 0..$N {
-                    if max_val < self.data[index]
+                    if max_val < self[index]
                     {
-                        max_val = self.data[index];
+                        max_val = self[index];
                     }
                 } 
                 return max_val;
             }
             /// Return the lowest value in the array.
-            fn min( &self ) -> i32 {
-                let mut min_val = i32::MAX;
+            #[allow(dead_code)]
+            fn min( &self ) -> $T {
+                let mut min_val = <$T>::MAX;
                 for index in 0..$N {
                     if self.data[index] < min_val
                     {
-                        min_val = self.data[index];
+                        min_val = self[index];
                     }
                 } 
                 return min_val;
             }
             /// Return the index of the greatest value in the array.
+            #[allow(dead_code)]
             fn argmax( &self ) -> usize {
-                let mut max_val = i32::MIN;
+                let mut max_val = <$T>::MIN;
                 let mut arg_max = 0;
                 for index in 0..$N {
-                    if max_val < self.data[index]
+                    if max_val < self[index]
                     {
-                        max_val = self.data[index];
+                        max_val = self[index];
                         arg_max = index;
                     }
                 } 
                 return arg_max;
             }
             /// Return the index of the lowest value in the array.
+            #[allow(dead_code)]
             fn argmin( &self ) -> usize {
-                let mut min_val = i32::MAX;
+                let mut min_val = <$T>::MAX;
                 let mut arg_min = 0;
                 for index in 0..$N {
                     if self.data[index] < min_val
                     {
-                        min_val = self.data[index];
+                        min_val = self[index];
                         arg_min = index;
                     }
                 } 
                 return arg_min;
             }
         }
-
+        
+        /*
         impl integer_array::trait_definitions::TrigonometryTraits for $name {
             /// Take the elemtent-wise sine using a Taylor approximation of sin(x).
             /// Self must be wrapped to the -π=<x<π range.
@@ -918,12 +1097,13 @@ macro_rules! declare_array_real{
                 }
             }
         }
+        */
 
         impl core::ops::Index<usize> for $name {
-            type Output = i32;
+            type Output = $T;
             /// Trait for returning an indexed value of the array.
             #[inline]
-            fn index(&self, index: usize) -> &i32 {
+            fn index(&self, index: usize) -> &$T {
                 return &self.data[index];
             }
         }
@@ -931,7 +1111,7 @@ macro_rules! declare_array_real{
         impl core::ops::IndexMut<usize> for $name {
             /// Trait for returning a mutable reference to indexed item.
             #[inline]
-            fn index_mut(&mut self, index: usize) -> &mut i32 {
+            fn index_mut(&mut self, index: usize) -> &mut $T {
                 return &mut self.data[index];
             }
         }
@@ -953,30 +1133,33 @@ mod tests {
     #[test]
     fn neg() {
         use crate as integer_array;
-        use integer_array::trait_definitions::*;
-        declare_array_real!( Arr4, 4);
-        let mut x = Arr4::ramp(0,22);
+        use fixed::{types::extra::U20, FixedI32};
+
+        declare_array_real!( Arr4, 4, FixedI32<U20> );
+        let mut x = Arr4::new( FixedI32::<U20>::from_num(22));
         x = -x;
-        assert_eq!{x[1], -22i32 };
+        assert_eq!{x[1], -22 };
     }
 
     #[test]
     fn zero_divide() {
         use crate as integer_array;
-        use integer_array::trait_definitions::*;
-        declare_array_real!( Arr4, 4);
-        let mut x = Arr4::ramp(0,22);
+        use fixed::{types::extra::U20, FixedI32};
+        
+        declare_array_real!( Arr4, 4, FixedI32<U20> );
+        let mut x = Arr4::ramp(FixedI32::<U20>::from_num(0),FixedI32::<U20>::from_num(22));
         let y = 10i32;
         x = x/y;
-        assert_eq!{x.data, [0,2,4,6] };
+        assert_eq!{x[0], 0 };
     }
 
     #[test]
     fn sybtract_by_array() {
         use crate as integer_array;
-        use integer_array::trait_definitions::*;
-        declare_array_real!( Arr4, 8);
-        let mut x = Arr4::ramp(0,22);
+        use fixed::{types::extra::U20, FixedI32};
+
+        declare_array_real!( Arr4, 8, FixedI32<U20> );
+        let mut x = Arr4::ramp(FixedI32::<U20>::from_num(0),FixedI32::<U20>::from_num(22));
         x = 3-x;
         assert_eq!{x[1], -19i32 };
     }
