@@ -52,7 +52,7 @@ pub fn sqrt( item:i32 ) -> i32 {
 /// 
 /// ```
 /// use integer_array::utility as util;
-/// assert_eq!{util::arctan_precise_float( 0.6f32, 0.4f32 ), 0.98300606 };
+/// assert_eq!{util::atan_precise_float( 0.6f32, 0.4f32 ), 0.98300606 };
 /// ``` 
 pub fn atan_precise_float( y:f32, x:f32 ) -> f32
 {
