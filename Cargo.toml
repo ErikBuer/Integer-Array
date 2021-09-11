@@ -19,6 +19,9 @@ test  = true
 edition    = "2018"
 crate-type = ["lib"]
 
+[dependencies]
+fixed = "1.10.0"
+
 [dependencies.num]
 version = "0.4"
 default-features = false

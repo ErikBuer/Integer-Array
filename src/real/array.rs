@@ -9,19 +9,23 @@ mod std_support {
     };
 }
 
-/// Create an i32 array type of size N.
+/// This macro implements a i32 array type of size N.
 /// Complete with the traits shown below.
 /// 
-/// # Traits implemented with the macro:
-/// The implemented traits are focumented below. See the source for a complete list.
-/// ## Basic use:
-/// arrays types of fixed size is defined with traits through a macro as follows:
+/// ## Arguments
+/// * `name`  - The name of the array type. E.g. Arr4
+/// * `N`     - The length of the array. E.g 4.
+/// 
+/// ## Example
+/// Arrays types of fixed size is defined with traits through a macro as follows:
 /// ```rust
 /// use integer_array as ia;
 /// use integer_array::trait_definitions::*;
-/// integer_array::declare_array_real!( Arr11, 11);
+/// integer_array::declare_array_real!( Arr11, 11 );
 /// ```
-// The name of the type for the above array is `Arr11`. The size of the error is 11 elements.
+/// 
+/// The name of the type for the above array is `Arr11`. The size of the error is 11 elements, and it has 18 fractional bits.
+/// The implemented traits are documented below. See the source for a complete list.
 /// 
 /// # Initialization
 /// The array can be initalized with a single value across the array, or by creating a ramp.
@@ -423,7 +427,7 @@ mod std_support {
 /// ```
 #[macro_export]
 macro_rules! declare_array_real{
-    ( $name:ident, $N:expr) => {
+    ( $name:ident, $N:expr ) => {
 
         #[derive(Copy, Clone, Default, Debug, PartialEq)]
         /// Real numeric array of type int32.
@@ -435,7 +439,7 @@ macro_rules! declare_array_real{
             /// Generate an array of a value.
             fn new( value:i32 ) -> Self {
                 $name {
-                    data: [value;$N]
+                    data: [value;$N],
                 }
             }
         }
