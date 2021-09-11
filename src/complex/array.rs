@@ -127,9 +127,9 @@ macro_rules! declare_array_complex{
             fn mag( &self ) -> $r_name {
                 let mut r_array = $r_name::zeros();
                 for n in 0..$N {
-                    let re_pow = integer_array::utility_functions::powi( self[n].re, 2 );
-                    let im_pow = integer_array::utility_functions::powi( self[n].im, 2 );
-                    r_array[n] = integer_array::utility_functions::sqrt(re_pow+im_pow);
+                    let re_pow = integer_array::utility::powi( self[n].re, 2 );
+                    let im_pow = integer_array::utility::powi( self[n].im, 2 );
+                    r_array[n] = integer_array::utility::sqrt(re_pow+im_pow);
                 }
                 return r_array;
             }

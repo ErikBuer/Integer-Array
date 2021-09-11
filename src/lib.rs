@@ -45,7 +45,7 @@ extern crate std;
 extern crate core as std;
 
 // Modules (files in the top hierarchy)
-pub mod utility_functions;
+pub mod utility;
 pub mod constants;
 pub mod trait_definitions;
 pub mod real;

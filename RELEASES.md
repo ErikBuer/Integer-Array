@@ -5,6 +5,9 @@
 - Added traits for real and imag.
 - Added traits for magnitude calculation.
 
+## Utility functions
+- Added polynomial float-based atan function.
+
 
 **Contributors**: ErikBuer
 

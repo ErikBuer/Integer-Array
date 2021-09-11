@@ -264,7 +264,6 @@ mod std_support {
 /// Below is the the taylor approximation for sine compared to the Julia native sin function.
 /// The below plot is generated with double presicion floationg point for demonstrative purposes.
 /// In the figure it is apparent that there is greater error in the Taylor approximation further from origo.
-/// Therefore, 
 /// ![Alt version](https://github.com/ErikBuer/Integer-Array/blob/main/numerical_verificatons/figures/sin/time_domain_sinx.png?raw=true)
 /// To counter these, the fact that all quarters of the sine(x) function are mirrored versions of each other. 
 /// Therefore the first quarters, having the least error, which can be seen in the time domain plot above, are used for all values of x.
@@ -467,7 +466,7 @@ macro_rules! declare_array_real{
             fn sqrt( &self ) -> Self {
                 let mut r_array = self.clone();
                 for index in 0..$N {
-                    r_array[index] = integer_array::utility_functions::sqrt(self[index]);
+                    r_array[index] = integer_array::utility::sqrt(self[index]);
                 } 
                 return r_array;
             }
@@ -478,7 +477,7 @@ macro_rules! declare_array_real{
             fn powi( &self, power:u32 ) -> Self {
                 let mut r_array = self.clone();
                 for index in 0..$N {
-                    r_array[index] = integer_array::utility_functions::powi( self[index], power );
+                    r_array[index] = integer_array::utility::powi( self[index], power as usize );
                 }
                 return r_array;
             }
@@ -733,7 +732,7 @@ macro_rules! declare_array_real{
             /// * `pi` The integer level which represents π in the input data.
             /// * `norm` The integer level which represents 1 in the output data.
             fn sin( &self, norm_pi:i32, norm:i32 ) -> Self {
-                use integer_array::utility_functions as util;
+                use integer_array::utility as util;
                 use integer_array::constants as cnst;
 
                 const PI_HALF:f32 = cnst::PI/2.0;
@@ -768,7 +767,7 @@ macro_rules! declare_array_real{
             /// * `pi` The integer level which represents π in the input data.
             /// * `norm` The integer level which represents 1 in the output data.
             fn cos( &self, norm_pi:i32, norm:i32 ) -> Self {
-                use integer_array::utility_functions as util;
+                use integer_array::utility as util;
                 use integer_array::constants as cnst;
 
                 const PI_HALF:f32 = cnst::PI/2.0;
@@ -810,7 +809,7 @@ macro_rules! declare_array_real{
             fn tan( &self, norm_pi:i32, norm:i32 ) -> Self {
                 let mut temp = self.data.clone();
                 
-                use integer_array::utility_functions as util;
+                use integer_array::utility as util;
                 use integer_array::constants as cnst;
 
                 for idx in 0..$N {
