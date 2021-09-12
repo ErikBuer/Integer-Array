@@ -56,7 +56,7 @@ mod std_support {
 /// 
 /// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
 /// let x = Arr2::new(FixedI32::<U20>::from_num(200));
-/// assert_eq!{x.data, [200, 200]};
+/// assert_eq!{x.to_i32(), [200, 200]};
 /// ```
 /// 
 /// # ::ones
@@ -71,7 +71,7 @@ mod std_support {
 /// 
 /// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
 /// let x = Arr2::ones();
-/// assert_eq!{x[0], 1};
+/// assert_eq!{x.to_i32(), [1,1]};
 /// ```
 /// 
 /// # ::ramp
@@ -89,7 +89,7 @@ mod std_support {
 /// 
 /// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
 /// let x = Arr4::ramp_from_f32(100.0,20.0);
-/// assert_eq!{x.data, [100, 120, 140, 160] };
+/// assert_eq!{x.to_i32(), [100, 120, 140, 160] };
 /// ```
 /// 
 /// # ::front and ::back:
@@ -157,7 +157,7 @@ mod std_support {
 /// 
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
 /// let mut x = Arr8::ramp_from_f32(0.0,22.0);
-/// x[2] = 56;
+/// x[2] = FixedI32::<U20>::from_num(56);
 /// assert_eq!{x[2], 56i32 };
 /// ```
 /// 
@@ -177,8 +177,8 @@ mod std_support {
 /// 
 /// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
 /// let x = Arr2::new_from_i32(200);
-/// let y = x.bias(5);
-/// assert_eq!{y.front(), 205};
+/// let y = x.bias_f32(0.25);
+/// assert_eq!{y.front(), 200.25};
 /// ```
 ///
 /// The bias can also be implemented by adding or subtracting the array with a scalar. 
@@ -213,7 +213,7 @@ mod std_support {
 /// 
 /// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
 /// let x = Arr2::new_from_i32(100);
-/// let y = x.scale(5);
+/// let y = x.scale_f32(5.0);
 ///    assert_eq!{y.front(), 500};
 /// ```
 ///
@@ -238,7 +238,7 @@ mod std_support {
 /// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
 /// let mut x = Arr4::ramp_from_f32(0.0,22.0);
 /// x = 1000/x;
-/// assert_eq!{x.to_i32(), [2147483647, 45, 22, 15] };
+/// assert_eq!{x.to_f32(), [2048.0, 45.454544, 22.727272, 15.151515] };
 /// ```
 /// 
 /// # ::sqrt
@@ -246,7 +246,7 @@ mod std_support {
 /// 
 /// ## Argument
 /// 
-/// * `error` - The gratest allowed error in the result.
+/// * `error` - The gratest allowed error in the numerical method.
 /// 
 /// ## Example
 /// 
@@ -258,7 +258,7 @@ mod std_support {
 /// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
 /// let x = Arr4::ramp_from_f32(18.0, 10.0);
 /// let y = x.sqrt( FixedI32::<U20>::from_num(0.1) );
-/// assert_eq!{ y[1], 1 };
+/// assert_eq!{ y[1], 5.300915 };
 /// ```
 /// 
 /// # Array operations
@@ -298,7 +298,7 @@ mod std_support {
 /// 
 /// x = Arr4::ramp_from_f32(0.0,22.0);
 /// x = x/y;
-/// assert_eq!{x.data, [0,2,4,6] };
+/// assert_eq!{x.to_i32(), [0,2,4,6] };
 /// ```
 /// 
 /// In a divide-by-zero case, the maximum int value is returned. 
@@ -311,7 +311,7 @@ mod std_support {
 /// let mut x = Arr4::ramp_from_f32(0.0,22.0);
 /// let y = Arr4::new_from_i32(1);
 /// x = y/x;
-/// assert_eq!{x.data, [i32::MAX,45,22,15] };
+/// assert_eq!{x.to_f32(), [2048.0, 0.045454025, 0.022727013, 0.015151024] };
 /// ```
 ///
 /// # ::wrap_phase
@@ -330,7 +330,8 @@ mod std_support {
 /// 
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
 /// let x = Arr8::ramp_from_f32(0.0,22.0);
-/// assert_eq!{x.wrap_phase( 50 ).data, [0,22,44,-34,-12,10,32,-46] };
+/// let y = x.wrap_phase( 50 );
+/// assert_eq!{ y.to_f32(), [0,22,44,-34,-12,10,32,-46] };
 /// ```
 /// 
 /// # ::sin
@@ -358,7 +359,8 @@ mod std_support {
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
 /// let mut x = Arr8::ramp_from_f32(0.0,60.0);
 /// x = x.wrap_phase( 180 );
-/// assert_eq!{x.sin( 180, 100).data, [0, 86, 86, 0, -86, -86, 0, 86] };
+/// let y = x.sin( 180, 100);
+/// assert_eq!{ y.to_f32(), [0.0, 86.0, 86.0, 0.0, -86.0, -86.0, 0.0, 86.0] };
 /// ```
 /// 
 /// Below is the the taylor approximation for sine compared to the Julia native sin function.
@@ -396,7 +398,8 @@ mod std_support {
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
 /// let mut x = Arr8::ramp_from_f32(0.0,60.0);
 /// x = x.wrap_phase( 180 );
-/// assert_eq!{x.cos( 180, 100).data, [100, 50, -50, -100, -50, 50, 100, 50] };
+/// let y = x.cos( 180, 100);
+/// assert_eq!{ y.to_f32(), [100.0, 5.0, -5.0, -100.0, -5.0, 50.0, 100.0, 50.0] };
 /// ```
 /// 
 /// A first-quarter method as described for the sine implementation is also used on cosine. The pure Taylor approximation is displayed below.
@@ -431,7 +434,8 @@ mod std_support {
 /// 
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
 /// let x = Arr8::ramp_from_f32(0.0,20.0);
-/// assert_eq!{x.tan( 180, 100).data, [0, 36, 83, 158, 373, 2155, 19696, 158268] };
+/// let y = x.tan( 180, 100);
+/// assert_eq!{ y.to_f32(), [0.0, 36.0, 83.0, 158.0, 373.0, 2155.0, 19696.0, 158268.0] };
 /// ```
 /// 
 /// Below is the the taylor approximation for tan compared to the Julia native tan function.
@@ -662,12 +666,36 @@ macro_rules! declare_array_real{
                     data: temp
                 }
             }
+            /// Adds a scalar bias value to the entire array.
+            #[allow(dead_code)]
+            fn bias_f32( &self, value:f32 ) -> Self
+            {
+                let mut temp = self.data.clone();
+                for index in 0..$N {
+                    temp[index] = self[index]+<$T>::from_num(value);
+                } 
+                $name {
+                    data: temp
+                }
+            }
             /// Scales the array by a scalar value.
             fn scale( &self, value:$T ) -> Self
             {
                 let mut temp = self.data.clone();
                 for index in 0..$N {
                     temp[index] = self[index]*value;
+                } 
+                Self {
+                    data: temp
+                }
+            }
+            /// Scales the array by a scalar value.
+            #[allow(dead_code)]
+            fn scale_f32( &self, value:f32 ) -> Self
+            {
+                let mut temp = self.data.clone();
+                for index in 0..$N {
+                    temp[index] = self[index]*<$T>::from_num(value);
                 } 
                 Self {
                     data: temp
