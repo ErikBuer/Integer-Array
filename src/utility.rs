@@ -43,9 +43,10 @@ pub fn fixed_powi<T>( base:T, power:usize ) -> T
 /// # Example
 /// 
 /// ```
-/// use fixed::{types::extra::U28, FixedI32};
+/// use fixed::{types::extra::U20, FixedI32};
 /// use integer_array::utility as util;
-/// assert_eq!{ sqrt( FixedI32::<U28>::from_num(110), FixedI32::<U28>::from_num(0.025) ) , 0.983006064 };
+/// let x = util::sqrt( FixedI32::<U20>::from_num(110), FixedI32::<U20>::from_num(0.025) );
+/// assert_eq!{  x.to_num::<f32>(), 10.488159f32 };
 /// ``` 
 pub fn sqrt<T>( item:T, error:T ) -> T
     where T: fixed::traits::Fixed
@@ -80,7 +81,8 @@ pub fn sqrt<T>( item:T, error:T ) -> T
 /// 
 /// ```
 /// use integer_array::utility as util;
-/// assert_eq!{util::atan_precise_float( 0.6f32, 0.4f32 ), 0.98300606 };
+/// let arg = util::atan_precise_float( 0.6f32, 0.4f32 );
+/// assert_eq!{ arg, 0.98300606 };
 /// ``` 
 pub fn atan_precise_float<T>( y:T, x:T ) -> T
     where T: num::traits::float::FloatCore
@@ -111,7 +113,7 @@ pub fn atan_precise_float<T>( y:T, x:T ) -> T
 /// use fixed::{types::extra::U28, FixedI32};
 /// use integer_array::utility as util;
 /// let arg = util::atan_precise_fixed( FixedI32::<U28>::from_num(0.6), FixedI32::<U28>::from_num(0.4) );
-/// assert_eq!{ arg, 0.983006064 };
+/// assert_eq!{ arg.to_num::<f32>(), 0.983006064 };
 /// ``` 
 pub fn atan_precise_fixed<T>( y: T, x: T ) -> T
     where T: Fixed

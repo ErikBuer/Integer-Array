@@ -21,7 +21,8 @@ mod std_support {
 /// ```rust
 /// use integer_array as ia;
 /// use integer_array::trait_definitions::*;
-/// integer_array::declare_array_real!( Arr11, 11 );
+/// use fixed::{types::extra::U20, FixedI32};
+/// integer_array::declare_array_real!( Arr11, 11, FixedI32<U20> );
 /// ```
 /// 
 /// The name of the type for the above array is `Arr11`. The size of the error is 11 elements, and it has 18 fractional bits.
@@ -237,7 +238,7 @@ mod std_support {
 /// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
 /// let mut x = Arr4::ramp_from_f32(0.0,22.0);
 /// x = 1000/x;
-/// assert_eq!{x.data, [2147483647, 45, 22, 15] };
+/// assert_eq!{x.to_i32(), [2147483647, 45, 22, 15] };
 /// ```
 /// 
 /// # ::sqrt
@@ -255,8 +256,9 @@ mod std_support {
 /// use fixed::{types::extra::U20, FixedI32};
 /// 
 /// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
-/// let x = Arr4::ramp_from_f32(10000.0,1000.0);
-/// assert_eq!{x.sqrt(  ).data, [100, 104, 109, 114] };
+/// let x = Arr4::ramp_from_f32(18.0, 10.0);
+/// let y = x.sqrt( FixedI32::<U20>::from_num(0.1) );
+/// assert_eq!{ y[1], 1 };
 /// ```
 /// 
 /// # Array operations
@@ -276,10 +278,10 @@ mod std_support {
 /// let mut x = Arr4::ramp_from_f32(0.0,22.0);
 /// let y = Arr4::new_from_i32(10);
 /// x = x+y;
-/// assert_eq!{x.data, [10,32,54,76] };
+/// assert_eq!{x.to_i32(), [10,32,54,76] };
 /// 
 /// x = x-y;
-/// assert_eq!{x.data, [0,22,44,66] };
+/// assert_eq!{x.to_i32(), [0,22,44,66] };
 /// ```
 ///
 /// ```rust
@@ -528,6 +530,44 @@ macro_rules! declare_array_real{
                 $name {
                     data: [<$T>::from_num(value); $N],
                 }
+            }
+            #[allow(dead_code)]
+            fn new_from_f32_array( in_arr: [f32; $N] ) -> Self
+            {
+                let mut r_array:Self = Self::new_from_i32(0);
+                for n in 0..$N {
+                    r_array[n] = <$T>::from_num(in_arr[n]);
+                }
+                return r_array;
+            }
+            #[allow(dead_code)]
+            fn new_from_f64_array( in_arr: [f32; $N] ) -> Self
+            {
+                let mut r_array:Self = Self::new_from_i32(0);
+                for n in 0..$N {
+                    r_array[n] = <$T>::from_num(in_arr[n]);
+                }
+                return r_array;
+            }
+            /// Return self as a primitive array of floats. 
+            #[allow(dead_code)]
+            fn to_f32( &self ) -> [f32; $N]
+            {
+                let mut r_array: [f32; $N] = [0.0; $N];
+                for n in 0..$N {
+                    r_array[n] = self[n].to_num::<f32>();
+                }
+                return r_array;
+            }
+            /// Return self as a primitive array of floats. 
+            #[allow(dead_code)]
+            fn to_i32( &self ) -> [i32; $N]
+            {
+                let mut r_array: [i32; $N] = [0; $N];
+                for n in 0..$N {
+                    r_array[n] = self[n].to_num::<i32>();
+                }
+                return r_array;
             }
         }
 
