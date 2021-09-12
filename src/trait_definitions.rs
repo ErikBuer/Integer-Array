@@ -23,11 +23,20 @@ pub trait Pow {
     fn powi( &self, power:u32 ) -> Self;
 }
 
-pub trait TrigonometryTraits {
-    fn sin( &self, norm_pi:i32, norm:i32 )  -> Self;
-    fn cos( &self, norm_pi:i32, norm:i32 )  -> Self;
-    fn tan( &self, norm_pi:i32, norm:i32 )  -> Self;
-    fn wrap_phase( &self, norm_pi:i32)      -> Self;
+pub trait Sin {
+    fn sin( &self )  -> Self;
+}
+
+pub trait Cos {
+    fn cos( &self )  -> Self;
+}
+
+pub trait Tan {
+    fn tan( &self )  -> Self;
+}
+
+pub trait WrapPhase {
+    fn wrap_phase( &self )  -> Self;
 }
 
 /*
