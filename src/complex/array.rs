@@ -8,9 +8,12 @@
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_complex!( CArr4, Arr4, 4 );
-/// let x = CArr4::new( 1, 2 );
-/// assert_eq!{ x[1], num::complex::Complex{re:1, im:2} };
+/// use fixed::{types::extra::U20, FixedI32};
+/// use num::complex::Complex as C;
+/// 
+/// ia::declare_array_complex!( CArr4, Arr4, 4, FixedI32<U20> );
+/// let x = CArr4::new_from_i32( 1, 2 );
+/// assert_eq!{ x.to_f32(), [ C{re:1.0, im:2.0}, C{re:1.0, im:2.0}, C{re:1.0, im:2.0}, C{re:1.0, im:2.0} ]};
 /// ```
 /// 
 /// ### Real and imaginary component.
@@ -19,10 +22,12 @@
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_complex!( CArr4, Arr4, 4 );
-/// let x = CArr4::new( 1, 2 );
-/// assert_eq!{ x.real(), Arr4::new(1) };
-/// assert_eq!{ x.imag(), Arr4::new(2) };
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_complex!( CArr4, Arr4, 4, FixedI32<U20> );
+/// let x = CArr4::new_from_f32( 1.0, 2.0 );
+/// assert_eq!{ x.real(), Arr4::new_from_i32(1) };
+/// assert_eq!{ x.imag(), Arr4::new_from_i32(2) };
 /// ```
 /// 
 /// ### Magnitude.
@@ -30,9 +35,12 @@
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
-/// ia::declare_array_complex!( CArr4, Arr4, 4 );
-/// let x = CArr4::new( 100, 200 );
-/// assert_eq!{ x.mag(), Arr4::new(223) };
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_complex!( CArr4, Arr4, 4, FixedI32<U20> );
+/// let x = CArr4::new_from_f32( 1.0, 2.0 );
+/// let y = x.mag();
+/// assert_eq!{ y.to_f32(), [1.75, 1.75, 1.75, 1.75] };
 /// ```
 #[macro_export]
 macro_rules! declare_array_complex{
@@ -114,6 +122,7 @@ macro_rules! declare_array_complex{
         impl $name {
             /// Returns indexed item of the array.
             /// Index Clips at N-1.
+            #[allow(dead_code)]
             fn at( &self, index:usize) -> num::complex::Complex<$T> {
                 if( $N <= index)
                 {
@@ -122,10 +131,12 @@ macro_rules! declare_array_complex{
                 return self.data[index];
             }
             /// Returns the first item of the array.
+            #[allow(dead_code)]
             fn front( &self ) -> num::complex::Complex<$T> {
                 return self.data[0];
             }
             /// Returns the last item of the array.
+            #[allow(dead_code)]
             fn back( &self ) -> num::complex::Complex<$T> {
                 return self.data[$N-1];
             }
@@ -203,6 +214,6 @@ mod tests {
 
         integer_array::declare_array_complex!( CArr4, Arr4, 4, FixedI32<U20> );
         let x = CArr4::new_from_i32( 1, 2 );
-        assert_eq!{ x.real(), integer_array:Arr4::new_from_i32(1) };
+        assert_eq!{ x.real(), Arr4::new_from_i32(1) };
     }
 }
