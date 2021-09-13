@@ -51,4 +51,4 @@ pub mod utility;
 pub mod constants;
 pub mod trait_definitions;
 pub mod real;
-// pub mod complex;
+pub mod complex;

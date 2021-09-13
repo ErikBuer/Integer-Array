@@ -612,6 +612,16 @@ macro_rules! declare_array_real{
                 }
                 return self[index];
             }
+            /// Returns indexed item of the array as f32.
+            /// Index Clips at N-1.
+            #[allow(dead_code)]
+            fn at_as_f32( &self, index:usize) -> i32 {
+                if( $N <= index)
+                {
+                    return self[$N - 1].to_num::<i32>();
+                }
+                return self[index].to_num::<i32>();
+            }
             /// Returns the first item of the array.
             #[allow(dead_code)]
             fn front( &self ) -> $T {

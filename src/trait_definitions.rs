@@ -3,7 +3,7 @@ pub trait New {
 }
 
 pub trait NewComplex {
-    fn new( real:i32, imag:i32 ) -> Self;
+    fn new<T>( real:T, imag:T ) -> Self;
 }
 
 pub trait Ramp {
@@ -39,18 +39,6 @@ pub trait WrapPhase {
     fn wrap_phase( &self )  -> Self;
 }
 
-/*
-pub trait StatisticTraits {
-    fn sum( &self )  -> i32;
-    fn mean( &self ) -> i32;
-    fn var( &self )  -> i32;
-    fn max( &self )  -> i32;
-    fn min( &self )  -> i32;
-    fn argmax( &self ) -> usize;
-    fn argmin( &self ) -> usize;
-}
-*/
-
 pub trait StdUtilities {
     fn todo( &self ) -> Self;
 }
@@ -74,7 +62,6 @@ pub trait ComplexCartesian {
     fn real() -> Self;
     fn imag() -> Self;
 }
-
 
 /*
 #[macro_export]
