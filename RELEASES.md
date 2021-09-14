@@ -1,14 +1,23 @@
 # Release 0.2.0 (2021-09-??)
 - Improved documentation for the decleration macros with traits they implement.
-- Breaking change: declare_array_complex now implements real array as well!
 
 ## Complex arrays
+- Breaking change, changed to fixed number type.
+- Breaking change: declare_array_complex now implements real array as well!
 - Added traits for real and imag.
 - Added traits for magnitude calculation.
+- Added traits for angle calculation (arg).
+- Added traits for initializing and casting to/from int and float.
+
+## Real arrays
+- Breaking change, changed to fixed number type.
+- Added trait for atan.
+- Added traits for initializing and casting to/from int and float.
 
 ## Utility functions
 - Added polynomial float-based atan function.
-
+- Added polynomial fixed-based atan function.
+- Added polynomial fixed-based atan2 function.
 
 **Contributors**: ErikBuer
 

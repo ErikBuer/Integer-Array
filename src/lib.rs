@@ -1,9 +1,13 @@
 //! # Integer-Array
-//! No-STD i32 fixed-size array for Rust.
+//! No-STD fixed-point fixed-size array for Rust.
 //!
 //! The library lets the user declare arrays with traits that simplify the writhing of DSP-code.
 //! 
-//! ## Example
+//! It utilizes the [fixed](https://crates.io/crates/fixed) library to allow flexibility in fixed point sizes and precisions.
+//! 
+//! This is an experimental library for no-std DSP. Expect breaking changes.
+//! 
+//! ## Use example
 //! ```rust
 //! use integer_array as ia;
 //! use integer_array::trait_definitions::*;
@@ -17,18 +21,11 @@
 //! assert_eq!(x.to_i32(), [66, 66, 66, 66]);
 //! 
 //! // Do some math with the arrays.
-//! let y     = Arr4::new_from_f32( 2.0, );
+//! let y     = Arr4::new_from_f32( 2.0 );
 //! x = x/y;
 //! 
-//! assert_eq!(x.front(), 33i32);
+//! assert_eq!(x.front(), 33);
 //! ``` 
-//! 
-//! ## Backgorund
-//! This is an experimental library for no-std DSP.
-//! The library only supports fixed-sized arrays of i32.
-//! 
-//! 32-bit arrays can be handled by most DSP-capable embedded devices and provides 6.02×32>192 dB of dynamic range, which is sufficient for most DSP use.
-//! The rationale is that if 64-bit processing is available, then so is an OS, and the Rust standard library. 
 //!
 //! ## How to use
 //! See the macro documentation for the implemented traits.

@@ -483,7 +483,6 @@ mod std_support {
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
 /// use fixed::{types::extra::U20, FixedI32};
-
 /// 
 /// ia::declare_array_real!( Arr32, 32, FixedI32<U20> );
 /// let x = Arr32::ramp_from_f32(0.0,1.0);
