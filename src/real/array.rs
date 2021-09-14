@@ -18,11 +18,13 @@ mod std_support {
 /// * `T`     - The fixed type of the elements.
 /// 
 /// ## Example
-/// Arrays types of fixed size is defined with traits through a macro as follows:
+/// Arrays types of fixed size is defined with traits through the macro as follows:
 /// ```rust
 /// use integer_array as ia;
 /// use integer_array::trait_definitions::*;
 /// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// // Declare the type.
 /// integer_array::declare_array_real!( Arr11, 11, FixedI32<U20> );
 /// ```
 /// 
@@ -40,7 +42,7 @@ mod std_support {
 /// 
 /// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
 /// let x = Arr2::zeros();
-/// assert_eq!{x.len(), 2};
+/// assert_eq!{x.to_i32(), [0, 0]};
 /// ```
 /// 
 /// # New
@@ -60,6 +62,10 @@ mod std_support {
 /// assert_eq!{x.to_i32(), [200, 200]};
 /// ```
 /// 
+/// To simplify decleration of arrays, float and int types are sypported through the following methods.
+///  
+/// `::new_from_i32( value )`, `::new_from_f32( value )`, `::new_from_f64( value )`.
+/// 
 /// # ::ones
 /// `ones` is made as separate trait for convenience.
 /// It generates an array of ones.
@@ -76,13 +82,15 @@ mod std_support {
 /// ```
 /// 
 /// # ::ramp
-/// Generate a ramp of increasing value.
+/// Generate an array of increasing value.
 /// 
 /// ## Arguments
 /// * `start` - The starting value (of item 0).
 /// * `step`  - The incrimental value.
 /// 
 /// ## Example
+/// `ramp_from_f32( value )` is added for convenience, but using ´ramp( value )´ with a value of the correct `fixed` type is also supported. 
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -94,7 +102,7 @@ mod std_support {
 /// ```
 /// 
 /// # ::front and ::back:
-/// Access the first element of the array using the `.front()` attribute.
+/// Access the first element of the array using the `.front()` trait.
 /// 
 /// ## Examples
 /// ```rust
@@ -107,7 +115,7 @@ mod std_support {
 /// assert_eq!{x.front(), 200};
 /// ```
 /// 
-/// Access the last element of the array using the `.back()` attribute.
+/// Access the last element of the array using the `.back()` trait.
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -163,7 +171,7 @@ mod std_support {
 /// ```
 /// 
 /// # ::bias
-/// The `bias` attribute adds a scalar bias to every element in the array.
+/// The `bias` trai adds a scalar bias to every element in the array.
 /// 
 /// ## Arguments
 /// 
@@ -199,7 +207,7 @@ mod std_support {
 /// ```
 /// 
 /// # ::scale
-/// The `scale` attribute scales every element in the array with a scalar value.
+/// The `scale` trait scales every element in the array with a scalar value.
 /// 
 /// ## Arguments
 /// 
@@ -218,7 +226,8 @@ mod std_support {
 ///    assert_eq!{y.front(), 500};
 /// ```
 ///
-/// Scaling can also be used by simply multiplying the array with a scalar value,
+/// Scaling can also be used by simply multiplying the array with a scalar value.
+/// 
 ///  ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -231,6 +240,7 @@ mod std_support {
 /// ```
 /// 
 /// or through a division.
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -243,7 +253,7 @@ mod std_support {
 /// ```
 /// 
 /// # ::sqrt
-/// The `sqrt` attribute finds the item-wise square root of array.
+/// The `sqrt` trait finds the item-wise square root of array.
 /// 
 /// ## Argument
 /// 
@@ -273,7 +283,6 @@ mod std_support {
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
 /// use fixed::{types::extra::U20, FixedI32};
-
 /// 
 /// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
 /// let mut x = Arr4::ramp_from_f32(0.0,22.0);
