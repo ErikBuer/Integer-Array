@@ -7,7 +7,13 @@ The library lets the user declare arrays with traits that simplify the writhing 
 It utilizes the [fixed](https://crates.io/crates/fixed) library to allow flexibility in fixed point sizes and precisions.
 
 This is an experimental library for no-std DSP. Expect breaking changes.
- 
+
+The package can be found at https://crates.io/crates/integer_array.
+
+The documentation can be found at https://docs.rs/integer_array.
+
+Release notes are found under RELEASES.md
+
 ## Use example
 
 ```rust
@@ -28,9 +34,3 @@ x = x/y;
  
 assert_eq!(x.front(), 33);
 ```
-
-The package can be found at https://crates.io/crates/integer_array.
-
-The documentation can be found at https://docs.rs/integer_array.
-
-Release notes are found under RELEASES.md
