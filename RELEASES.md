@@ -1,5 +1,11 @@
 # Release Notes
 
+## Release 0.2.1 (2021-09-14)
+
+- Removed deprecated code from readme.
+
+**Contributors**: ErikBuer
+
 ## Release 0.2.0 (2021-09-14)
 
 - Improved documentation for the decleration macros with traits they implement.
