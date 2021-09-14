@@ -7,10 +7,9 @@
 /// * `N`         - The length of the array. E.g 4.
 /// * `T`         - The fixed type of the elements.
 /// 
-/// # Traits implemented with the macro:
 /// The complex support is currently under development.
 /// 
-/// ### Generate an array of a specific value.
+/// # `::new`
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -22,9 +21,10 @@
 /// assert_eq!{ x.to_f32(), [ C{re:1.0, im:2.0}, C{re:1.0, im:2.0}, C{re:1.0, im:2.0}, C{re:1.0, im:2.0} ]};
 /// ```
 /// 
-/// ### Real and imaginary component.
+/// # `::real` and `::imag`
 /// Get the real and imaginary array-components by running the `real()` and `imag()` traits.
 /// The traits return a real integer-array of the same length.
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -36,8 +36,9 @@
 /// assert_eq!{ x.imag(), Arr4::new_from_i32(2) };
 /// ```
 /// 
-/// ### Magnitude.
-/// Get the item-wies magnitude of the complex array.
+/// # `::mag`
+/// Get the item-wise magnitude of the complex array.
+/// 
 /// ```rust
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
@@ -47,6 +48,20 @@
 /// let x = CArr4::new_from_f32( 1.0, 2.0 );
 /// let y = x.mag();
 /// assert_eq!{ y.to_f32(), [1.75, 1.75, 1.75, 1.75] };
+/// ```
+/// 
+/// # `::arg`
+/// Get the item-wise argumetn of the complex array.
+/// 
+/// ```rust
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_complex!( CArr4, Arr4, 4, FixedI32<U20> );
+/// let x = CArr4::new_from_f32( 1.0, 2.0 );
+/// let y = x.arg();
+/// assert_eq!{ y.to_f32(), [1.1032009, 1.1032009, 1.1032009, 1.1032009] };
 /// ```
 #[macro_export]
 macro_rules! declare_array_complex{

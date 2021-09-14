@@ -45,7 +45,7 @@ mod std_support {
 /// assert_eq!{x.to_i32(), [0, 0]};
 /// ```
 /// 
-/// # New
+/// # `::new`
 /// For creating an array with a specific value.
 /// 
 /// ## Arguments
@@ -64,9 +64,9 @@ mod std_support {
 /// 
 /// To simplify decleration of arrays, float and int types are sypported through the following methods.
 ///  
-/// `::new_from_i32( value )`, `::new_from_f32( value )`, `::new_from_f64( value )`.
+/// `::new_from_i32( value )`, `::new_from_f32( value )` and `::new_from_f64( value )`.
 /// 
-/// # ::ones
+/// # `::ones`
 /// `ones` is made as separate trait for convenience.
 /// It generates an array of ones.
 /// 
@@ -81,7 +81,7 @@ mod std_support {
 /// assert_eq!{x.to_i32(), [1,1]};
 /// ```
 /// 
-/// # ::ramp
+/// # `::ramp`
 /// Generate an array of increasing value.
 /// 
 /// ## Arguments
@@ -101,7 +101,7 @@ mod std_support {
 /// assert_eq!{x.to_i32(), [100, 120, 140, 160] };
 /// ```
 /// 
-/// # ::front and ::back:
+/// # `::front` and `::back:`
 /// Access the first element of the array using the `.front()` trait.
 /// 
 /// ## Examples
@@ -126,7 +126,7 @@ mod std_support {
 /// assert_eq!{x.back(), 720};
 /// ```
 ///
-/// # ::at
+/// # `::at`
 /// A specific item can be accessed through either using square bracket notation, or `.at( index )`.
 /// 
 /// ## Arguments
@@ -170,7 +170,7 @@ mod std_support {
 /// assert_eq!{x[2], 56i32 };
 /// ```
 /// 
-/// # ::bias
+/// # `::bias`
 /// The `bias` trai adds a scalar bias to every element in the array.
 /// 
 /// ## Arguments
@@ -206,7 +206,7 @@ mod std_support {
 /// assert_eq!{x[1], 19i32 };
 /// ```
 /// 
-/// # ::scale
+/// # `::scale`
 /// The `scale` trait scales every element in the array with a scalar value.
 /// 
 /// ## Arguments
@@ -252,7 +252,7 @@ mod std_support {
 /// assert_eq!{x.to_f32(), [2048.0, 45.454544, 22.727272, 15.151515] };
 /// ```
 /// 
-/// # ::sqrt
+/// # `::sqrt`
 /// The `sqrt` trait finds the item-wise square root of array.
 /// 
 /// ## Argument
@@ -324,7 +324,7 @@ mod std_support {
 /// assert_eq!{x.to_f32(), [2048.0, 0.045454025, 0.022727013, 0.015151024] };
 /// ```
 ///
-/// # ::wrap_phase
+/// # `::wrap_phase`
 /// Wrap array to a fixed-point -π=<x<π range.
 /// 
 /// ## Example
@@ -340,7 +340,7 @@ mod std_support {
 /// assert_eq!{ y.to_f32(), [0.0, 1.0471668, 2.0943336, 3.1415005, -2.0945168, -1.0473499, -0.00018310547, 1.0469837] };
 /// ```
 /// 
-/// # ::sin
+/// # `::sin`
 /// Take the elemtent-wise sine using a Taylor approximation of sine x.
 /// 
 /// Sin is calculated using the following polynomial:
@@ -374,7 +374,7 @@ mod std_support {
 /// ![Alt version](https://github.com/ErikBuer/Integer-Array/blob/main/numerical_verificatons/figures/sin/time_domain_comparison2.png?raw=true)
 /// 
 /// 
-/// # ::cos
+/// # `::cos`
 /// Take the elemtent-wise cosine using a Taylor approximation of cos x.
 /// 
 /// Cos is calculated using the following polynomial:
@@ -405,7 +405,7 @@ mod std_support {
 /// 
 /// 
 /// 
-/// # ::tan
+/// # `::tan`
 /// Take the element-wise tan using a Taylor approximation of tan x.
 /// 
 /// Tan is calculated using the following polynomial:
@@ -432,7 +432,7 @@ mod std_support {
 /// The below plot is generated with double presicion floationg point for demonstrative purposes.
 /// ![Alt version](https://github.com/ErikBuer/Integer-Array/blob/main/numerical_verificatons/figures/tan/time_domain.png?raw=true)
 ///
-/// # ::atan
+/// # `::atan`
 /// Calculate atan(x) using a polynomial approximation.
 /// Utilizes the following polynomial to estimate the angle θ \[radians\].
 /// 
@@ -455,7 +455,7 @@ mod std_support {
 /// assert_eq!{ y.to_f32(), [0.0, 0.125, 0.25, 0.3125, 0.4375, 0.5, 0.625, 0.6875] };
 /// ```
 /// 
-/// # ::max and ::min
+/// # `::max` and `::min`
 /// 
 /// The maimum and minimum value in the array can be found through the `.max()` and `.min()` traits respectively.
 /// 
@@ -482,7 +482,7 @@ mod std_support {
 /// assert_eq!{x.min(), 100};
 /// ```
 /// 
-/// # ::argmax and ::argmin
+/// # `::argmax` and `::argmin`
 /// 
 /// The index of the maximum and minimum items in the array can be found through the `.argmax()` and `.argmin()` traits respectively.
 /// 
