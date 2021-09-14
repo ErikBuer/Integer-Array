@@ -35,28 +35,13 @@ pub trait Tan {
     fn tan( &self )  -> Self;
 }
 
+pub trait Atan {
+    fn atan( &self )  -> Self;
+}
+
 pub trait WrapPhase {
     fn wrap_phase( &self )  -> Self;
 }
-
-pub trait StdUtilities {
-    fn todo( &self ) -> Self;
-}
-
-/* // TODO
-pub trait ComplexExponential {
-    fn exp( &self, norm_pi:i32, norm:i32 )  -> Self;
-}
-
-*/
-/*
-pub trait Complexutilities {
-    fn real() -> Self;
-    fn imag() -> Self;
-    fn mag()  -> Self;
-    fn ang()  -> Self;
-}
-*/
 
 pub trait ComplexCartesian {
     fn real() -> Self;

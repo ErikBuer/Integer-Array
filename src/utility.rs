@@ -81,10 +81,10 @@ pub fn sqrt<T>( item:T, error:T ) -> T
 /// 
 /// ```
 /// use integer_array::utility as util;
-/// let arg = util::atan_precise_float( 0.6f32, 0.4f32 );
+/// let arg = util::atan2_precise_float( 0.6f32, 0.4f32 );
 /// assert_eq!{ arg, 0.98300606 };
 /// ``` 
-pub fn atan_precise_float<T>( y:T, x:T ) -> T
+pub fn atan2_precise_float<T>( y:T, x:T ) -> T
     where T: num::traits::float::FloatCore
 {
     let division:T = y/x;
@@ -112,15 +112,44 @@ pub fn atan_precise_float<T>( y:T, x:T ) -> T
 /// ```
 /// use fixed::{types::extra::U28, FixedI32};
 /// use integer_array::utility as util;
-/// let arg = util::atan_precise_fixed( FixedI32::<U28>::from_num(0.6), FixedI32::<U28>::from_num(0.4) );
+/// let arg = util::atan2_precise_fixed( FixedI32::<U28>::from_num(0.6), FixedI32::<U28>::from_num(0.4) );
 /// assert_eq!{ arg.to_num::<f32>(), 0.983006064 };
 /// ``` 
-pub fn atan_precise_fixed<T>( y: T, x: T ) -> T
+pub fn atan2_precise_fixed<T>( y: T, x: T ) -> T
     where T: Fixed
 {
     let division: T = y/x;
     return ( (division) + T::from_num(0.372003f32)*fixed_powi(division,3) ) 
                         / (T::from_num(1) + T::from_num(0.703384f32)*fixed_powi(division,2) + T::from_num(0.043562f32)*fixed_powi(division,4) );
+}
+
+/// Calculate atan(x) using a polynomial approximation.
+/// Utilizes the following polynomial to estimate the angle θ \[radians\].
+/// 
+/// `atan(x) = ((x)+0.372003(x)^3) / (1+0.703384(x)^2 + 0.043562(x)^4)`
+/// 
+/// The method is accurat within 0.003 degrees when |θ|<=π/4.
+/// 
+/// \[1\] R. G. Lyons, Streamlining Digital Signal Processing, Second Etition, IEEE Press, 2012.
+/// 
+/// # Arguments 
+///
+/// * `y` - Is the argument along the y or imaginary axis.
+/// * `x` - Is the argument along the x or real axis.
+/// 
+/// # Example
+/// 
+/// ```
+/// use fixed::{types::extra::U28, FixedI32};
+/// use integer_array::utility as util;
+/// let arg = util::atan_precise_fixed( FixedI32::<U28>::from_num(0.6)/FixedI32::<U28>::from_num(0.4) );
+/// assert_eq!{ arg.to_num::<f32>(), 0.983006064 };
+/// ``` 
+pub fn atan_precise_fixed<T>( x: T ) -> T
+    where T: Fixed
+{
+    return ( (x) + T::from_num(0.372003f32)*fixed_powi(x,3) ) 
+            / (T::from_num(1) + T::from_num(0.703384f32)*fixed_powi(x,2) + T::from_num(0.043562f32)*fixed_powi(x,4) );
 }
 
 /*

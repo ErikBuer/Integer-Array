@@ -1,5 +1,11 @@
-/// Create a complex i32 array type of size N.
-/// Complete with traits.
+/// This macro implements a type which consists of an array of complex fixed-point numberts of size N.
+/// Complete with the traits shown below.
+/// 
+/// ## Arguments
+/// * `name`      - The name of the array type. E.g. CArr4
+/// * `real_name` - The name of the real array type. E.g. Arr4
+/// * `N`         - The length of the array. E.g 4.
+/// * `T`         - The fixed type of the elements.
 /// 
 /// # Traits implemented with the macro:
 /// The complex support is currently under development.
@@ -188,6 +194,16 @@ macro_rules! declare_array_complex{
                     let re_pow = integer_array::utility::fixed_powi( self[n].re, 2 );
                     let im_pow = integer_array::utility::fixed_powi( self[n].im, 2 );
                     r_array[n] = integer_array::utility::sqrt(re_pow+im_pow, <$T>::from_num(0.001) );
+                }
+                return r_array;
+            }
+
+            /// Return the item-wise argument of the complex array.
+            #[allow(dead_code)]
+            fn arg( &self ) -> $real_name {
+                let mut r_array = $real_name::new_from_i32(0);
+                for n in 0..$N {
+                    r_array[n] = integer_array::utility::atan2_precise_fixed( self[n].im, self[n].re );
                 }
                 return r_array;
             }

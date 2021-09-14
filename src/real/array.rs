@@ -9,12 +9,13 @@ mod std_support {
     };
 }
 
-/// This macro implements a i32 array type of size N.
+/// This macro implements a type which consists of an array of fixed-point numberts of size N.
 /// Complete with the traits shown below.
 /// 
 /// ## Arguments
 /// * `name`  - The name of the array type. E.g. Arr4
 /// * `N`     - The length of the array. E.g 4.
+/// * `T`     - The fixed type of the elements.
 /// 
 /// ## Example
 /// Arrays types of fixed size is defined with traits through a macro as follows:
@@ -421,7 +422,29 @@ mod std_support {
 /// Below is the the taylor approximation for tan compared to the Julia native tan function.
 /// The below plot is generated with double presicion floationg point for demonstrative purposes.
 /// ![Alt version](https://github.com/ErikBuer/Integer-Array/blob/main/numerical_verificatons/figures/tan/time_domain.png?raw=true)
+///
+/// # ::atan
+/// Calculate atan(x) using a polynomial approximation.
+/// Utilizes the following polynomial to estimate the angle θ \[radians\].
 /// 
+/// `atan(x) = ((x)+0.372003(x)^3) / (1+0.703384(x)^2 + 0.043562(x)^4)`
+/// 
+/// The method is accurat within 0.003 degrees when |θ|<=π/4.
+/// 
+/// \[1\] R. G. Lyons, Streamlining Digital Signal Processing, Second Etition, IEEE Press, 2012.
+/// 
+/// ## Example
+/// 
+/// ```rust
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// use fixed::{types::extra::U4, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr8, 8, FixedI32<U4> );
+/// let x = Arr8::ramp_from_f32(0.0,0.1);
+/// let y = x.atan();
+/// assert_eq!{ y.to_f32(), [0.0, 0.125, 0.25, 0.3125, 0.4375, 0.5, 0.625, 0.6875] };
+/// ```
 /// 
 /// # ::max and ::min
 /// 
@@ -1150,6 +1173,17 @@ macro_rules! declare_array_real{
                     // Calculate tan by using a polynomial 
                     r_array[idx] = x+( util::fixed_powi(x,3)/3 )+( util::fixed_powi(x,5)*2/15 )-( util::fixed_powi(x,7)*17/315 )+( util::fixed_powi(x,9)*62/2835 )+( util::fixed_powi(x,11)*1382/155925 )
                                     +( util::fixed_powi(x,13)*21844/6081075 )+( util::fixed_powi(x,15)*929569/638512875 );
+                } 
+                return r_array;
+            }
+        }
+
+        impl integer_array::trait_definitions::Atan for $name {
+            /// Take the element-wise atan using a Taylor approximation of tan x.
+            fn atan( &self ) -> Self {                
+                let mut r_array = $name::new_from_i32(0);
+                for idx in 0..$N { 
+                    r_array[idx] = integer_array::utility::atan_precise_fixed( self[idx] );
                 } 
                 return r_array;
             }
