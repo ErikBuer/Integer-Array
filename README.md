@@ -2,7 +2,7 @@
 
 No-STD fixed-point fixed-size array for Rust.
 
-The library lets the user declare arrays with traits that simplify the writhing of DSP-code.
+The library lets the user declare arrays with traits that simplify the writing of DSP-code.
 It utilizes the [fixed](https://crates.io/crates/fixed) library to allow flexibility in fixed point sizes and precisions.
 
 This is an experimental library for no-std DSP. Expect breaking changes.
