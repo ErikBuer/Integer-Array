@@ -15,7 +15,6 @@ function fast_cos( x::Float64 )
             return -cos_taylor(x)
         else
             return cos_taylor(x)
-            
         end
 end
 
