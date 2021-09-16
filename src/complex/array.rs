@@ -21,6 +21,11 @@
 /// assert_eq!{ x.as_array_f32(), [ C{re:1.0, im:2.0}, C{re:1.0, im:2.0}, C{re:1.0, im:2.0}, C{re:1.0, im:2.0} ]};
 /// ```
 /// 
+/// /// # `::odd` and `::even`
+/// Get the items in the odd or even indexes as an array.
+/// 
+/// See examples under the declare_array_real macro.
+/// 
 /// # `::real` and `::imag`
 /// Get the real and imaginary array-components by running the `real()` and `imag()` traits.
 /// The traits return a real integer-array of the same length.
