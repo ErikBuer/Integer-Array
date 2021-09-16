@@ -1,6 +1,6 @@
 [package]
 name = "integer_array"
-version = "0.2.1"
+version = "0.3.0"
 authors = ["Erik Buer"]
 edition = "2018"
 description = "No-STD numeric array."
