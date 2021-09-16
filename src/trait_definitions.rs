@@ -43,6 +43,10 @@ pub trait WrapPhase {
     fn wrap_phase( &self )  -> Self;
 }
 
+pub trait DFT {
+    fn dft( &self )  -> Self;
+}
+
 pub trait ComplexCartesian {
     fn real() -> Self;
     fn imag() -> Self;

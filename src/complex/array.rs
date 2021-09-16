@@ -18,7 +18,7 @@
 /// 
 /// ia::declare_array_complex!( CArr4, Arr4, 4, FixedI32<U20> );
 /// let x = CArr4::new_from_i32( 1, 2 );
-/// assert_eq!{ x.to_f32(), [ C{re:1.0, im:2.0}, C{re:1.0, im:2.0}, C{re:1.0, im:2.0}, C{re:1.0, im:2.0} ]};
+/// assert_eq!{ x.as_array_f32(), [ C{re:1.0, im:2.0}, C{re:1.0, im:2.0}, C{re:1.0, im:2.0}, C{re:1.0, im:2.0} ]};
 /// ```
 /// 
 /// # `::real` and `::imag`
@@ -47,7 +47,7 @@
 /// ia::declare_array_complex!( CArr4, Arr4, 4, FixedI32<U20> );
 /// let x = CArr4::new_from_f32( 1.0, 2.0 );
 /// let y = x.mag();
-/// assert_eq!{ y.to_f32(), [1.75, 1.75, 1.75, 1.75] };
+/// assert_eq!{ y.as_array_f32(), [1.75, 1.75, 1.75, 1.75] };
 /// ```
 /// 
 /// # `::arg`
@@ -61,7 +61,7 @@
 /// ia::declare_array_complex!( CArr4, Arr4, 4, FixedI32<U20> );
 /// let x = CArr4::new_from_f32( 1.0, 2.0 );
 /// let y = x.arg();
-/// assert_eq!{ y.to_f32(), [1.1032009, 1.1032009, 1.1032009, 1.1032009] };
+/// assert_eq!{ y.as_array_f32(), [1.1032009, 1.1032009, 1.1032009, 1.1032009] };
 /// ```
 #[macro_export]
 macro_rules! declare_array_complex{
@@ -111,7 +111,7 @@ macro_rules! declare_array_complex{
             }
             /// Return self as a primitive array of floats. 
             #[allow(dead_code)]
-            fn to_f32( &self ) -> [num::complex::Complex<f32>; $N]
+            fn as_array_f32( &self ) -> [num::complex::Complex<f32>; $N]
             {
                 let mut r_array: [num::complex::Complex<f32>; $N] = [num::complex::Complex::<f32>::new(0.0,0.0); $N];
                 for n in 0..$N {
@@ -122,7 +122,7 @@ macro_rules! declare_array_complex{
             }
             /// Return self as a primitive array of floats. 
             #[allow(dead_code)]
-            fn to_i32( &self ) -> [num::complex::Complex<i32>; $N]
+            fn as_array_i32( &self ) -> [num::complex::Complex<i32>; $N]
             {
                 let mut r_array: [num::complex::Complex<i32>; $N] = [num::complex::Complex::<i32>::new(0,0); $N];
                 for n in 0..$N {
@@ -171,14 +171,6 @@ macro_rules! declare_array_complex{
                 return &self.data[index];
             }
         }
-        
-        impl core::ops::IndexMut<usize> for $name {
-            /// Trait for returning a mutable reference to indexed item.
-            #[inline]
-            fn index_mut(&mut self, index: usize) -> &mut num::complex::Complex<$T> {
-                return &mut self.data[index];
-            }
-        }
 
         impl $name {
             /// Return the real component of the complex array
@@ -223,6 +215,28 @@ macro_rules! declare_array_complex{
                 return r_array;
             }
         }
+
+        impl $name {
+            /// Trait for returning an array of the odd-indexed numbers in self.
+            #[allow(dead_code)]
+            fn odd(&self) -> [num::complex::Complex<$T>; $N/2] {
+                let mut r_array = [num::complex::Complex::<$T>::new( <$T>::from_num(0), <$T>::from_num(0) ); $N/2];
+                for n in 0..$N/2 {
+                    r_array[n] = self[2*n+1];
+                }
+                return r_array;
+            }
+
+            /// Trait for returning an array of the even-indexed numbers in self.
+            #[allow(dead_code)]
+            fn even(&self) -> [num::complex::Complex<$T>; $N/2] {
+                let mut r_array = [num::complex::Complex::<$T>::new( <$T>::from_num(0), <$T>::from_num(0) ); $N/2];
+                for n in 0..$N/2 {
+                    r_array[n] = self[2*n];
+                }
+                return r_array;
+            }
+        }        
     }
 }
 
@@ -236,7 +250,7 @@ mod tests {
 
         declare_array_complex!( CArr4, Arr4, 4, FixedI32<U18> );
         let x = CArr4::new_from_i32( 1, 2 );
-        assert_eq!{ x.to_f32(), [ C{re:1.0, im:2.0}, C{re:1.0, im:2.0}, C{re:1.0, im:2.0}, C{re:1.0, im:2.0} ]};
+        assert_eq!{ x.as_array_f32(), [ C{re:1.0, im:2.0}, C{re:1.0, im:2.0}, C{re:1.0, im:2.0}, C{re:1.0, im:2.0} ]};
     }
     #[test]
     fn real() {

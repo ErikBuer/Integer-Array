@@ -18,7 +18,7 @@
 //! 
 //! // Create the actual array.
 //! let mut x = Arr4::new_from_i32(66);
-//! assert_eq!(x.to_i32(), [66, 66, 66, 66]);
+//! assert_eq!(x.as_array_i32(), [66, 66, 66, 66]);
 //! 
 //! // Do some math with the arrays.
 //! let y     = Arr4::new_from_f32( 2.0 );
@@ -45,7 +45,6 @@ extern crate core as std;
 
 // Modules (files in the top hierarchy)
 pub mod utility;
-pub mod constants;
 pub mod trait_definitions;
 pub mod real;
 pub mod complex;

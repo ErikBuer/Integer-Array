@@ -13,7 +13,7 @@ mod std_support {
 /// Complete with the traits shown below.
 /// 
 /// ## Arguments
-/// * `name`  - The name of the array type. E.g. Arr4
+/// * `name`  - The name of the array type. E.g. Arr4.
 /// * `N`     - The length of the array. E.g 4.
 /// * `T`     - The fixed type of the elements.
 /// 
@@ -42,7 +42,7 @@ mod std_support {
 /// 
 /// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
 /// let x = Arr2::zeros();
-/// assert_eq!{x.to_i32(), [0, 0]};
+/// assert_eq!{x.as_array_i32(), [0, 0]};
 /// ```
 /// 
 /// # `::new`
@@ -59,7 +59,7 @@ mod std_support {
 /// 
 /// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
 /// let x = Arr2::new(FixedI32::<U20>::from_num(200));
-/// assert_eq!{x.to_i32(), [200, 200]};
+/// assert_eq!{x.as_array_i32(), [200, 200]};
 /// ```
 /// 
 /// To simplify decleration of arrays, float and int types are sypported through the following methods.
@@ -78,7 +78,7 @@ mod std_support {
 /// 
 /// ia::declare_array_real!( Arr2, 2, FixedI32<U20> );
 /// let x = Arr2::ones();
-/// assert_eq!{x.to_i32(), [1,1]};
+/// assert_eq!{x.as_array_i32(), [1,1]};
 /// ```
 /// 
 /// # `::ramp`
@@ -98,7 +98,7 @@ mod std_support {
 /// 
 /// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
 /// let x = Arr4::ramp_from_f32(100.0,20.0);
-/// assert_eq!{x.to_i32(), [100, 120, 140, 160] };
+/// assert_eq!{x.as_array_i32(), [100, 120, 140, 160] };
 /// ```
 /// 
 /// # `::front` and `::back:`
@@ -168,6 +168,36 @@ mod std_support {
 /// let mut x = Arr8::ramp_from_f32(0.0,22.0);
 /// x[2] = FixedI32::<U20>::from_num(56);
 /// assert_eq!{x[2], 56i32 };
+/// ```
+/// 
+/// # `::bias`
+/// The `bias` trai adds a scalar bias to every element in the array.
+/// 
+/// # `::odd` and `::even`
+/// Get the items in the odd or even indexes as an array.
+/// 
+/// ## Examples
+/// 
+/// ```rust
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
+/// let x = Arr8::ramp_from_f32(0.0,22.0);
+/// let y = x.odd();
+/// assert_eq!{y, [22, 66, 110, 154] };
+/// ```
+/// 
+/// ```rust
+/// use integer_array as ia;
+/// use ia::trait_definitions::*;
+/// use fixed::{types::extra::U20, FixedI32};
+/// 
+/// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
+/// let x = Arr8::ramp_from_f32(0.0,22.0);
+/// let y = x.even();
+/// assert_eq!{y, [0, 44, 88, 132] };
 /// ```
 /// 
 /// # `::bias`
@@ -249,7 +279,7 @@ mod std_support {
 /// ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
 /// let mut x = Arr4::ramp_from_f32(0.0,22.0);
 /// x = 1000/x;
-/// assert_eq!{x.to_f32(), [2048.0, 45.454544, 22.727272, 15.151515] };
+/// assert_eq!{x.as_array_f32(), [2048.0, 45.454544, 22.727272, 15.151515] };
 /// ```
 /// 
 /// # `::sqrt`
@@ -288,10 +318,10 @@ mod std_support {
 /// let mut x = Arr4::ramp_from_f32(0.0,22.0);
 /// let y = Arr4::new_from_i32(10);
 /// x = x+y;
-/// assert_eq!{x.to_i32(), [10,32,54,76] };
+/// assert_eq!{x.as_array_i32(), [10,32,54,76] };
 /// 
 /// x = x-y;
-/// assert_eq!{x.to_i32(), [0,22,44,66] };
+/// assert_eq!{x.as_array_i32(), [0,22,44,66] };
 /// ```
 ///
 /// ```rust
@@ -308,7 +338,7 @@ mod std_support {
 /// 
 /// x = Arr4::ramp_from_f32(0.0,22.0);
 /// x = x/y;
-/// assert_eq!{x.to_i32(), [0,2,4,6] };
+/// assert_eq!{x.as_array_i32(), [0,2,4,6] };
 /// ```
 /// 
 /// In a divide-by-zero case, the maximum int value is returned. 
@@ -321,7 +351,7 @@ mod std_support {
 /// let mut x = Arr4::ramp_from_f32(0.0,22.0);
 /// let y = Arr4::new_from_i32(1);
 /// x = y/x;
-/// assert_eq!{x.to_f32(), [2048.0, 0.045454025, 0.022727013, 0.015151024] };
+/// assert_eq!{x.as_array_f32(), [2048.0, 0.045454025, 0.022727013, 0.015151024] };
 /// ```
 ///
 /// # `::wrap_phase`
@@ -337,7 +367,7 @@ mod std_support {
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
 /// let x = Arr8::ramp_from_f32(0.0, 3.1415/3.0);
 /// let y = x.wrap_phase();
-/// assert_eq!{ y.to_f32(), [0.0, 1.0471668, 2.0943336, 3.1415005, -2.0945168, -1.0473499, -0.00018310547, 1.0469837] };
+/// assert_eq!{ y.as_array_f32(), [0.0, 1.0471668, 2.0943336, 3.1415005, -2.0945168, -1.0473499, -0.00018310547, 1.0469837] };
 /// ```
 /// 
 /// # `::sin`
@@ -361,7 +391,7 @@ mod std_support {
 /// let mut x = Arr8::ramp_from_f32(0.0,3.1415/6.0);
 /// x = x.wrap_phase();
 /// let y = x.sin();
-/// assert_eq!{ y.to_f32(), [0.0, 0.49998665, 0.8660097, 1.0000038, 0.86605644, 0.50006676, 0.000091552734, -0.4999075] };
+/// assert_eq!{ y.as_array_f32(), [0.0, 0.49998665, 0.8660097, 1.0000038, 0.86605644, 0.50006676, 0.000091552734, -0.4999075] };
 /// ```
 /// 
 /// Below is the the taylor approximation for sine compared to the Julia native sin function.
@@ -395,7 +425,7 @@ mod std_support {
 /// let mut x = Arr8::ramp_from_f32(0.0,60.0);
 /// x = x.wrap_phase( );
 /// let y = x.cos();
-/// assert_eq!{ y.to_f32(), [1.0, -0.95240974, 0.814167, -0.5984316, 0.3257389, -0.022058487, -0.2837639, 0.56254864] };
+/// assert_eq!{ y.as_array_f32(), [1.0, -0.95240974, 0.814167, -0.5984316, 0.3257389, -0.022058487, -0.2837639, 0.56254864] };
 /// ```
 /// 
 /// A first-quarter method as described for the sine implementation is also used on cosine. The pure Taylor approximation is displayed below.
@@ -425,7 +455,7 @@ mod std_support {
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U4> );
 /// let x = Arr8::ramp_from_f32(0.0,0.17);
 /// let y = x.tan();
-/// assert_eq!{ y.to_f32(), [0.0, 0.1875, 0.375, 0.5625, 0.875, 1.25, 1.6875, 2.5625] };
+/// assert_eq!{ y.as_array_f32(), [0.0, 0.1875, 0.375, 0.5625, 0.875, 1.25, 1.6875, 2.5625] };
 /// ```
 /// 
 /// Below is the the taylor approximation for tan compared to the Julia native tan function.
@@ -452,7 +482,7 @@ mod std_support {
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U4> );
 /// let x = Arr8::ramp_from_f32(0.0,0.1);
 /// let y = x.atan();
-/// assert_eq!{ y.to_f32(), [0.0, 0.125, 0.25, 0.3125, 0.4375, 0.5, 0.625, 0.6875] };
+/// assert_eq!{ y.as_array_f32(), [0.0, 0.125, 0.25, 0.3125, 0.4375, 0.5, 0.625, 0.6875] };
 /// ```
 /// 
 /// # `::max` and `::min`
@@ -566,7 +596,7 @@ macro_rules! declare_array_real{
             }
             /// Return self as a primitive array of floats. 
             #[allow(dead_code)]
-            fn to_f32( &self ) -> [f32; $N]
+            fn as_array_f32( &self ) -> [f32; $N]
             {
                 let mut r_array: [f32; $N] = [0.0; $N];
                 for n in 0..$N {
@@ -576,7 +606,7 @@ macro_rules! declare_array_real{
             }
             /// Return self as a primitive array of floats. 
             #[allow(dead_code)]
-            fn to_i32( &self ) -> [i32; $N]
+            fn as_array_i32( &self ) -> [i32; $N]
             {
                 let mut r_array: [i32; $N] = [0; $N];
                 for n in 0..$N {
@@ -1214,13 +1244,27 @@ macro_rules! declare_array_real{
             }
         }
 
-        #[cfg(feature = "std")]
-        impl std::fmt::Display for $name {
-            fn fmt(&self, f: &mut std::fmt::Formatter) -> fmt::Result {
-                write!(f, "{}", self.data)
+        impl $name {
+            /// Trait for returning an array of the odd-indexed numbers in self.
+            #[allow(dead_code)]
+            fn odd(&self) -> [$T; $N/2] {
+                let mut r_array = [<$T>::from_num(0); $N/2];
+                for n in 0..$N/2 {
+                    r_array[n] = self[2*n+1];
+                }
+                return r_array;
             }
-        }
 
+            /// Trait for returning an array of the even-indexed numbers in self.
+            #[allow(dead_code)]
+            fn even(&self) -> [$T; $N/2] {
+                let mut r_array = [<$T>::from_num(0); $N/2];
+                for n in 0..$N/2 {
+                    r_array[n] = self[2*n];
+                }
+                return r_array;
+            }
+        }        
     }
 }
 

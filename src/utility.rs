@@ -160,7 +160,6 @@ pub fn test_complex<T>( y: T, x: T ) -> num::complex::Complex<T>
 }
 */
 
-
 #[cfg(test)]
 mod tests {
     #[test]

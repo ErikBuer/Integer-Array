@@ -1,5 +1,13 @@
 # Release Notes
 
+## Release 0.3.0 (2021-09-??)
+
+- Breaking change. Changed `to_f32()` and `to_i32()` to `as_aray_f32()` and `as_aray_i32()` respectively.
+- Added methods for returning odd and even-indexed values for both real and complex arrays.
+
+**Contributors**: ErikBuer
+
+
 ## Release 0.2.1 (2021-09-14)
 
 - Removed deprecated code from readme.
