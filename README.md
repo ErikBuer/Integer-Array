@@ -25,7 +25,7 @@ ia::declare_array_real!( Arr4, 4, FixedI32<U20> );
  
 // Create the actual array.
 let mut x = Arr4::new_from_i32(66);
-assert_eq!(x.to_i32(), [66, 66, 66, 66]);
+assert_eq!(x.as_array_i32(), [66, 66, 66, 66]);
 
 // Do some math with the arrays.
 let y     = Arr4::new_from_f32( 2.0 );

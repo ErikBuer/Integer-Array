@@ -13,19 +13,19 @@ fn create_type_real() {
 }
 
 // Testing of complex types
-/*
 #[test]
 fn create_type_complex() {
-    integer_array::declare_array_complex!( CArr11, Arr11, 11);
-    let x = CArr11::new( 1, 2 );
-    assert_eq!{ x[1], num::complex::Complex{re:1, im:2} };
+    use fixed::{types::extra::U20, FixedI32};
+    integer_array::declare_array_complex!( CArr11, Arr11, 11, FixedI32<U20>);
+    let x = CArr11::new_from_i32( 1, 2 );
+    assert_eq!{ x.as_array_f32()[0], num::complex::Complex{re:1.0, im:2.0} };
 
 }
 #[test]
 fn real() {
-    integer_array::declare_array_complex!( CArr11, Arr11, 11);
-    let x = CArr11::new( 5, 2 );
-    assert_eq!{ x.real() , Arr11::new(5) };
+    use fixed::{types::extra::U20, FixedI32};
+    integer_array::declare_array_complex!( CArr11, Arr11, 11, FixedI32<U20>);
+    let x = CArr11::new_from_i32( 5, 2 );
+    assert_eq!{ x.real() , Arr11::new_from_i32(5) };
 
 }
-*/
