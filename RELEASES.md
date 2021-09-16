@@ -7,7 +7,6 @@
 
 **Contributors**: ErikBuer
 
-
 ## Release 0.2.1 (2021-09-14)
 
 - Removed deprecated code from readme.
