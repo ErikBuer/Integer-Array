@@ -48,3 +48,4 @@ pub mod utility;
 pub mod trait_definitions;
 pub mod real;
 pub mod complex;
+pub mod filter;

@@ -1,13 +1,4 @@
-#[cfg(feature = "std")]
-mod std_support {
-    use crate::{
-        std::{
-            string::String,
-            fmt,
-        },
-        write,
-    };
-}
+use fixed_trigonometry;
 
 /// This macro implements a type which consists of an array of fixed-point numberts of size N.
 /// Complete with the traits shown below.
@@ -385,7 +376,6 @@ mod std_support {
 /// use integer_array as ia;
 /// use ia::trait_definitions::*;
 /// use fixed::{types::extra::U20, FixedI32};
-
 /// 
 /// ia::declare_array_real!( Arr8, 8, FixedI32<U20> );
 /// let mut x = Arr8::ramp_from_f32(0.0,3.1415/6.0);
@@ -1106,31 +1096,10 @@ macro_rules! declare_array_real{
             /// Take the elemtent-wise sine using a Taylor approximation of sin(x).
             /// Self must be wrapped to the -π=<x<π range.
             fn sin( &self) -> Self {
-                use integer_array::utility as util;
-
-                let pi_half:$T = <$T>::from_num(fixed::consts::PI/2);
-
                 let mut r_array = $name::new_from_i32(0);
 
                 for idx in 0..$N {
-                    let mut x = self[idx];
-
-                    // Ensure that the angle is within the accurate range of the tailor series. 
-                    if x < -pi_half
-                    {   
-                        let delta:$T = x+pi_half;
-                        x = -pi_half+delta.abs();
-                    }
-                    else if pi_half < x
-                    {
-                        let delta:$T = x-pi_half;
-                        x = pi_half-delta.abs();
-                    }
-
-                    // Calculate sine by using 
-                    let sinx = x-( util::fixed_powi(x,3)/6 )+( util::fixed_powi(x,5)/120 )-( util::fixed_powi(x,7)/5040 )+( util::fixed_powi(x,9)/362880 );
-
-                    r_array[idx] = sinx;
+                    r_array[idx] = fixed_trigonometry::sin(self[idx]);
                 } 
                 return r_array;
             }
@@ -1140,19 +1109,9 @@ macro_rules! declare_array_real{
             /// Wrapps Self to the -π=<x<π range.
             fn wrap_phase( &self ) -> Self {
                 let mut temp_arr = self.data.clone();
-                let pi = <$T>::from_num(fixed::consts::PI);
-                for idx in 0..$N {
-                    let mut temp_scalar = temp_arr[idx];
-                    
-                    while temp_scalar < -pi 
-                    {
-                        temp_scalar = &temp_scalar+2*pi;
-                    }
-                    while pi <= temp_scalar
-                    {
-                        temp_scalar = &temp_scalar-2*pi;
-                    }
-                    temp_arr[idx] = temp_scalar;
+                for idx in 0..$N
+                {
+                    temp_arr[idx] = fixed_trigonometry::wrap_phase( temp_arr[idx] );
                 } 
                 Self {
                     data: temp_arr
@@ -1165,35 +1124,10 @@ macro_rules! declare_array_real{
             /// Take the elemtent-wise cosine using a Taylor approximation of cos(x).
             /// Self must be wrapped to the -π=<x<π range.
             fn cos( &self ) -> Self {
-                use integer_array::utility as util;
-
-                let pi_half:$T = <$T>::from_num(fixed::consts::PI/2);
-
                 let mut r_array = $name::new_from_i32(0);
-                for idx in 0..$N {
-                    // Add a π/2 phase shift and run the sine computation from above.
-                    let mut x = self[idx];
-                    
-                    let cosx:$T;
-                    // Ensure that the angle is within the accurate range of the tailor series. 
-                    if x < -pi_half
-                    {   
-                        let delta = x+pi_half;
-                        x = -pi_half+delta.abs();
-                        cosx = -(<$T>::ONE-( util::fixed_powi(x,2)/2 )+( util::fixed_powi(x,4)/24 )-( util::fixed_powi(x,6)/720 )+( util::fixed_powi(x,8)/40320 ));
-
-                    }
-                    else if pi_half < x
-                    {
-                        let delta = x-pi_half;
-                        x = pi_half-delta.abs();
-                        cosx = -(<$T>::ONE-( util::fixed_powi(x,2)/2 )+( util::fixed_powi(x,4)/24 )-( util::fixed_powi(x,6)/720 )+( util::fixed_powi(x,8)/40320 ));
-                    }
-                    else
-                    {
-                        cosx = <$T>::ONE-( util::fixed_powi(x,2)/2 )+( util::fixed_powi(x,4)/24 )-( util::fixed_powi(x,6)/720 )+( util::fixed_powi(x,8)/40320 );
-                    }
-                    r_array[idx] = cosx;
+                for idx in 0..$N 
+                {     
+                    r_array[idx] = fixed_trigonometry::cos(self[idx]);
                 } 
                 return r_array;
             }
@@ -1221,7 +1155,7 @@ macro_rules! declare_array_real{
             fn atan( &self ) -> Self {                
                 let mut r_array = $name::new_from_i32(0);
                 for idx in 0..$N { 
-                    r_array[idx] = integer_array::utility::atan_precise_fixed( self[idx] );
+                    r_array[idx] = fixed_trigonometry::atan( self[idx] );
                 } 
                 return r_array;
             }

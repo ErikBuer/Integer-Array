@@ -7,9 +7,9 @@ It utilizes the [fixed](https://crates.io/crates/fixed) library to allow flexibi
 
 This is an experimental library for no-std DSP. Expect breaking changes.
 
-The package can be found at https://crates.io/crates/integer_array.
+The [package](https://crates.io/crates/integer_array).
 
-The documentation can be found at https://docs.rs/integer_array.
+The [documentation](https://docs.rs/integer_array).
 
 Release notes are found under RELEASES.md
 
